@@ -16,7 +16,7 @@ export class BlogService {
   constructor(private readonly rssService: RssService) {}
 
   public async getAllBlogs(): Promise<Blog[]> {
-    return this.blogRepository.find();
+    return this.blogRepository.find({ order: { name: 'ASC' } });
   }
 
   public async refreshAllBlogs(): Promise<Blog[]> {
@@ -34,6 +34,7 @@ export class BlogService {
   }
 
   public async createBlog({ url }: CreateBlogDto): Promise<Blog> {
+    // TODO
     const parsed = await this.rssService.parseBlogRssUrl(url);
     const blog = this.getBlogFromRssFeedOutput(parsed);
     await this.blogRepository.save(blog);
@@ -41,6 +42,7 @@ export class BlogService {
   }
 
   public async refreshBlogBySlug(slug: string): Promise<Blog> {
+    // TODO
     const blog = await this.getBlogBySlug(slug);
     const parsed = await this.rssService.parseBlogRssUrl(blog.rss);
     const blogFromRssFeed = this.getBlogFromRssFeedOutput(parsed);
@@ -57,7 +59,7 @@ export class BlogService {
     const articles: Article[] = output.items.map(item => {
       return new Article({
         title: item.title,
-        slug: generateSlug(item.title),
+        slug: `${generateSlug(output.title)}-${generateSlug(item.title)}`,
         date: new Date(item.isoDate),
         link: item.link,
         summary: item.contentSnippet,
@@ -70,7 +72,7 @@ export class BlogService {
       slug: generateSlug(output.title),
       link: output.link,
       rss: output.feedUrl,
-      icon: 'xddd',
+      icon: output?.image?.url,
       articles,
     });
 
