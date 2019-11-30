@@ -10,8 +10,14 @@ export class ArticleController {
 
   @Get()
   @ApiOkResponse({ type: Article, isArray: true })
-  public async getArticles(): Promise<Article[]> {
+  public async getAllArticles(): Promise<Article[]> {
     return this.articleService.getAllArticles();
+  }
+
+  @Get('page/:page')
+  @ApiOkResponse({ type: Article, isArray: true })
+  public async getArticlesPage(@Param('page') page: number = 1): Promise<Article[]> {
+    return this.articleService.getArticlesPage(page);
   }
 
   @Get(':slug')

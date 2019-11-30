@@ -9,7 +9,17 @@ export class ArticleService {
   private readonly articleRepository: Repository<Article>;
 
   public async getAllArticles(): Promise<Article[]> {
-    return this.articleRepository.find();
+    return this.articleRepository.find({});
+  }
+
+  public async getArticlesPage(page: number): Promise<Article[]> {
+    const pageSize = 5;
+
+    return this.articleRepository.find({
+      take: pageSize,
+      skip: (page - 1) * pageSize,
+      order: { date: 'DESC' },
+    });
   }
 
   public async getBlogArticles(slug: string): Promise<Article[]> {
