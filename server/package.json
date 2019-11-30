@@ -6,7 +6,7 @@
     "start:prod": "node dist/main.js",
     "prebuild": "rimraf dist",
     "build": "nest build --path tsconfig.json",
-    "test": "jest",
+    "test": "jest --passWithNoTests",
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "format": "prettier src/**/*.ts --write",
