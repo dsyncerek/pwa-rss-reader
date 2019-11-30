@@ -27,7 +27,7 @@ jobs:
         working-directory: client
         run: npm run lint
       - name: Test
-        working-directory: server
+        working-directory: client
         run: npm run test
       - name: Build
         working-directory: client
