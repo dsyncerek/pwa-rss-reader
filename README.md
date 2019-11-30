@@ -1,6 +1,6 @@
 [![Actions Status](https://github.com/dsyncerek/rss-reader/workflows/ServerCI/badge.svg)](https://github.com/dsyncerek/rss-reader/actions)
 [![Actions Status](https://github.com/dsyncerek/rss-reader/workflows/ClientCI/badge.svg)](https://github.com/dsyncerek/rss-reader/actions)
-[![Dependabot Status](https://api.dependabot.com/badges/status?host=github&repo=dsyncerek/rss-reader)](https://dependabot.com)
+[![Dependabot Status](https://api.dependabot.com/badges/status?host=github&repo=dsyncerek/rss-reader&identifier=224730216)](https://dependabot.com)
 
 # RSS Reader
 
