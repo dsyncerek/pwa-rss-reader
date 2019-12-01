@@ -11,9 +11,8 @@ config();
   app.setGlobalPrefix('api');
 
   const swaggerOptions = new DocumentBuilder()
-    .setTitle('Steam Inventory Manager API')
+    .setTitle('RSS Reader API')
     .setBasePath('api')
-    .addBearerAuth()
     .build();
 
   SwaggerModule.setup('openapi', app, SwaggerModule.createDocument(app, swaggerOptions));

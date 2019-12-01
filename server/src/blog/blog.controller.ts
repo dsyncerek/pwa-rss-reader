@@ -1,10 +1,11 @@
-import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
 import { ApiCreatedResponse, ApiNoContentResponse, ApiOkResponse, ApiUseTags } from '@nestjs/swagger';
 import { Article } from '../article/article.entity';
 import { ArticleService } from '../article/article.service';
 import { Blog } from './blog.entity';
 import { BlogService } from './blog.service';
 import { CreateBlogDto } from './create-blog.dto';
+import { UpdateBlogDto } from './update-blog.dto';
 
 @Controller('blogs')
 @ApiUseTags('Blogs')
@@ -15,6 +16,18 @@ export class BlogController {
   @ApiOkResponse({ type: Blog, isArray: true })
   public async getAllBlogs(): Promise<Blog[]> {
     return this.blogService.getAllBlogs();
+  }
+
+  @Get(':id/articles/page/:page')
+  @ApiOkResponse({ type: Article, isArray: true })
+  public async getBlogArticlesPage(@Param('id') id: string, @Param('page') page: number = 1): Promise<Article[]> {
+    return this.articleService.getBlogArticlesPage(id, page);
+  }
+
+  @Get(':id')
+  @ApiOkResponse({ type: Article })
+  public async getBlog(@Param('id') id: string): Promise<Blog> {
+    return this.blogService.getBlog(id);
   }
 
   @Post()
@@ -29,27 +42,21 @@ export class BlogController {
     return this.blogService.refreshAllBlogs();
   }
 
-  @Post(':slug/refresh')
+  @Post(':id/refresh')
   @ApiOkResponse({ type: Blog })
-  public async refreshBlogBySlug(@Param('slug') slug: string): Promise<Blog> {
-    return this.blogService.refreshBlogBySlug(slug);
+  public async refreshBlog(@Param('id') id: string): Promise<Blog> {
+    return this.blogService.refreshBlog(id);
   }
 
-  @Get(':slug/articles')
-  @ApiOkResponse({ type: Article, isArray: true })
-  public async getBlogArticles(@Param('slug') slug: string): Promise<Article[]> {
-    return this.articleService.getBlogArticles(slug);
+  @Patch(':id')
+  @ApiOkResponse({ type: Blog })
+  public async updateBlog(@Param('id') id: string, @Body() body: UpdateBlogDto): Promise<Blog> {
+    return this.blogService.updateBlog(id, body);
   }
 
-  @Get(':slug')
-  @ApiOkResponse({ type: Article })
-  public async getBlogBySlug(@Param('slug') slug: string): Promise<Blog> {
-    return this.blogService.getBlogBySlug(slug);
-  }
-
-  @Delete(':slug')
+  @Delete(':id')
   @ApiNoContentResponse({})
-  public async deleteBlogBySlug(@Param('slug') slug: string): Promise<void> {
-    await this.blogService.removeBlogBySlug(slug);
+  public async deleteBlog(@Param('id') id: string): Promise<void> {
+    await this.blogService.deleteBlog(id);
   }
 }

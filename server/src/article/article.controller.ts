@@ -20,9 +20,9 @@ export class ArticleController {
     return this.articleService.getArticlesPage(page);
   }
 
-  @Get(':slug')
+  @Get(':id')
   @ApiOkResponse({ type: Article })
-  public async getArticleBySlug(@Param('slug') slug: string): Promise<Article> {
-    return this.articleService.getArticleBySlug(slug);
+  public async getArticle(@Param('id') id: string): Promise<Article> {
+    return this.articleService.getArticle(id);
   }
 }
