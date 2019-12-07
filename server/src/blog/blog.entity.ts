@@ -1,4 +1,4 @@
-import { ApiModelProperty } from '@nestjs/swagger';
+import { ApiHideProperty } from '@nestjs/swagger';
 import { Column, Entity, Index, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { Article } from '../article/article.entity';
 import { Category } from '../category/category.entity';
@@ -6,28 +6,22 @@ import { Category } from '../category/category.entity';
 @Entity()
 export class Blog {
   @PrimaryGeneratedColumn('uuid')
-  @ApiModelProperty()
   id: string;
 
   @Column()
-  @ApiModelProperty()
   name: string;
 
   @Column()
   @Index({ unique: true })
-  @ApiModelProperty()
   slug: string;
 
   @Column()
-  @ApiModelProperty()
   link: string;
 
   @Column()
-  @ApiModelProperty()
   rss: string;
 
   @Column({ default: '' })
-  @ApiModelProperty()
   icon: string;
 
   @OneToMany(
@@ -35,10 +29,10 @@ export class Blog {
     article => article.blog,
     { cascade: true },
   )
+  @ApiHideProperty()
   articles: Article[];
 
   @Column({ nullable: true })
-  @ApiModelProperty()
   categoryId: string | null;
 
   @ManyToOne(
@@ -46,6 +40,7 @@ export class Blog {
     category => category.blogs,
     { onDelete: 'SET NULL' },
   )
+  @ApiHideProperty()
   category: Category;
 
   constructor(blog: Partial<Blog> = {}) {

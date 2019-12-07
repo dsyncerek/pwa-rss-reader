@@ -10,10 +10,7 @@ config();
 
   app.setGlobalPrefix('api');
 
-  const swaggerOptions = new DocumentBuilder()
-    .setTitle('RSS Reader API')
-    .setBasePath('api')
-    .build();
+  const swaggerOptions = new DocumentBuilder().setTitle('RSS Reader API').build();
 
   SwaggerModule.setup('openapi', app, SwaggerModule.createDocument(app, swaggerOptions));
 
