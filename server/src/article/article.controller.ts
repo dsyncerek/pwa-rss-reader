@@ -1,5 +1,6 @@
 import { Controller, Get, Param } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
+import { PaginationDto } from '../common/pagination.dto';
 import { Article } from './article.entity';
 import { ArticleService } from './article.service';
 
@@ -14,7 +15,7 @@ export class ArticleController {
   }
 
   @Get('page/:page')
-  public async getArticlesPage(@Param('page') page: number = 1): Promise<Article[]> {
+  public async getArticlesPage(@Param('page') page: number = 1): Promise<PaginationDto<Article>> {
     return this.articleService.getArticlesPage(page);
   }
 

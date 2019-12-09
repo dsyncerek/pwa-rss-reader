@@ -32,13 +32,12 @@ export class Blog {
   @ApiHideProperty()
   articles: Article[];
 
-  @Column({ nullable: true })
-  categoryId: string | null;
+  @Column()
+  categoryId: string;
 
   @ManyToOne(
     () => Category,
     category => category.blogs,
-    { onDelete: 'SET NULL' },
   )
   @ApiHideProperty()
   category: Category;

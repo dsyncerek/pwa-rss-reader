@@ -2,6 +2,7 @@ import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/commo
 import { ApiTags } from '@nestjs/swagger';
 import { Article } from '../article/article.entity';
 import { ArticleService } from '../article/article.service';
+import { PaginationDto } from '../common/pagination.dto';
 import { Blog } from './blog.entity';
 import { BlogService } from './blog.service';
 import { CreateBlogDto } from './create-blog.dto';
@@ -18,7 +19,10 @@ export class BlogController {
   }
 
   @Get(':id/articles/page/:page')
-  public async getBlogArticlesPage(@Param('id') id: string, @Param('page') page: number = 1): Promise<Article[]> {
+  public async getBlogArticlesPage(
+    @Param('id') id: string,
+    @Param('page') page: number = 1,
+  ): Promise<PaginationDto<Article>> {
     return this.articleService.getBlogArticlesPage(id, page);
   }
 

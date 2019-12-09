@@ -2,6 +2,7 @@ import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/commo
 import { ApiTags } from '@nestjs/swagger';
 import { Article } from '../article/article.entity';
 import { ArticleService } from '../article/article.service';
+import { PaginationDto } from '../common/pagination.dto';
 import { Category } from './category.entity';
 import { CategoryService } from './category.service';
 import { CreateCategoryDto } from './create-category.dto';
@@ -13,7 +14,10 @@ export class CategoryController {
   constructor(private readonly categoryService: CategoryService, private readonly articleService: ArticleService) {}
 
   @Get(':id/articles/page/:page')
-  public async getCategoryArticlesPage(@Param('id') id: string, @Param('page') page: number = 1): Promise<Article[]> {
+  public async getCategoryArticlesPage(
+    @Param('id') id: string,
+    @Param('page') page: number = 1,
+  ): Promise<PaginationDto<Article>> {
     return this.articleService.getCategoryArticlesPage(id, page);
   }
 
