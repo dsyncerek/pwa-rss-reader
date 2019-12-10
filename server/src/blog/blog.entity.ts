@@ -29,7 +29,7 @@ export class Blog {
     article => article.blog,
     { cascade: true },
   )
-  @ApiHideProperty()
+  // @ApiHideProperty()
   articles: Article[];
 
   @Column()

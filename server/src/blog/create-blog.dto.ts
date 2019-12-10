@@ -4,7 +4,7 @@ export class CreateBlogDto {
   @IsString()
   @IsNotEmpty()
   @IsDefined()
-  url: string;
+  rss: string;
 
   @IsString()
   @IsNotEmpty()

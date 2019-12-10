@@ -43,10 +43,10 @@ export class BlogService {
     return this.getAllBlogs();
   }
 
-  public async createBlog({ url }: CreateBlogDto): Promise<Blog> {
+  public async createBlog({ rss, categoryId }: CreateBlogDto): Promise<Blog> {
     // TODO
-    const parsed = await this.rssService.parseBlogRssUrl(url);
-    const blog = this.getBlogFromRssFeedOutput(parsed);
+    const parsed = await this.rssService.parseBlogRssUrl(rss);
+    const blog = { ...this.getBlogFromRssFeedOutput(parsed), rss, categoryId };
     await this.blogRepository.save(blog);
     return this.getBlog(blog.id);
   }
