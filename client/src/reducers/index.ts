@@ -1,5 +1,14 @@
-import { combineReducers, Reducer } from 'redux';
+import { combineReducers } from 'redux';
+import { articleReducer } from './articleReducer';
+import { blogReducer } from './blogReducer';
+import { categoryReducer } from './categoryReducer';
+import { entityReducer } from './entityReducer';
 
-const rootReducer: Reducer = combineReducers({});
+export const rootReducer = combineReducers({
+  articleState: articleReducer,
+  blogState: blogReducer,
+  categoryState: categoryReducer,
+  entityState: entityReducer,
+});
 
-export default rootReducer;
+export type RootState = ReturnType<typeof rootReducer>;
