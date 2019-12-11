@@ -9,7 +9,7 @@ export class ArticleService {
   @InjectRepository(Article)
   private readonly articleRepository: Repository<Article>;
 
-  private readonly pageSize: number = 5;
+  private readonly pageSize: number = 20;
 
   public async getAllArticles(): Promise<Article[]> {
     return this.articleRepository.find({ order: { date: 'DESC' } });

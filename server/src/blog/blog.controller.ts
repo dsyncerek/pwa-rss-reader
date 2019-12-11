@@ -23,7 +23,7 @@ export class BlogController {
     @Param('id') id: string,
     @Param('page') page: number = 1,
   ): Promise<PaginationDto<Article>> {
-    return this.articleService.getBlogArticlesPage(id, page);
+    return this.articleService.getBlogArticlesPage(id, +page);
   }
 
   @Get(':id')

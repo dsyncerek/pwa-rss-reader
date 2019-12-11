@@ -18,7 +18,7 @@ export class CategoryController {
     @Param('id') id: string,
     @Param('page') page: number = 1,
   ): Promise<PaginationDto<Article>> {
-    return this.articleService.getCategoryArticlesPage(id, page);
+    return this.articleService.getCategoryArticlesPage(id, +page);
   }
 
   @Get()

@@ -16,7 +16,7 @@ export class ArticleController {
 
   @Get('page/:page')
   public async getArticlesPage(@Param('page') page: number = 1): Promise<PaginationDto<Article>> {
-    return this.articleService.getArticlesPage(page);
+    return this.articleService.getArticlesPage(+page);
   }
 
   @Get(':id')
