@@ -2,27 +2,23 @@ import React, { FC, FormEvent, useState } from 'react';
 import { Button, ButtonToolbar, Table } from 'react-bootstrap';
 import Loader from '../../../components/Loader';
 import { Category, SaveCategory } from '../../../models/Category';
-import { Dictionary } from '../../../models/Dictionary';
 import { HttpError } from '../../../models/HttpError';
 import SaveCategoryModal from './SaveCategoryModal';
 
-const defaultCategory: SaveCategory = { name: '' };
-
 type CategoryTableProps = {
-  categories: Dictionary<Category>;
+  categories: Category[];
   loading: boolean;
   error?: HttpError;
-
   onCreate: (category: SaveCategory) => void;
   onUpdate: (category: SaveCategory) => void;
   onDelete: (id: string) => void;
 };
 
 const CategoryTable: FC<CategoryTableProps> = ({ categories, loading, onCreate, onUpdate, onDelete }) => {
+  const defaultCategory: SaveCategory = { name: '' };
+
   const [categoryModalVisible, setCategoryModalVisible] = useState(false);
   const [editedCategory, setEditedCategory] = useState<SaveCategory>(defaultCategory);
-
-  const categoriesArray = Object.values(categories);
 
   const onChange = (event: any) => {
     const { name, value } = event.target;
@@ -59,10 +55,6 @@ const CategoryTable: FC<CategoryTableProps> = ({ categories, loading, onCreate, 
     onDelete(id);
   };
 
-  if (loading) {
-    return <Loader />;
-  }
-
   return (
     <>
       <div className="d-flex justify-content-between align-items-center mb-2">
@@ -72,36 +64,40 @@ const CategoryTable: FC<CategoryTableProps> = ({ categories, loading, onCreate, 
         </Button>
       </div>
 
-      <Table bordered>
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th />
-          </tr>
-        </thead>
-        <tbody>
-          {categoriesArray.map(category => (
-            <tr key={category.id}>
-              <td>{category.name}</td>
-              <td>
-                <ButtonToolbar>
-                  <Button size="sm" onClick={() => onUpdateClick(category)}>
-                    <span className="fas fa-pen" aria-label="Edit" />
-                  </Button>
-                  <Button size="sm" variant="danger" onClick={() => onDeleteClick(category.id)}>
-                    <span className="fas fa-trash" aria-label="Delete" />
-                  </Button>
-                </ButtonToolbar>
-              </td>
-            </tr>
-          ))}
-          {!categoriesArray.length && (
+      {loading ? (
+        <Loader />
+      ) : (
+        <Table bordered>
+          <thead>
             <tr>
-              <td colSpan={2}>No results.</td>
+              <th>Name</th>
+              <th />
             </tr>
-          )}
-        </tbody>
-      </Table>
+          </thead>
+          <tbody>
+            {categories.map(category => (
+              <tr key={category.id}>
+                <td>{category.name}</td>
+                <td>
+                  <ButtonToolbar>
+                    <Button size="sm" onClick={() => onUpdateClick(category)}>
+                      <span className="fas fa-pen" aria-label="Edit" />
+                    </Button>
+                    <Button size="sm" variant="danger" onClick={() => onDeleteClick(category.id)}>
+                      <span className="fas fa-trash" aria-label="Delete" />
+                    </Button>
+                  </ButtonToolbar>
+                </td>
+              </tr>
+            ))}
+            {!categories.length && (
+              <tr>
+                <td colSpan={2}>No results.</td>
+              </tr>
+            )}
+          </tbody>
+        </Table>
+      )}
 
       <SaveCategoryModal
         category={editedCategory}

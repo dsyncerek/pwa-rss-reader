@@ -4,27 +4,21 @@ import BlogName from '../../../components/BlogName';
 import Loader from '../../../components/Loader';
 import { Blog, SaveBlog } from '../../../models/Blog';
 import { Category } from '../../../models/Category';
-import { Dictionary } from '../../../models/Dictionary';
 import { HttpError } from '../../../models/HttpError';
 import SaveBlogModal from './SaveBlogModal';
 
-const defaultBlog: SaveBlog = { rss: '', categoryId: '' };
-
 type BlogTableProps = {
-  blogs: Dictionary<Blog>;
+  blogs: Blog[];
   loading: boolean;
   error?: HttpError;
-
-  categories: Dictionary<Category>;
-
+  categories: Category[];
   onCreate: (blog: SaveBlog) => void;
   onUpdate: (blog: SaveBlog) => void;
   onDelete: (id: string) => void;
 };
 
 const BlogTable: FC<BlogTableProps> = ({ blogs, loading, categories, onCreate, onUpdate, onDelete }) => {
-  const blogsArray = Object.values(blogs);
-  const categoriesArray = Object.values(categories);
+  const defaultBlog: SaveBlog = { rss: '', categoryId: '' };
 
   const [blogModalVisible, setBlogModalVisible] = useState(false);
   const [editedBlog, setEditedBlog] = useState<SaveBlog>(defaultBlog);
@@ -64,10 +58,6 @@ const BlogTable: FC<BlogTableProps> = ({ blogs, loading, categories, onCreate, o
     onDelete(id);
   };
 
-  if (loading) {
-    return <Loader />;
-  }
-
   return (
     <>
       <div className="d-flex justify-content-between align-items-center mb-2">
@@ -77,46 +67,50 @@ const BlogTable: FC<BlogTableProps> = ({ blogs, loading, categories, onCreate, o
         </Button>
       </div>
 
-      <Table bordered>
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Category</th>
-            <th />
-          </tr>
-        </thead>
-        <tbody>
-          {blogsArray.map(blog => (
-            <tr key={blog.id}>
-              <td>
-                <a href={blog.link} target="_blank" rel="noopener noreferrer">
-                  <BlogName blog={blog} />
-                </a>
-              </td>
-              <td>{categories[blog.categoryId]?.name}</td>
-              <td>
-                <ButtonToolbar>
-                  <Button size="sm" onClick={() => onUpdateClick(blog)}>
-                    <span className="fas fa-pen" aria-label="Edit" />
-                  </Button>
-                  <Button size="sm" variant="danger" onClick={() => onDeleteClick(blog.id)}>
-                    <span className="fas fa-trash" aria-label="Delete" />
-                  </Button>
-                </ButtonToolbar>
-              </td>
-            </tr>
-          ))}
-          {!blogsArray.length && (
+      {loading ? (
+        <Loader />
+      ) : (
+        <Table bordered>
+          <thead>
             <tr>
-              <td colSpan={2}>No results.</td>
+              <th>Name</th>
+              <th>Category</th>
+              <th />
             </tr>
-          )}
-        </tbody>
-      </Table>
+          </thead>
+          <tbody>
+            {blogs.map(blog => (
+              <tr key={blog.id}>
+                <td>
+                  <a href={blog.link} target="_blank" rel="noopener noreferrer">
+                    <BlogName blog={blog} />
+                  </a>
+                </td>
+                <td>{categories.find(category => category.id === blog.categoryId)?.name}</td>
+                <td>
+                  <ButtonToolbar>
+                    <Button size="sm" onClick={() => onUpdateClick(blog)}>
+                      <span className="fas fa-pen" aria-label="Edit" />
+                    </Button>
+                    <Button size="sm" variant="danger" onClick={() => onDeleteClick(blog.id)}>
+                      <span className="fas fa-trash" aria-label="Delete" />
+                    </Button>
+                  </ButtonToolbar>
+                </td>
+              </tr>
+            ))}
+            {!blogs.length && (
+              <tr>
+                <td colSpan={2}>No results.</td>
+              </tr>
+            )}
+          </tbody>
+        </Table>
+      )}
 
       <SaveBlogModal
         blog={editedBlog}
-        categories={categoriesArray}
+        categories={categories}
         isVisible={blogModalVisible}
         onClose={onModalClose}
         onChange={onChange}

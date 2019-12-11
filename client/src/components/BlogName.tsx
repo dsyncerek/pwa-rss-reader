@@ -6,8 +6,8 @@ type BlogNameProps = {
 };
 
 const BlogName: FC<BlogNameProps> = ({ blog: { name, icon } }) => (
-  <span className="d-inline-flex align-items-center">
-    {icon && <img style={{ width: '1em', height: '1em', marginRight: '0.25em' }} src={icon} alt="" />}
+  <span className="d-inline-flex">
+    {icon && <img className="mr-1 mt-1" style={{ width: '1em', height: '1em' }} src={icon} alt="" />}
     {name}
   </span>
 );

@@ -4,13 +4,15 @@ import { Link } from 'react-router-dom';
 import { Blog } from '../../../models/Blog';
 import { Category } from '../../../models/Category';
 import BlogName from '../../BlogName';
+import Loader from '../../Loader';
 
 type ContentListProps = {
   blogs: Blog[];
   categories: Category[];
+  loading: boolean;
 };
 
-const ContentList: FC<ContentListProps> = ({ blogs, categories }) => (
+const ContentList: FC<ContentListProps> = ({ blogs, categories, loading }) => (
   <>
     <div className="d-flex justify-content-between align-items-center mb-2">
       <h2>Your content</h2>
@@ -25,21 +27,27 @@ const ContentList: FC<ContentListProps> = ({ blogs, categories }) => (
       </ListGroup.Item>
     </ListGroup>
 
-    {categories.map(category => (
-      <ListGroup key={category.id} className="mb-2">
-        <ListGroup.Item action as={Link} to={`/category/${category.id}`}>
-          {category.name}
-        </ListGroup.Item>
-
-        {blogs
-          .filter(blog => blog.categoryId === category.id)
-          .map(blog => (
-            <ListGroup.Item key={blog.id} className="pl-5" action as={Link} to={`/blog/${blog.id}`}>
-              <BlogName blog={blog} />
+    {loading ? (
+      <Loader />
+    ) : (
+      <>
+        {categories.map(category => (
+          <ListGroup key={category.id} className="mb-2">
+            <ListGroup.Item action as={Link} to={`/category/${category.id}`}>
+              {category.name}
             </ListGroup.Item>
-          ))}
-      </ListGroup>
-    ))}
+
+            {blogs
+              .filter(blog => blog.categoryId === category.id)
+              .map(blog => (
+                <ListGroup.Item key={blog.id} className="pl-5" action as={Link} to={`/blog/${blog.id}`}>
+                  <BlogName blog={blog} />
+                </ListGroup.Item>
+              ))}
+          </ListGroup>
+        ))}
+      </>
+    )}
   </>
 );
 

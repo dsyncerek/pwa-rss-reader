@@ -4,14 +4,13 @@ import { RouteComponentProps } from 'react-router-dom';
 import { fetchArticlesPage } from '../../actions/articleActions';
 import Layout from '../../components/Layout/Layout';
 import { RootState } from '../../reducers';
+import { articlesSelector } from '../../selectors/articleSelectors';
 import ArticleList from './components/ArticleList';
 
-const mapState = (state: RootState, ownProps: RouteComponentProps) => {
-  return {
-    articles: Object.values(state.entityState.articles),
-    pagination: state.articleState.all,
-  };
-};
+const mapState = (state: RootState) => ({
+  articles: articlesSelector(state),
+  pagination: state.articleState.all,
+});
 
 const mapDispatch = {
   fetchArticlesPage,

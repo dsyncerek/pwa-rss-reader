@@ -11,25 +11,25 @@ export function callApiMiddleware(): Middleware<{}, RootState> {
           return next(action);
         }
 
-        const { shouldCallApi, callApi, schema, initAction, successAction, errorAction }: AsyncAction = action;
+        const { shouldCallApi, callApi, schema, onInit, onSuccess, onError }: AsyncAction = action;
 
         if (shouldCallApi && !shouldCallApi(getState())) {
           return;
         }
 
-        dispatch(initAction());
+        onInit()(dispatch);
 
         try {
           const response = await callApi();
 
           if (schema) {
             const { entities } = normalize(response, schema);
-            dispatch(successAction(entities, response));
+            onSuccess(entities, response)(dispatch);
           } else {
-            dispatch(successAction({}, response));
+            onSuccess({}, response)(dispatch);
           }
         } catch (error) {
-          dispatch(errorAction(error));
+          onError(error)(dispatch);
         }
       };
     };

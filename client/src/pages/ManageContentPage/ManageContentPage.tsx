@@ -6,17 +6,18 @@ import { createBlog, deleteBlog, fetchAllBlogs, updateBlog } from '../../actions
 import { createCategory, deleteCategory, fetchAllCategories, updateCategory } from '../../actions/categoryActions';
 import Layout from '../../components/Layout/Layout';
 import { RootState } from '../../reducers';
+import { blogErrorSelector, blogLoadingSelector, blogsSelector } from '../../selectors/blogSelectors';
+import { categoriesSelector, categoryErrorSelector, categoryLoadingSelector } from '../../selectors/categorySelectors';
 import BlogTable from './components/BlogTable';
 import CategoryTable from './components/CategoryTable';
 
 const mapState = (state: RootState) => ({
-  blogs: state.entityState.blogs,
-  blogLoading: state.blogState.loading,
-  blogError: state.blogState.error,
-
-  categories: state.entityState.categories,
-  categoryLoading: state.categoryState.loading,
-  categoryError: state.categoryState.error,
+  blogs: blogsSelector(state),
+  blogLoading: blogLoadingSelector(state),
+  blogError: blogErrorSelector(state),
+  categories: categoriesSelector(state),
+  categoryLoading: categoryLoadingSelector(state),
+  categoryError: categoryErrorSelector(state),
 });
 
 const mapDispatch = {
@@ -66,7 +67,7 @@ const ManageContentPage: FC<ManageContentPageProps> = ({
         <BlogTable
           blogs={blogs}
           categories={categories}
-          loading={blogLoading}
+          loading={blogLoading || categoryLoading}
           error={blogError}
           onCreate={createBlog}
           onUpdate={updateBlog}
