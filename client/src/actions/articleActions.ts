@@ -30,6 +30,7 @@ export function fetchBlogArticlesPage(blogId: string, page: number): AsyncAction
     initAction: () => ({ type: ArticleActionTypes.FETCH_BLOG_ARTICLES_PAGE, blogId, page }),
     successAction: (entities, pagination) => ({
       type: ArticleActionTypes.FETCH_BLOG_ARTICLES_PAGE_SUCCESS,
+      blogId,
       entities,
       pagination,
     }),
@@ -49,6 +50,7 @@ export function fetchCategoryArticlesPage(
     initAction: () => ({ type: ArticleActionTypes.FETCH_CATEGORY_ARTICLES_PAGE, categoryId, page }),
     successAction: (entities, pagination) => ({
       type: ArticleActionTypes.FETCH_CATEGORY_ARTICLES_PAGE_SUCCESS,
+      categoryId,
       entities,
       pagination,
     }),

@@ -45,6 +45,7 @@ export interface FetchBlogArticlesPageAction {
 
 export interface FetchBlogArticlesPageSuccessAction {
   type: ArticleActionTypes.FETCH_BLOG_ARTICLES_PAGE_SUCCESS;
+  blogId: string;
   entities: Dictionary<Dictionary>;
   pagination: Pagination<Article>;
 }
@@ -62,6 +63,7 @@ export interface FetchCategoryArticlesPageAction {
 
 export interface FetchCategoryArticlesPageSuccessAction {
   type: ArticleActionTypes.FETCH_CATEGORY_ARTICLES_PAGE_SUCCESS;
+  categoryId: string;
   entities: Dictionary<Dictionary>;
   pagination: Pagination<Article>;
 }
