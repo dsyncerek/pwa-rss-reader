@@ -6,12 +6,22 @@ import { Category } from '../../../models/Category';
 type CategoryTableProps = {
   categories: Category[];
   loading?: boolean;
+  removing?: boolean;
+  selectedId?: string;
   error?: string;
   onUpdate: (category: Category) => void;
   onDelete: (category: Category) => void;
 };
 
-const CategoryTable: FC<CategoryTableProps> = ({ categories, loading, error, onUpdate, onDelete }) => {
+const CategoryTable: FC<CategoryTableProps> = ({
+  categories,
+  loading,
+  removing,
+  selectedId,
+  error,
+  onUpdate,
+  onDelete,
+}) => {
   if (loading) {
     return <Loader />;
   }
@@ -19,6 +29,10 @@ const CategoryTable: FC<CategoryTableProps> = ({ categories, loading, error, onU
   if (error) {
     return <Alert variant="danger">{error}</Alert>;
   }
+
+  const isRemovingCurrentRow = (id: string): boolean => {
+    return !!removing && selectedId === id;
+  };
 
   return (
     <Table bordered>
@@ -37,8 +51,17 @@ const CategoryTable: FC<CategoryTableProps> = ({ categories, loading, error, onU
                 <Button size="sm" onClick={() => onUpdate(category)}>
                   <span className="fas fa-pen" aria-label="Edit" />
                 </Button>
-                <Button size="sm" variant="danger" onClick={() => onDelete(category)}>
-                  <span className="fas fa-trash" aria-label="Delete" />
+                <Button
+                  size="sm"
+                  variant="danger"
+                  disabled={isRemovingCurrentRow(category.id)}
+                  onClick={() => onDelete(category)}
+                >
+                  {isRemovingCurrentRow(category.id) ? (
+                    <span className="fas fa-spin fa-spinner" aria-label="Delete" />
+                  ) : (
+                    <span className="fas fa-trash" aria-label="Removing" />
+                  )}
                 </Button>
               </ButtonToolbar>
             </td>

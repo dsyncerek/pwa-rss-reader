@@ -17,6 +17,7 @@ const mapState = (state: RootState) => ({
   categories: categoriesSelector(state),
   fetching: loadingSelector(state, [BlogActionTypes.FETCH_ALL_BLOGS, CategoryActionTypes.FETCH_ALL_CATEGORIES]),
   saving: loadingSelector(state, [BlogActionTypes.CREATE_BLOG, BlogActionTypes.UPDATE_BLOG]),
+  removing: loadingSelector(state, [BlogActionTypes.DELETE_BLOG]),
   fetchError: errorSelector(state, [BlogActionTypes.FETCH_ALL_BLOGS, CategoryActionTypes.FETCH_ALL_CATEGORIES]),
   saveError: errorSelector(state, [BlogActionTypes.CREATE_BLOG, BlogActionTypes.UPDATE_BLOG]),
 });
@@ -37,6 +38,7 @@ const ManageBlogs: FC<ManageBlogsProps> = ({
   categories,
   fetching,
   saving,
+  removing,
   fetchError,
   saveError,
   createBlog,
@@ -70,6 +72,7 @@ const ManageBlogs: FC<ManageBlogsProps> = ({
   };
 
   const performDelete = (blog: Blog) => {
+    setSelected(blog);
     deleteBlog(blog.id);
   };
 
@@ -103,6 +106,8 @@ const ManageBlogs: FC<ManageBlogsProps> = ({
         blogs={blogs}
         categories={categories}
         loading={fetching}
+        removing={removing}
+        selectedId={selected?.id}
         error={fetchError?.message}
         onDelete={performDelete}
         onUpdate={openUpdateModal}

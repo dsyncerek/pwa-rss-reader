@@ -14,6 +14,7 @@ const mapState = (state: RootState) => ({
   categories: categoriesSelector(state),
   fetching: loadingSelector(state, [CategoryActionTypes.FETCH_ALL_CATEGORIES]),
   saving: loadingSelector(state, [CategoryActionTypes.CREATE_CATEGORY, CategoryActionTypes.UPDATE_CATEGORY]),
+  removing: loadingSelector(state, [CategoryActionTypes.DELETE_CATEGORY]),
   fetchError: errorSelector(state, [CategoryActionTypes.FETCH_ALL_CATEGORIES]),
   saveError: errorSelector(state, [CategoryActionTypes.CREATE_CATEGORY, CategoryActionTypes.UPDATE_CATEGORY]),
 });
@@ -33,6 +34,7 @@ const ManageCategories: FC<ManageCategoriesProps> = ({
   categories,
   fetching,
   saving,
+  removing,
   fetchError,
   saveError,
   createCategory,
@@ -99,6 +101,8 @@ const ManageCategories: FC<ManageCategoriesProps> = ({
       <CategoryTable
         categories={categories}
         loading={fetching}
+        removing={removing}
+        selectedId={selected?.id}
         error={fetchError?.message}
         onDelete={performDelete}
         onUpdate={openUpdateModal}

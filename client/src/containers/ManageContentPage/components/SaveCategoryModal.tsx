@@ -34,10 +34,12 @@ const SaveCategoryModal: FC<SaveCategoryModalProps> = ({
     };
   };
 
+  const actionLabel = category.id ? 'Update' : 'Add';
+
   return (
     <Modal show={isVisible} onHide={onClose}>
       <Modal.Header>
-        <Modal.Title>{category.id ? 'Update' : 'Add'} Category</Modal.Title>
+        <Modal.Title>{actionLabel} Category</Modal.Title>
       </Modal.Header>
 
       <Form onSubmit={onSubmit}>
@@ -55,7 +57,7 @@ const SaveCategoryModal: FC<SaveCategoryModalProps> = ({
             Close
           </Button>
           <Button type="submit" disabled={saving}>
-            {category.id ? 'Update' : 'Add'}
+            {saving ? <span className="fas fa-spin fa-spinner" /> : <> {actionLabel}</>}
           </Button>
         </Modal.Footer>
       </Form>

@@ -9,12 +9,23 @@ type BlogTableProps = {
   blogs: Blog[];
   categories: Category[];
   loading?: boolean;
+  removing?: boolean;
+  selectedId?: string;
   error?: string;
   onUpdate: (blog: Blog) => void;
   onDelete: (blog: Blog) => void;
 };
 
-const BlogTable: FC<BlogTableProps> = ({ blogs, categories, loading, error, onUpdate, onDelete }) => {
+const BlogTable: FC<BlogTableProps> = ({
+  blogs,
+  categories,
+  loading,
+  removing,
+  selectedId,
+  error,
+  onUpdate,
+  onDelete,
+}) => {
   if (loading) {
     return <Loader />;
   }
@@ -22,6 +33,10 @@ const BlogTable: FC<BlogTableProps> = ({ blogs, categories, loading, error, onUp
   if (error) {
     return <Alert variant="danger">{error}</Alert>;
   }
+
+  const isRemovingCurrentRow = (id: string): boolean => {
+    return !!removing && selectedId === id;
+  };
 
   return (
     <Table bordered>
@@ -46,8 +61,17 @@ const BlogTable: FC<BlogTableProps> = ({ blogs, categories, loading, error, onUp
                 <Button size="sm" onClick={() => onUpdate(blog)}>
                   <span className="fas fa-pen" aria-label="Edit" />
                 </Button>
-                <Button size="sm" variant="danger" onClick={() => onDelete(blog)}>
-                  <span className="fas fa-trash" aria-label="Delete" />
+                <Button
+                  size="sm"
+                  variant="danger"
+                  onClick={() => onDelete(blog)}
+                  disabled={isRemovingCurrentRow(blog.id)}
+                >
+                  {isRemovingCurrentRow(blog.id) ? (
+                    <span className="fas fa-spin fa-spinner" aria-label="Delete" />
+                  ) : (
+                    <span className="fas fa-trash" aria-label="Removing" />
+                  )}
                 </Button>
               </ButtonToolbar>
             </td>

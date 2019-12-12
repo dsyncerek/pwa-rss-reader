@@ -37,10 +37,12 @@ const SaveBlogModal: FC<SaveBlogModalProps> = ({
     };
   };
 
+  const actionLabel = blog.id ? 'Update' : 'Add';
+
   return (
     <Modal show={isVisible} onHide={onClose}>
       <Modal.Header>
-        <Modal.Title>{blog.id ? 'Update' : 'Add'} Blog</Modal.Title>
+        <Modal.Title>{actionLabel} Blog</Modal.Title>
       </Modal.Header>
 
       <Form onSubmit={onSubmit}>
@@ -71,7 +73,7 @@ const SaveBlogModal: FC<SaveBlogModalProps> = ({
             Close
           </Button>
           <Button type="submit" disabled={saving}>
-            {blog.id ? 'Update' : 'Add'}
+            {saving ? <span className="fas fa-spin fa-spinner" /> : <> {actionLabel}</>}
           </Button>
         </Modal.Footer>
       </Form>
