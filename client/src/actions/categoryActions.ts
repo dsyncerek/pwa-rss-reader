@@ -1,12 +1,13 @@
 import * as categoryApi from '../api/categoryApi';
-import { categorySchema, SaveCategory } from '../models/Category';
+import { Category, categorySchema, SaveCategory } from '../models/Category';
 import { RootState } from '../reducers';
 import { CategoryActionTypes } from './categoryActionTypes';
+import { apiCallThunkAction } from './rootActions';
+import { RootThunkAction } from './rootTypes';
 import { showErrorToast, showSuccessToast } from './toastActions';
-import { AsyncAction } from './types';
 
-export function fetchAllCategories(): AsyncAction {
-  return {
+export function fetchAllCategories(): RootThunkAction {
+  return apiCallThunkAction<Category[]>({
     callApi: async () => categoryApi.fetchAllCategories(),
     shouldCallApi: (state: RootState) => !state.categoryState.allLoaded,
     schema: [categorySchema],
@@ -21,11 +22,11 @@ export function fetchAllCategories(): AsyncAction {
       dispatch(showErrorToast(error.message));
       dispatch({ type: CategoryActionTypes.FETCH_ALL_CATEGORIES_ERROR, error });
     },
-  };
+  });
 }
 
-export function fetchCategory(id: string): AsyncAction {
-  return {
+export function fetchCategory(id: string): RootThunkAction {
+  return apiCallThunkAction<Category>({
     callApi: async () => categoryApi.fetchCategory(id),
     shouldCallApi: (state: RootState) => !state.entityState.categories[id],
     schema: categorySchema,
@@ -40,11 +41,11 @@ export function fetchCategory(id: string): AsyncAction {
       dispatch(showErrorToast(error.message));
       dispatch({ type: CategoryActionTypes.FETCH_CATEGORY_ERROR, error });
     },
-  };
+  });
 }
 
-export function createCategory(category: SaveCategory): AsyncAction {
-  return {
+export function createCategory(category: SaveCategory): RootThunkAction {
+  return apiCallThunkAction<Category>({
     callApi: async () => categoryApi.createCategory(category),
     schema: categorySchema,
 
@@ -59,11 +60,11 @@ export function createCategory(category: SaveCategory): AsyncAction {
       dispatch(showErrorToast(error.message));
       dispatch({ type: CategoryActionTypes.CREATE_CATEGORY_ERROR, error });
     },
-  };
+  });
 }
 
-export function updateCategory(category: SaveCategory): AsyncAction {
-  return {
+export function updateCategory(category: SaveCategory): RootThunkAction {
+  return apiCallThunkAction<Category>({
     callApi: async () => categoryApi.updateCategory(category),
     schema: categorySchema,
 
@@ -78,11 +79,11 @@ export function updateCategory(category: SaveCategory): AsyncAction {
       dispatch(showErrorToast(error.message));
       dispatch({ type: CategoryActionTypes.UPDATE_CATEGORY_ERROR, error });
     },
-  };
+  });
 }
 
-export function deleteCategory(id: string): AsyncAction {
-  return {
+export function deleteCategory(id: string): RootThunkAction {
+  return apiCallThunkAction<void>({
     callApi: async () => categoryApi.deleteCategory(id),
 
     onInit: () => dispatch => {
@@ -96,5 +97,5 @@ export function deleteCategory(id: string): AsyncAction {
       dispatch(showErrorToast(error.message));
       dispatch({ type: CategoryActionTypes.DELETE_CATEGORY_ERROR, error });
     },
-  };
+  });
 }

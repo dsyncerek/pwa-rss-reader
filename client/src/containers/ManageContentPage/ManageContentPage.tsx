@@ -4,7 +4,7 @@ import { connect, ConnectedProps } from 'react-redux';
 import { RouteComponentProps } from 'react-router-dom';
 import { createBlog, deleteBlog, fetchAllBlogs, updateBlog } from '../../actions/blogActions';
 import { createCategory, deleteCategory, fetchAllCategories, updateCategory } from '../../actions/categoryActions';
-import Layout from '../../components/Layout/Layout';
+import Layout from '../Layout/Layout';
 import { RootState } from '../../reducers';
 import { blogErrorSelector, blogLoadingSelector, blogsSelector } from '../../selectors/blogSelectors';
 import { categoriesSelector, categoryErrorSelector, categoryLoadingSelector } from '../../selectors/categorySelectors';

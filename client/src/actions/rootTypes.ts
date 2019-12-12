@@ -11,7 +11,7 @@ import { ToastActions } from './toastActionTypes';
 export type RootThunkDispatch<ReturnType = void> = ThunkDispatch<RootState, null, AllActions>;
 export type RootThunkAction<ReturnType = void> = ThunkAction<ReturnType, RootState, null, AllActions>;
 
-export interface AsyncAction<T = any> {
+export interface ApiCallThunkActionParams<T = any> {
   callApi: () => Promise<T>;
   shouldCallApi?: (state: RootState) => boolean;
   schema?: Schema;

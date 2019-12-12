@@ -1,9 +1,9 @@
 import React, { FC } from 'react';
 import { Provider } from 'react-redux';
 import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom';
-import ArticlePage from './pages/ArticlePage/ArticlePage';
-import ArticlesPage from './pages/ArticlesPage/ArticlesPage';
-import ManageContentPage from './pages/ManageContentPage/ManageContentPage';
+import ArticlePage from './containers/ArticlePage/ArticlePage';
+import ArticlesPage from './containers/ArticlesPage/ArticlesPage';
+import ManageContentPage from './containers/ManageContentPage/ManageContentPage';
 import { configureStore } from './store/configureStore';
 
 const store = configureStore();

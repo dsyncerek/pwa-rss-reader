@@ -3,8 +3,8 @@ import { Button, ListGroup } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { Blog } from '../../../models/Blog';
 import { Category } from '../../../models/Category';
-import BlogName from '../../BlogName';
-import Loader from '../../Loader';
+import BlogName from '../../../components/BlogName';
+import Loader from '../../../components/Loader';
 
 type ContentListProps = {
   blogs: Blog[];

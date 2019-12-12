@@ -1,12 +1,13 @@
 import * as blogApi from '../api/blogApi';
-import { blogSchema, SaveBlog } from '../models/Blog';
+import { Blog, blogSchema, SaveBlog } from '../models/Blog';
 import { RootState } from '../reducers';
 import { BlogActionTypes } from './blogActionTypes';
+import { apiCallThunkAction } from './rootActions';
+import { RootThunkAction } from './rootTypes';
 import { showErrorToast, showSuccessToast } from './toastActions';
-import { AsyncAction } from './types';
 
-export function fetchAllBlogs(): AsyncAction {
-  return {
+export function fetchAllBlogs(): RootThunkAction {
+  return apiCallThunkAction<Blog[]>({
     callApi: async () => blogApi.fetchAllBlogs(),
     shouldCallApi: (state: RootState) => !state.blogState.allLoaded,
     schema: [blogSchema],
@@ -21,11 +22,11 @@ export function fetchAllBlogs(): AsyncAction {
       dispatch(showErrorToast(error.message));
       dispatch({ type: BlogActionTypes.FETCH_ALL_BLOGS_ERROR, error });
     },
-  };
+  });
 }
 
-export function fetchBlog(id: string): AsyncAction {
-  return {
+export function fetchBlog(id: string): RootThunkAction {
+  return apiCallThunkAction<Blog>({
     callApi: async () => blogApi.fetchBlog(id),
     shouldCallApi: (state: RootState) => !state.entityState.blogs[id],
     schema: blogSchema,
@@ -40,11 +41,11 @@ export function fetchBlog(id: string): AsyncAction {
       dispatch(showErrorToast(error.message));
       dispatch({ type: BlogActionTypes.FETCH_BLOG_ERROR, error });
     },
-  };
+  });
 }
 
-export function createBlog(blog: SaveBlog): AsyncAction {
-  return {
+export function createBlog(blog: SaveBlog): RootThunkAction {
+  return apiCallThunkAction<Blog>({
     callApi: async () => blogApi.createBlog(blog),
     schema: blogSchema,
 
@@ -59,11 +60,11 @@ export function createBlog(blog: SaveBlog): AsyncAction {
       dispatch(showErrorToast(error.message));
       dispatch({ type: BlogActionTypes.CREATE_BLOG_ERROR, error });
     },
-  };
+  });
 }
 
-export function updateBlog(blog: SaveBlog): AsyncAction {
-  return {
+export function updateBlog(blog: SaveBlog): RootThunkAction {
+  return apiCallThunkAction<Blog>({
     callApi: async () => blogApi.updateBlog(blog),
     schema: blogSchema,
 
@@ -78,11 +79,11 @@ export function updateBlog(blog: SaveBlog): AsyncAction {
       dispatch(showErrorToast(error.message));
       dispatch({ type: BlogActionTypes.UPDATE_BLOG_ERROR, error });
     },
-  };
+  });
 }
 
-export function deleteBlog(id: string): AsyncAction {
-  return {
+export function deleteBlog(id: string): RootThunkAction {
+  return apiCallThunkAction<void>({
     callApi: async () => blogApi.deleteBlog(id),
 
     onInit: () => dispatch => {
@@ -96,5 +97,5 @@ export function deleteBlog(id: string): AsyncAction {
       dispatch(showErrorToast(error.message));
       dispatch({ type: BlogActionTypes.DELETE_BLOG_ERROR, error });
     },
-  };
+  });
 }

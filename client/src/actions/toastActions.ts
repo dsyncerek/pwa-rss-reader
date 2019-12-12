@@ -1,6 +1,6 @@
 import { Toast } from '../models/Toast';
+import { AllActions, RootThunkAction } from './rootTypes';
 import { ToastActionTypes } from './toastActionTypes';
-import { AllActions, RootThunkAction } from './types';
 
 function generateRandomId(): string {
   return Math.random()

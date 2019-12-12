@@ -2,7 +2,7 @@ import React, { FC, useEffect } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { RouteComponentProps } from 'react-router-dom';
 import { fetchArticle } from '../../actions/articleActions';
-import Layout from '../../components/Layout/Layout';
+import Layout from '../Layout/Layout';
 import { RootState } from '../../reducers';
 import { articleSelector } from '../../selectors/articleSelectors';
 import ArticleDetails from './components/ArticleDetails';

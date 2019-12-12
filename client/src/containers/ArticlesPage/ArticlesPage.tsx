@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { RouteComponentProps } from 'react-router-dom';
 import { fetchArticlesPage } from '../../actions/articleActions';
-import Layout from '../../components/Layout/Layout';
+import Layout from '../Layout/Layout';
 import { RootState } from '../../reducers';
 import { articlesSelector } from '../../selectors/articleSelectors';
 import ArticleList from './components/ArticleList';
