@@ -59,7 +59,7 @@ const BlogTable: FC<BlogTableProps> = ({
             <td>
               <ButtonToolbar>
                 <Button size="sm" onClick={() => onUpdate(blog)}>
-                  <span className="fas fa-pen" aria-label="Edit" />
+                  <span className="fas fa-fw fa-pen" aria-label="Edit" />
                 </Button>
                 <Button
                   size="sm"
@@ -68,9 +68,9 @@ const BlogTable: FC<BlogTableProps> = ({
                   disabled={isRemovingCurrentRow(blog.id)}
                 >
                   {isRemovingCurrentRow(blog.id) ? (
-                    <span className="fas fa-spin fa-spinner" aria-label="Delete" />
+                    <span className="fas fa-fw fa-spin fa-spinner" aria-label="Delete" />
                   ) : (
-                    <span className="fas fa-trash" aria-label="Removing" />
+                    <span className="fas fa-fw fa-trash" aria-label="Removing" />
                   )}
                 </Button>
               </ButtonToolbar>

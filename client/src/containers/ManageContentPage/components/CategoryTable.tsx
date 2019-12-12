@@ -49,7 +49,7 @@ const CategoryTable: FC<CategoryTableProps> = ({
             <td>
               <ButtonToolbar>
                 <Button size="sm" onClick={() => onUpdate(category)}>
-                  <span className="fas fa-pen" aria-label="Edit" />
+                  <span className="fas fa-fw fa-pen" aria-label="Edit" />
                 </Button>
                 <Button
                   size="sm"
@@ -58,9 +58,9 @@ const CategoryTable: FC<CategoryTableProps> = ({
                   onClick={() => onDelete(category)}
                 >
                   {isRemovingCurrentRow(category.id) ? (
-                    <span className="fas fa-spin fa-spinner" aria-label="Delete" />
+                    <span className="fas fa-fw fa-spin fa-spinner" aria-label="Delete" />
                   ) : (
-                    <span className="fas fa-trash" aria-label="Removing" />
+                    <span className="fas fa-fw fa-trash" aria-label="Removing" />
                   )}
                 </Button>
               </ButtonToolbar>

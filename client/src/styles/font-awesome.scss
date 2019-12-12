@@ -1,0 +1,28 @@
+@import '~@fortawesome/fontawesome-free/scss/solid';
+
+@import '~@fortawesome/fontawesome-free/scss/variables';
+@import '~@fortawesome/fontawesome-free/scss/mixins';
+@import '~@fortawesome/fontawesome-free/scss/core';
+
+@import '~@fortawesome/fontawesome-free/scss/animated';
+@import '~@fortawesome/fontawesome-free/scss/fixed-width';
+
+.#{$fa-css-prefix}-plus:before {
+  content: fa-content($fa-var-plus);
+}
+
+.#{$fa-css-prefix}-cog:before {
+  content: fa-content($fa-var-cog);
+}
+
+.#{$fa-css-prefix}-pen:before {
+  content: fa-content($fa-var-pen);
+}
+
+.#{$fa-css-prefix}-trash:before {
+  content: fa-content($fa-var-trash);
+}
+
+.#{$fa-css-prefix}-spinner:before {
+  content: fa-content($fa-var-spinner);
+}

@@ -73,7 +73,7 @@ const SaveBlogModal: FC<SaveBlogModalProps> = ({
             Close
           </Button>
           <Button type="submit" disabled={saving}>
-            {saving ? <span className="fas fa-spin fa-spinner" /> : <> {actionLabel}</>}
+            {saving ? <span className="fas fa-fw fa-spin fa-spinner" /> : <> {actionLabel}</>}
           </Button>
         </Modal.Footer>
       </Form>
