@@ -26,10 +26,6 @@ const BlogTable: FC<BlogTableProps> = ({
   onUpdate,
   onDelete,
 }) => {
-  if (loading) {
-    return <Loader />;
-  }
-
   if (error) {
     return <Alert variant="danger">{error}</Alert>;
   }
@@ -39,51 +35,53 @@ const BlogTable: FC<BlogTableProps> = ({
   };
 
   return (
-    <Table bordered>
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Category</th>
-          <th />
-        </tr>
-      </thead>
-      <tbody>
-        {blogs.map(blog => (
-          <tr key={blog.id}>
-            <td>
-              <a href={blog.link} target="_blank" rel="noopener noreferrer">
-                <BlogName blog={blog} />
-              </a>
-            </td>
-            <td>{categories.find(category => category.id === blog.categoryId)?.name}</td>
-            <td>
-              <ButtonToolbar>
-                <Button size="sm" onClick={() => onUpdate(blog)}>
-                  <span className="fas fa-fw fa-pen" aria-label="Edit" />
-                </Button>
-                <Button
-                  size="sm"
-                  variant="danger"
-                  onClick={() => onDelete(blog)}
-                  disabled={isRemovingCurrentRow(blog.id)}
-                >
-                  {isRemovingCurrentRow(blog.id) ? (
-                    <span className="fas fa-fw fa-spin fa-spinner" aria-label="Delete" />
-                  ) : (
-                    <span className="fas fa-fw fa-trash" aria-label="Removing" />
-                  )}
-                </Button>
-              </ButtonToolbar>
-            </td>
-          </tr>
-        ))}
-        {!blogs.length && (
+    <Loader loading={loading}>
+      <Table bordered>
+        <thead>
           <tr>
-            <td colSpan={3}>No results.</td>
+            <th>Name</th>
+            <th>Category</th>
+            <th />
           </tr>
-        )}
-      </tbody>
-    </Table>
+        </thead>
+        <tbody>
+          {blogs.map(blog => (
+            <tr key={blog.id}>
+              <td>
+                <a href={blog.link} target="_blank" rel="noopener noreferrer">
+                  <BlogName blog={blog} />
+                </a>
+              </td>
+              <td>{categories.find(category => category.id === blog.categoryId)?.name}</td>
+              <td>
+                <ButtonToolbar>
+                  <Button size="sm" onClick={() => onUpdate(blog)}>
+                    <span className="fas fa-fw fa-pen" aria-label="Edit" />
+                  </Button>
+                  <Button
+                    size="sm"
+                    variant="danger"
+                    onClick={() => onDelete(blog)}
+                    disabled={isRemovingCurrentRow(blog.id)}
+                  >
+                    {isRemovingCurrentRow(blog.id) ? (
+                      <span className="fas fa-fw fa-spin fa-spinner" aria-label="Delete" />
+                    ) : (
+                      <span className="fas fa-fw fa-trash" aria-label="Removing" />
+                    )}
+                  </Button>
+                </ButtonToolbar>
+              </td>
+            </tr>
+          ))}
+          {!blogs.length && (
+            <tr>
+              <td colSpan={3}>No results.</td>
+            </tr>
+          )}
+        </tbody>
+      </Table>
+    </Loader>
   );
 };
 

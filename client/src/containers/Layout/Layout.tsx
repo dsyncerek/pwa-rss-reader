@@ -1,12 +1,16 @@
 import React, { FC, ReactNode, useEffect } from 'react';
-import { Col, Container, Row } from 'react-bootstrap';
+import { Button, Col, Container, Row } from 'react-bootstrap';
 import { connect, ConnectedProps } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { fetchAllBlogs } from '../../actions/blogActions';
+import { BlogActionTypes } from '../../actions/blogActionTypes';
 import { fetchAllCategories } from '../../actions/categoryActions';
+import { CategoryActionTypes } from '../../actions/categoryActionTypes';
 import { hideToast } from '../../actions/toastActions';
 import { RootState } from '../../reducers';
-import { blogsLoadedSelector, blogsSelector } from '../../selectors/blogSelectors';
-import { categoriesLoadedSelector, categoriesSelector } from '../../selectors/categorySelectors';
+import { errorSelector, loadingSelector } from '../../selectors/asyncSelectors';
+import { blogsSelector } from '../../selectors/blogSelectors';
+import { categoriesSelector } from '../../selectors/categorySelectors';
 import { toastsSelector } from '../../selectors/toastSelectors';
 import ContentList from './components/ContentList';
 import Toasts from './components/Toasts';
@@ -14,7 +18,8 @@ import Toasts from './components/Toasts';
 const mapState = (state: RootState) => ({
   blogs: blogsSelector(state),
   categories: categoriesSelector(state),
-  loading: !(categoriesLoadedSelector(state) && blogsLoadedSelector(state)),
+  fetching: loadingSelector(state, [BlogActionTypes.FETCH_ALL_BLOGS, CategoryActionTypes.FETCH_ALL_CATEGORIES]),
+  fetchError: errorSelector(state, [BlogActionTypes.FETCH_ALL_BLOGS, CategoryActionTypes.FETCH_ALL_CATEGORIES]),
   toasts: toastsSelector(state),
 });
 
@@ -33,7 +38,8 @@ const Layout: FC<LayoutProps> = ({
   children,
   blogs,
   categories,
-  loading,
+  fetching,
+  fetchError,
   toasts,
   fetchAllBlogs,
   fetchAllCategories,
@@ -49,7 +55,13 @@ const Layout: FC<LayoutProps> = ({
       <Container fluid>
         <Row>
           <Col lg={2}>
-            <ContentList loading={loading} blogs={blogs} categories={categories} />
+            <div className="d-flex justify-content-between align-items-center mb-2">
+              <h2>Your content</h2>
+              <Button as={Link} to="/manage-content">
+                <span className="fas fa-cog" aria-label="Manage" />
+              </Button>
+            </div>
+            <ContentList blogs={blogs} categories={categories} loading={fetching} error={fetchError?.message} />
           </Col>
           <Col lg={{ span: 8, offset: 1 }}>{children}</Col>
         </Row>

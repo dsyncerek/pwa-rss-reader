@@ -8,7 +8,7 @@ export const articlesSelector = createSelector<RootState, EntityState, Article[]
   state => Object.values(state.articles),
 );
 
-export const articleSelector = createSelector<RootState, string, EntityState, string, Article>(
+export const articleSelector = createSelector<RootState, string, EntityState, string, Article | undefined>(
   state => state.entityState,
   (state, id) => id,
   (state, id) => state.articles[id],

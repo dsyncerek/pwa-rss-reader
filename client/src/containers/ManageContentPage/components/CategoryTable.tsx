@@ -22,10 +22,6 @@ const CategoryTable: FC<CategoryTableProps> = ({
   onUpdate,
   onDelete,
 }) => {
-  if (loading) {
-    return <Loader />;
-  }
-
   if (error) {
     return <Alert variant="danger">{error}</Alert>;
   }
@@ -35,45 +31,47 @@ const CategoryTable: FC<CategoryTableProps> = ({
   };
 
   return (
-    <Table bordered>
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th />
-        </tr>
-      </thead>
-      <tbody>
-        {categories.map(category => (
-          <tr key={category.id}>
-            <td>{category.name}</td>
-            <td>
-              <ButtonToolbar>
-                <Button size="sm" onClick={() => onUpdate(category)}>
-                  <span className="fas fa-fw fa-pen" aria-label="Edit" />
-                </Button>
-                <Button
-                  size="sm"
-                  variant="danger"
-                  disabled={isRemovingCurrentRow(category.id)}
-                  onClick={() => onDelete(category)}
-                >
-                  {isRemovingCurrentRow(category.id) ? (
-                    <span className="fas fa-fw fa-spin fa-spinner" aria-label="Delete" />
-                  ) : (
-                    <span className="fas fa-fw fa-trash" aria-label="Removing" />
-                  )}
-                </Button>
-              </ButtonToolbar>
-            </td>
-          </tr>
-        ))}
-        {!categories.length && (
+    <Loader loading={loading}>
+      <Table bordered>
+        <thead>
           <tr>
-            <td colSpan={2}>No results.</td>
+            <th>Name</th>
+            <th />
           </tr>
-        )}
-      </tbody>
-    </Table>
+        </thead>
+        <tbody>
+          {categories.map(category => (
+            <tr key={category.id}>
+              <td>{category.name}</td>
+              <td>
+                <ButtonToolbar>
+                  <Button size="sm" onClick={() => onUpdate(category)}>
+                    <span className="fas fa-fw fa-pen" aria-label="Edit" />
+                  </Button>
+                  <Button
+                    size="sm"
+                    variant="danger"
+                    disabled={isRemovingCurrentRow(category.id)}
+                    onClick={() => onDelete(category)}
+                  >
+                    {isRemovingCurrentRow(category.id) ? (
+                      <span className="fas fa-fw fa-spin fa-spinner" aria-label="Delete" />
+                    ) : (
+                      <span className="fas fa-fw fa-trash" aria-label="Removing" />
+                    )}
+                  </Button>
+                </ButtonToolbar>
+              </td>
+            </tr>
+          ))}
+          {!categories.length && (
+            <tr>
+              <td colSpan={2}>No results.</td>
+            </tr>
+          )}
+        </tbody>
+      </Table>
+    </Loader>
   );
 };
 

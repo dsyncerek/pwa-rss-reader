@@ -9,6 +9,12 @@ export const categoriesSelector = createSelector<RootState, EntityState, Categor
   state => Object.values(state.categories),
 );
 
+export const categorySelector = createSelector<RootState, string, EntityState, string, Category | undefined>(
+  state => state.entityState,
+  (state, id) => id,
+  (state, id) => state.categories[id],
+);
+
 export const categoriesLoadedSelector = createSelector<RootState, CategoryState, boolean>(
   state => state.categoryState,
   state => state.allLoaded,
