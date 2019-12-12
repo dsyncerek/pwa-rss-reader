@@ -4,10 +4,8 @@ import { HttpError } from '../models/HttpError';
 import { RootState } from '../reducers';
 import { AsyncState } from '../reducers/asyncReducer';
 
-const asyncStateSelector = (state: RootState) => state.asyncState;
-
 export const loadingSelector = createSelector<RootState, RootActionTypes[], AsyncState, RootActionTypes[], boolean>(
-  asyncStateSelector,
+  state => state.asyncState,
   (state: RootState, types: RootActionTypes[]) => types,
   (state, types) => types.some(type => state[type]?.loading),
 );
@@ -19,7 +17,7 @@ export const errorSelector = createSelector<
   RootActionTypes[],
   HttpError | undefined
 >(
-  asyncStateSelector,
+  state => state.asyncState,
   (state: RootState, types: RootActionTypes[]) => types,
   (state, types) => {
     for (const type in state) {

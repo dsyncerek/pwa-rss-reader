@@ -1,6 +1,6 @@
 import { SaveCategory } from '../models/Category';
-import { Dictionary } from '../models/Dictionary';
 import { HttpError } from '../models/HttpError';
+import { RootEntitiesType } from './rootTypes';
 
 export enum CategoryActionTypes {
   FETCH_ALL_CATEGORIES = 'FETCH_ALL_CATEGORIES',
@@ -30,7 +30,7 @@ export interface FetchAllCategoriesAction {
 
 export interface FetchAllCategoriesSuccessAction {
   type: CategoryActionTypes.FETCH_ALL_CATEGORIES_SUCCESS;
-  entities: Dictionary<Dictionary>;
+  entities: RootEntitiesType;
 }
 
 export interface FetchAllCategoriesErrorAction {
@@ -45,7 +45,7 @@ export interface FetchCategoryAction {
 
 export interface FetchCategorySuccessAction {
   type: CategoryActionTypes.FETCH_CATEGORY_SUCCESS;
-  entities: Dictionary<Dictionary>;
+  entities: RootEntitiesType;
 }
 
 export interface FetchCategoryErrorAction {
@@ -60,7 +60,7 @@ export interface CreateCategoryAction {
 
 export interface CreateCategorySuccessAction {
   type: CategoryActionTypes.CREATE_CATEGORY_SUCCESS;
-  entities: Dictionary<Dictionary>;
+  entities: RootEntitiesType;
 }
 
 export interface CreateCategoryErrorAction {
@@ -75,7 +75,7 @@ export interface UpdateCategoryAction {
 
 export interface UpdateCategorySuccessAction {
   type: CategoryActionTypes.UPDATE_CATEGORY_SUCCESS;
-  entities: Dictionary<Dictionary>;
+  entities: RootEntitiesType;
 }
 
 export interface UpdateCategoryErrorAction {

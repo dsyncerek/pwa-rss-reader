@@ -2,8 +2,8 @@ import * as articleApi from '../api/articleApi';
 import { Article, articleSchema } from '../models/Article';
 import { Pagination } from '../models/Pagination';
 import { RootState } from '../reducers';
+import { apiCallThunkAction } from './apiCallThunkAction';
 import { ArticleActionTypes } from './articleActionTypes';
-import { apiCallThunkAction } from './rootActions';
 import { RootThunkAction } from './rootTypes';
 import { showErrorToast } from './toastActions';
 

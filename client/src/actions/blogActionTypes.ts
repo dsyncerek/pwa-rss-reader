@@ -1,6 +1,6 @@
 import { SaveBlog } from '../models/Blog';
-import { Dictionary } from '../models/Dictionary';
 import { HttpError } from '../models/HttpError';
+import { RootEntitiesType } from './rootTypes';
 
 export enum BlogActionTypes {
   FETCH_ALL_BLOGS = 'FETCH_ALL_BLOGS',
@@ -30,7 +30,7 @@ export interface FetchAllBlogsAction {
 
 export interface FetchAllBlogsSuccessAction {
   type: BlogActionTypes.FETCH_ALL_BLOGS_SUCCESS;
-  entities: Dictionary<Dictionary>;
+  entities: RootEntitiesType;
 }
 
 export interface FetchAllBlogsErrorAction {
@@ -45,7 +45,7 @@ export interface FetchBlogAction {
 
 export interface FetchBlogSuccessAction {
   type: BlogActionTypes.FETCH_BLOG_SUCCESS;
-  entities: Dictionary<Dictionary>;
+  entities: RootEntitiesType;
 }
 
 export interface FetchBlogErrorAction {
@@ -60,7 +60,7 @@ export interface CreateBlogAction {
 
 export interface CreateBlogSuccessAction {
   type: BlogActionTypes.CREATE_BLOG_SUCCESS;
-  entities: Dictionary<Dictionary>;
+  entities: RootEntitiesType;
 }
 
 export interface CreateBlogErrorAction {
@@ -75,7 +75,7 @@ export interface UpdateBlogAction {
 
 export interface UpdateBlogSuccessAction {
   type: BlogActionTypes.UPDATE_BLOG_SUCCESS;
-  entities: Dictionary<Dictionary>;
+  entities: RootEntitiesType;
 }
 
 export interface UpdateBlogErrorAction {

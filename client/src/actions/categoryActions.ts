@@ -2,7 +2,7 @@ import * as categoryApi from '../api/categoryApi';
 import { Category, categorySchema, SaveCategory } from '../models/Category';
 import { RootState } from '../reducers';
 import { CategoryActionTypes } from './categoryActionTypes';
-import { apiCallThunkAction } from './rootActions';
+import { apiCallThunkAction } from './apiCallThunkAction';
 import { RootThunkAction } from './rootTypes';
 import { showErrorToast, showSuccessToast } from './toastActions';
 

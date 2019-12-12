@@ -2,7 +2,7 @@ import * as blogApi from '../api/blogApi';
 import { Blog, blogSchema, SaveBlog } from '../models/Blog';
 import { RootState } from '../reducers';
 import { BlogActionTypes } from './blogActionTypes';
-import { apiCallThunkAction } from './rootActions';
+import { apiCallThunkAction } from './apiCallThunkAction';
 import { RootThunkAction } from './rootTypes';
 import { showErrorToast, showSuccessToast } from './toastActions';
 

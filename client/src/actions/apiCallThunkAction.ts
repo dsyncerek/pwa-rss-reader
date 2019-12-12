@@ -1,5 +1,17 @@
-import { normalize } from 'normalizr';
-import { ApiCallThunkActionParams, RootThunkAction } from './rootTypes';
+import { normalize, Schema } from 'normalizr';
+import { HttpError } from '../models/HttpError';
+import { RootState } from '../reducers';
+import { RootEntitiesType, RootThunkAction, RootThunkDispatch } from './rootTypes';
+
+export interface ApiCallThunkActionParams<T = any> {
+  callApi: () => Promise<T>;
+  shouldCallApi?: (state: RootState) => boolean;
+  schema?: Schema;
+
+  onInit: () => (dispatch: RootThunkDispatch) => void;
+  onSuccess: (entities: RootEntitiesType, response: T) => (dispatch: RootThunkDispatch) => void;
+  onError: (error: HttpError) => (dispatch: RootThunkDispatch) => void;
+}
 
 export function apiCallThunkAction<T>({
   shouldCallApi,

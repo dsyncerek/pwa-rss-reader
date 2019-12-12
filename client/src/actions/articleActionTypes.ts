@@ -1,7 +1,7 @@
 import { Article } from '../models/Article';
-import { Dictionary } from '../models/Dictionary';
 import { HttpError } from '../models/HttpError';
 import { Pagination } from '../models/Pagination';
+import { RootEntitiesType } from './rootTypes';
 
 export enum ArticleActionTypes {
   FETCH_ARTICLES_PAGE = 'FETCH_ARTICLES_PAGE',
@@ -28,7 +28,7 @@ export interface FetchArticlesPageAction {
 
 export interface FetchArticlesPageSuccessAction {
   type: ArticleActionTypes.FETCH_ARTICLES_PAGE_SUCCESS;
-  entities: Dictionary<Dictionary>;
+  entities: RootEntitiesType;
   pagination: Pagination<Article>;
 }
 
@@ -46,7 +46,7 @@ export interface FetchBlogArticlesPageAction {
 export interface FetchBlogArticlesPageSuccessAction {
   type: ArticleActionTypes.FETCH_BLOG_ARTICLES_PAGE_SUCCESS;
   blogId: string;
-  entities: Dictionary<Dictionary>;
+  entities: RootEntitiesType;
   pagination: Pagination<Article>;
 }
 
@@ -64,7 +64,7 @@ export interface FetchCategoryArticlesPageAction {
 export interface FetchCategoryArticlesPageSuccessAction {
   type: ArticleActionTypes.FETCH_CATEGORY_ARTICLES_PAGE_SUCCESS;
   categoryId: string;
-  entities: Dictionary<Dictionary>;
+  entities: RootEntitiesType;
   pagination: Pagination<Article>;
 }
 
@@ -80,7 +80,7 @@ export interface FetchArticleAction {
 
 export interface FetchArticleSuccessAction {
   type: ArticleActionTypes.FETCH_ARTICLE_SUCCESS;
-  entities: Dictionary<Dictionary>;
+  entities: RootEntitiesType;
 }
 
 export interface FetchArticleErrorAction {

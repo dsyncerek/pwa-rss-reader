@@ -1,6 +1,6 @@
-import { AnyAction } from 'redux';
 import { BlogActionTypes } from '../actions/blogActionTypes';
 import { CategoryActionTypes } from '../actions/categoryActionTypes';
+import { RootAction, RootEntitiesType } from '../actions/rootTypes';
 import { Article } from '../models/Article';
 import { Blog } from '../models/Blog';
 import { Category } from '../models/Category';
@@ -18,14 +18,9 @@ export const initialState: EntityState = {
   categories: {},
 };
 
-export function entityReducer(state: EntityState = initialState, action: AnyAction): EntityState {
-  if (action.entities) {
-    return {
-      ...state,
-      articles: { ...state.articles, ...action.entities.articles },
-      blogs: { ...state.blogs, ...action.entities.blogs },
-      categories: { ...state.categories, ...action.entities.categories },
-    };
+export function entityReducer(state: EntityState = initialState, action: RootAction): EntityState {
+  if ('entities' in action) {
+    return mergeEntities(state, action.entities);
   }
 
   switch (action.type) {
@@ -36,6 +31,15 @@ export function entityReducer(state: EntityState = initialState, action: AnyActi
     default:
       return state;
   }
+}
+
+function mergeEntities(state: EntityState, newEntities: RootEntitiesType): EntityState {
+  return {
+    ...state,
+    articles: { ...state.articles, ...newEntities.articles },
+    blogs: { ...state.blogs, ...newEntities.blogs },
+    categories: { ...state.categories, ...newEntities.categories },
+  };
 }
 
 function removeEntity(coll: Dictionary, id: string): Dictionary {
