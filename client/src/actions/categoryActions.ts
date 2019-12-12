@@ -19,7 +19,6 @@ export function fetchAllCategories(): RootThunkAction {
       dispatch({ type: CategoryActionTypes.FETCH_ALL_CATEGORIES_SUCCESS, entities });
     },
     onError: error => dispatch => {
-      dispatch(showErrorToast(error.message));
       dispatch({ type: CategoryActionTypes.FETCH_ALL_CATEGORIES_ERROR, error });
     },
   });
@@ -38,7 +37,6 @@ export function fetchCategory(id: string): RootThunkAction {
       dispatch({ type: CategoryActionTypes.FETCH_CATEGORY_SUCCESS, entities });
     },
     onError: error => dispatch => {
-      dispatch(showErrorToast(error.message));
       dispatch({ type: CategoryActionTypes.FETCH_CATEGORY_ERROR, error });
     },
   });
@@ -57,7 +55,6 @@ export function createCategory(category: SaveCategory): RootThunkAction {
       dispatch({ type: CategoryActionTypes.CREATE_CATEGORY_SUCCESS, entities });
     },
     onError: error => dispatch => {
-      dispatch(showErrorToast(error.message));
       dispatch({ type: CategoryActionTypes.CREATE_CATEGORY_ERROR, error });
     },
   });
@@ -76,7 +73,6 @@ export function updateCategory(category: SaveCategory): RootThunkAction {
       dispatch({ type: CategoryActionTypes.UPDATE_CATEGORY_SUCCESS, entities });
     },
     onError: error => dispatch => {
-      dispatch(showErrorToast(error.message));
       dispatch({ type: CategoryActionTypes.UPDATE_CATEGORY_ERROR, error });
     },
   });

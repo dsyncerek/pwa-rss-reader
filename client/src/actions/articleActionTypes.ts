@@ -88,7 +88,7 @@ export interface FetchArticleErrorAction {
   error: HttpError;
 }
 
-export type ArticleActions =
+export type ArticleAction =
   | FetchArticlesPageAction
   | FetchArticlesPageSuccessAction
   | FetchArticlesPageErrorAction

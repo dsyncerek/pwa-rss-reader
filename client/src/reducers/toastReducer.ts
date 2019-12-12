@@ -1,4 +1,4 @@
-import { ToastActions, ToastActionTypes } from '../actions/toastActionTypes';
+import { ToastAction, ToastActionTypes } from '../actions/toastActionTypes';
 import { Toast } from '../models/Toast';
 
 export interface ToastState {
@@ -9,7 +9,7 @@ export const initialState: ToastState = {
   toasts: [],
 };
 
-export function toastReducer(state: ToastState = initialState, action: ToastActions): ToastState {
+export function toastReducer(state: ToastState = initialState, action: ToastAction): ToastState {
   switch (action.type) {
     case ToastActionTypes.SHOW_TOAST:
       return { ...state, toasts: [...state.toasts, action.toast] };

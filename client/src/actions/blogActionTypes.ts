@@ -98,7 +98,7 @@ export interface DeleteBlogErrorAction {
   error: HttpError;
 }
 
-export type BlogActions =
+export type BlogAction =
   | FetchAllBlogsAction
   | FetchAllBlogsSuccessAction
   | FetchAllBlogsErrorAction

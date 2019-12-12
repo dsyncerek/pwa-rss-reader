@@ -15,4 +15,4 @@ export interface HideToastAction {
   id: string;
 }
 
-export type ToastActions = ShowToastAction | HideToastAction;
+export type ToastAction = ShowToastAction | HideToastAction;

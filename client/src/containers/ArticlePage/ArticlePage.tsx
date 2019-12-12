@@ -2,13 +2,13 @@ import React, { FC, useEffect } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { RouteComponentProps } from 'react-router-dom';
 import { fetchArticle } from '../../actions/articleActions';
-import Layout from '../Layout/Layout';
 import { RootState } from '../../reducers';
 import { articleSelector } from '../../selectors/articleSelectors';
+import Layout from '../Layout/Layout';
 import ArticleDetails from './components/ArticleDetails';
 
 const mapState = (state: RootState, props: PropsFromRouter) => ({
-  article: articleSelector(props.match.params.slug)(state),
+  article: articleSelector(state, props.match.params.slug),
 });
 
 const mapDispatch = {

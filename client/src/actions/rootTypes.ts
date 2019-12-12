@@ -3,13 +3,13 @@ import { ThunkAction, ThunkDispatch } from 'redux-thunk';
 import { Dictionary } from '../models/Dictionary';
 import { HttpError } from '../models/HttpError';
 import { RootState } from '../reducers';
-import { ArticleActions } from './articleActionTypes';
-import { BlogActions } from './blogActionTypes';
-import { CategoryActions } from './categoryActionTypes';
-import { ToastActions } from './toastActionTypes';
+import { ArticleAction, ArticleActionTypes } from './articleActionTypes';
+import { BlogAction, BlogActionTypes } from './blogActionTypes';
+import { CategoryAction, CategoryActionTypes } from './categoryActionTypes';
+import { ToastAction, ToastActionTypes } from './toastActionTypes';
 
-export type RootThunkDispatch<ReturnType = void> = ThunkDispatch<RootState, null, AllActions>;
-export type RootThunkAction<ReturnType = void> = ThunkAction<ReturnType, RootState, null, AllActions>;
+export type RootThunkDispatch<ReturnType = void> = ThunkDispatch<RootState, null, RootAction>;
+export type RootThunkAction<ReturnType = void> = ThunkAction<ReturnType, RootState, null, RootAction>;
 
 export interface ApiCallThunkActionParams<T = any> {
   callApi: () => Promise<T>;
@@ -21,4 +21,5 @@ export interface ApiCallThunkActionParams<T = any> {
   onError: (error: HttpError) => (dispatch: RootThunkDispatch) => void;
 }
 
-export type AllActions = ArticleActions | BlogActions | CategoryActions | ToastActions;
+export type RootAction = ArticleAction | BlogAction | CategoryAction | ToastAction;
+export type RootActionTypes = ArticleActionTypes | BlogActionTypes | CategoryActionTypes | ToastActionTypes;

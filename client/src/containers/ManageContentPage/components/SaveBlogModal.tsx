@@ -1,14 +1,13 @@
 import React, { FC, FormEvent } from 'react';
-import { Button, Form, Modal } from 'react-bootstrap';
+import { Alert, Button, Form, Modal } from 'react-bootstrap';
 import { SaveBlog } from '../../../models/Blog';
 import { Category } from '../../../models/Category';
-
-const editableFields: Array<keyof SaveBlog> = ['categoryId'];
-const requiredFields: Array<keyof SaveBlog> = ['rss', 'categoryId'];
 
 type SaveBlogModalProps = {
   blog: SaveBlog;
   categories: Category[];
+  saving?: boolean;
+  error?: string;
   isVisible?: boolean;
   onClose: () => void;
   onChange: (event: any) => void;
@@ -18,11 +17,16 @@ type SaveBlogModalProps = {
 const SaveBlogModal: FC<SaveBlogModalProps> = ({
   blog,
   categories,
+  saving,
+  error,
   isVisible = false,
   onClose,
   onChange,
   onSubmit,
 }) => {
+  const editableFields: Array<keyof SaveBlog> = ['categoryId'];
+  const requiredFields: Array<keyof SaveBlog> = ['rss', 'categoryId'];
+
   const formControlProps = (name: keyof SaveBlog) => {
     return {
       name,
@@ -38,8 +42,11 @@ const SaveBlogModal: FC<SaveBlogModalProps> = ({
       <Modal.Header>
         <Modal.Title>{blog.id ? 'Update' : 'Add'} Blog</Modal.Title>
       </Modal.Header>
+
       <Form onSubmit={onSubmit}>
         <Modal.Body>
+          {error && <Alert variant="danger">{error}</Alert>}
+
           <Form.Group controlId="rss">
             <Form.Label>RSS</Form.Label>
             <Form.Control {...formControlProps('rss')} placeholder="Enter RSS" />
@@ -58,11 +65,14 @@ const SaveBlogModal: FC<SaveBlogModalProps> = ({
             </Form.Control>
           </Form.Group>
         </Modal.Body>
+
         <Modal.Footer>
           <Button variant="danger" onClick={onClose}>
             Close
           </Button>
-          <Button type="submit">{blog.id ? 'Update' : 'Add'}</Button>
+          <Button type="submit" disabled={saving}>
+            {blog.id ? 'Update' : 'Add'}
+          </Button>
         </Modal.Footer>
       </Form>
     </Modal>

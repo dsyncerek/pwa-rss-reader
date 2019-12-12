@@ -1,5 +1,5 @@
 import { Toast } from '../models/Toast';
-import { AllActions, RootThunkAction } from './rootTypes';
+import { RootAction, RootThunkAction } from './rootTypes';
 import { ToastActionTypes } from './toastActionTypes';
 
 function generateRandomId(): string {
@@ -8,7 +8,7 @@ function generateRandomId(): string {
     .substring(2);
 }
 
-export function hideToast(id: string): AllActions {
+export function hideToast(id: string): RootAction {
   return { type: ToastActionTypes.HIDE_TOAST, id };
 }
 

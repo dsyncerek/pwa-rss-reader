@@ -98,7 +98,7 @@ export interface DeleteCategoryErrorAction {
   error: HttpError;
 }
 
-export type CategoryActions =
+export type CategoryAction =
   | FetchAllCategoriesAction
   | FetchAllCategoriesSuccessAction
   | FetchAllCategoriesErrorAction

@@ -19,7 +19,6 @@ export function fetchAllBlogs(): RootThunkAction {
       dispatch({ type: BlogActionTypes.FETCH_ALL_BLOGS_SUCCESS, entities });
     },
     onError: error => dispatch => {
-      dispatch(showErrorToast(error.message));
       dispatch({ type: BlogActionTypes.FETCH_ALL_BLOGS_ERROR, error });
     },
   });
@@ -38,7 +37,6 @@ export function fetchBlog(id: string): RootThunkAction {
       dispatch({ type: BlogActionTypes.FETCH_BLOG_SUCCESS, entities });
     },
     onError: error => dispatch => {
-      dispatch(showErrorToast(error.message));
       dispatch({ type: BlogActionTypes.FETCH_BLOG_ERROR, error });
     },
   });
@@ -57,7 +55,6 @@ export function createBlog(blog: SaveBlog): RootThunkAction {
       dispatch({ type: BlogActionTypes.CREATE_BLOG_SUCCESS, entities });
     },
     onError: error => dispatch => {
-      dispatch(showErrorToast(error.message));
       dispatch({ type: BlogActionTypes.CREATE_BLOG_ERROR, error });
     },
   });
@@ -76,7 +73,6 @@ export function updateBlog(blog: SaveBlog): RootThunkAction {
       dispatch({ type: BlogActionTypes.UPDATE_BLOG_SUCCESS, entities });
     },
     onError: error => dispatch => {
-      dispatch(showErrorToast(error.message));
       dispatch({ type: BlogActionTypes.UPDATE_BLOG_ERROR, error });
     },
   });
