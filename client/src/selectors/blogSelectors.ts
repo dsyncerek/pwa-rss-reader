@@ -15,7 +15,7 @@ export const blogSelector = createSelector<RootState, string, EntityState, strin
   (state, id) => state.blogs[id],
 );
 
-export const blogsLoadedSelector = createSelector<RootState, BlogState, boolean>(
+export const allBlogsLoadedSelector = createSelector<RootState, BlogState, boolean>(
   state => state.blogState,
   state => state.allLoaded,
 );

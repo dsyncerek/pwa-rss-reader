@@ -2,15 +2,19 @@ import * as articleApi from '../api/articleApi';
 import { Article, articleSchema } from '../models/Article';
 import { Pagination } from '../models/Pagination';
 import { RootState } from '../reducers';
+import {
+  allArticlesPaginationSelector,
+  blogArticlesPaginationSelector,
+  categoryArticlesPaginationSelector,
+} from '../selectors/paginationSelectors';
 import { apiCallThunkAction } from './apiCallThunkAction';
 import { ArticleActionTypes } from './articleActionTypes';
 import { RootThunkAction } from './rootTypes';
-import { showErrorToast } from './toastActions';
 
 export function fetchArticlesPage(page: number): RootThunkAction {
   return apiCallThunkAction<Pagination<Article>>({
     callApi: async () => articleApi.fetchArticlesPage(page),
-    shouldCallApi: (state: RootState) => state.articleState.all.currentPage < page,
+    shouldCallApi: (state: RootState) => shouldLoadPage(page, allArticlesPaginationSelector(state)),
     schema: { items: [articleSchema] },
 
     onInit: () => dispatch => {
@@ -20,7 +24,6 @@ export function fetchArticlesPage(page: number): RootThunkAction {
       dispatch({ type: ArticleActionTypes.FETCH_ARTICLES_PAGE_SUCCESS, entities, pagination });
     },
     onError: error => dispatch => {
-      dispatch(showErrorToast(error.message));
       dispatch({ type: ArticleActionTypes.FETCH_ARTICLES_PAGE_ERROR, error });
     },
   });
@@ -29,7 +32,7 @@ export function fetchArticlesPage(page: number): RootThunkAction {
 export function fetchBlogArticlesPage(blogId: string, page: number): RootThunkAction {
   return apiCallThunkAction<Pagination<Article>>({
     callApi: async () => articleApi.fetchBlogArticlesPage(blogId, page),
-    shouldCallApi: (state: RootState) => (state.articleState.byBlog[blogId]?.currentPage ?? 0) < page,
+    shouldCallApi: (state: RootState) => shouldLoadPage(page, blogArticlesPaginationSelector(state, blogId)),
     schema: { items: [articleSchema] },
 
     onInit: () => dispatch => {
@@ -39,7 +42,6 @@ export function fetchBlogArticlesPage(blogId: string, page: number): RootThunkAc
       dispatch({ type: ArticleActionTypes.FETCH_BLOG_ARTICLES_PAGE_SUCCESS, blogId, entities, pagination });
     },
     onError: error => dispatch => {
-      dispatch(showErrorToast(error.message));
       dispatch({ type: ArticleActionTypes.FETCH_BLOG_ARTICLES_PAGE_ERROR, error });
     },
   });
@@ -48,7 +50,7 @@ export function fetchBlogArticlesPage(blogId: string, page: number): RootThunkAc
 export function fetchCategoryArticlesPage(categoryId: string, page: number): RootThunkAction {
   return apiCallThunkAction<Pagination<Article>>({
     callApi: async () => articleApi.fetchCategoryArticlesPage(categoryId, page),
-    shouldCallApi: (state: RootState) => (state.articleState.byCategory[categoryId]?.currentPage ?? 0) < page,
+    shouldCallApi: (state: RootState) => shouldLoadPage(page, categoryArticlesPaginationSelector(state, categoryId)),
     schema: { items: [articleSchema] },
 
     onInit: () => dispatch => {
@@ -58,7 +60,6 @@ export function fetchCategoryArticlesPage(categoryId: string, page: number): Roo
       dispatch({ type: ArticleActionTypes.FETCH_CATEGORY_ARTICLES_PAGE_SUCCESS, categoryId, entities, pagination });
     },
     onError: error => dispatch => {
-      dispatch(showErrorToast(error.message));
       dispatch({ type: ArticleActionTypes.FETCH_CATEGORY_ARTICLES_PAGE_ERROR, error });
     },
   });
@@ -77,8 +78,11 @@ export function fetchArticle(id: string): RootThunkAction {
       dispatch({ type: ArticleActionTypes.FETCH_ARTICLE_SUCCESS, entities });
     },
     onError: error => dispatch => {
-      dispatch(showErrorToast(error.message));
       dispatch({ type: ArticleActionTypes.FETCH_ARTICLE_ERROR, error });
     },
   });
+}
+
+function shouldLoadPage(page: number, state: Pagination): boolean {
+  return page > state.currentPage && page <= state.pageCount;
 }

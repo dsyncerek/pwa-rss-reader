@@ -1,15 +1,16 @@
 import * as blogApi from '../api/blogApi';
 import { Blog, blogSchema, SaveBlog } from '../models/Blog';
 import { RootState } from '../reducers';
-import { BlogActionTypes } from './blogActionTypes';
+import { allBlogsLoadedSelector } from '../selectors/blogSelectors';
 import { apiCallThunkAction } from './apiCallThunkAction';
+import { BlogActionTypes } from './blogActionTypes';
 import { RootThunkAction } from './rootTypes';
 import { showErrorToast, showSuccessToast } from './toastActions';
 
 export function fetchAllBlogs(): RootThunkAction {
   return apiCallThunkAction<Blog[]>({
     callApi: async () => blogApi.fetchAllBlogs(),
-    shouldCallApi: (state: RootState) => !state.blogState.allLoaded,
+    shouldCallApi: (state: RootState) => !allBlogsLoadedSelector(state),
     schema: [blogSchema],
 
     onInit: () => dispatch => {

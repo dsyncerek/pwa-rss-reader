@@ -12,7 +12,6 @@ export function categoryReducer(state: CategoryState = initialState, action: Cat
   switch (action.type) {
     case CategoryActionTypes.FETCH_ALL_CATEGORIES_SUCCESS:
       return { ...state, allLoaded: true };
-
     default:
       return state;
   }

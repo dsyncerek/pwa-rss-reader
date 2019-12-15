@@ -1,15 +1,16 @@
 import * as categoryApi from '../api/categoryApi';
 import { Category, categorySchema, SaveCategory } from '../models/Category';
 import { RootState } from '../reducers';
-import { CategoryActionTypes } from './categoryActionTypes';
+import { allCategoriesLoadedSelector } from '../selectors/categorySelectors';
 import { apiCallThunkAction } from './apiCallThunkAction';
+import { CategoryActionTypes } from './categoryActionTypes';
 import { RootThunkAction } from './rootTypes';
 import { showErrorToast, showSuccessToast } from './toastActions';
 
 export function fetchAllCategories(): RootThunkAction {
   return apiCallThunkAction<Category[]>({
     callApi: async () => categoryApi.fetchAllCategories(),
-    shouldCallApi: (state: RootState) => !state.categoryState.allLoaded,
+    shouldCallApi: (state: RootState) => !allCategoriesLoadedSelector(state),
     schema: [categorySchema],
 
     onInit: () => dispatch => {

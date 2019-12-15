@@ -15,7 +15,7 @@ export const categorySelector = createSelector<RootState, string, EntityState, s
   (state, id) => state.categories[id],
 );
 
-export const categoriesLoadedSelector = createSelector<RootState, CategoryState, boolean>(
+export const allCategoriesLoadedSelector = createSelector<RootState, CategoryState, boolean>(
   state => state.categoryState,
   state => state.allLoaded,
 );
