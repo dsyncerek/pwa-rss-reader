@@ -19,16 +19,15 @@ const mapState = (state: RootState, props: PropsFromRouter) => {
   const article = articleSelector(state, props.match.params.slug);
   const blog = blogSelector(state, article?.blogId ?? '');
   const category = categorySelector(state, blog?.categoryId ?? '');
-  const fetching = loadingSelector(state, [
+
+  const fetchActions = [
     ArticleActionTypes.FETCH_ARTICLE,
     BlogActionTypes.FETCH_ALL_BLOGS,
     CategoryActionTypes.FETCH_ALL_CATEGORIES,
-  ]);
-  const fetchError = errorSelector(state, [
-    ArticleActionTypes.FETCH_ARTICLE,
-    BlogActionTypes.FETCH_ALL_BLOGS,
-    CategoryActionTypes.FETCH_ALL_CATEGORIES,
-  ]);
+  ];
+
+  const fetching = loadingSelector(state, fetchActions);
+  const fetchError = errorSelector(state, fetchActions);
 
   return { article, blog, category, fetching, fetchError };
 };
