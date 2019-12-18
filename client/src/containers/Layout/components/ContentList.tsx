@@ -16,7 +16,7 @@ type ContentListProps = {
 const ContentList: FC<ContentListProps> = ({ blogs, categories, loading, error }) => (
   <>
     <ListGroup className="mb-2">
-      <ListGroup.Item action active as={Link} to={`/`}>
+      <ListGroup.Item action as={Link} to={`/`}>
         All
       </ListGroup.Item>
     </ListGroup>
