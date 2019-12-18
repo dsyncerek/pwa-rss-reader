@@ -16,7 +16,7 @@ import Layout from '../Layout/Layout';
 import ArticleDetails from './components/ArticleDetails';
 
 const mapState = (state: RootState, props: PropsFromRouter) => {
-  const article = articleSelector(state, props.match.params.slug);
+  const article = articleSelector(state, props.match.params.id);
   const blog = blogSelector(state, article?.blogId ?? '');
   const category = categorySelector(state, blog?.categoryId ?? '');
 
@@ -39,19 +39,20 @@ const mapDispatch = {
 const connector = connect(mapState, mapDispatch);
 
 type PropsFromRedux = ConnectedProps<typeof connector>;
-type PropsFromRouter = RouteComponentProps<{ slug: string }>;
+type PropsFromRouter = RouteComponentProps<{ id: string }>;
 type ArticlePageProps = PropsFromRedux & PropsFromRouter;
 
 const ArticlePage: FC<ArticlePageProps> = ({ article, blog, category, fetching, fetchError, fetchArticle, match }) => {
+  const id = match.params.id;
+
   useEffect(() => {
-    fetchArticle(match.params.slug);
-  }, [fetchArticle, match.params.slug]);
+    fetchArticle(id);
+  }, [fetchArticle, id]);
 
   return (
     <Layout>
       <Loader loading={fetching}>
         {fetchError && <Alert variant="danger">{fetchError.message}</Alert>}
-
         {article && blog && category && <ArticleDetails article={article} blog={blog} category={category} />}
       </Loader>
     </Layout>

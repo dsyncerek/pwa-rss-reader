@@ -1,7 +1,6 @@
 import React, { FC, ReactNode, useEffect } from 'react';
-import { Button, Col, Container, Row } from 'react-bootstrap';
+import { Col, Container, Row } from 'react-bootstrap';
 import { connect, ConnectedProps } from 'react-redux';
-import { Link } from 'react-router-dom';
 import { fetchAllBlogs } from '../../actions/blogActions';
 import { BlogActionTypes } from '../../actions/blogActionTypes';
 import { fetchAllCategories } from '../../actions/categoryActions';
@@ -55,12 +54,6 @@ const Layout: FC<LayoutProps> = ({
       <Container fluid>
         <Row>
           <Col lg={2}>
-            <div className="d-flex justify-content-between align-items-center mb-2">
-              <h2>Your content</h2>
-              <Button as={Link} to="/manage-content">
-                <span className="fas fa-cog" aria-label="Manage" />
-              </Button>
-            </div>
             <ContentList blogs={blogs} categories={categories} loading={fetching} error={fetchError?.message} />
           </Col>
           <Col lg={{ span: 8, offset: 1 }}>{children}</Col>

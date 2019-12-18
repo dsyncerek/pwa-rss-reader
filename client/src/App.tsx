@@ -16,9 +16,9 @@ const App: FC = () => {
       <BrowserRouter>
         <Switch>
           <Route exact path="/" component={AllArticlesPage} />
-          <Route path="/article/:slug" component={ArticlePage} />
-          <Route path="/category/:slug" component={CategoryArticlesPage} />
-          <Route path="/blog/:slug" component={BlogArticlesPage} />
+          <Route path="/article/:id" component={ArticlePage} />
+          <Route path="/category/:id" component={CategoryArticlesPage} />
+          <Route path="/blog/:id" component={BlogArticlesPage} />
           <Route path="/manage-content" component={ManageContentPage} />
           <Redirect to="/" />
         </Switch>

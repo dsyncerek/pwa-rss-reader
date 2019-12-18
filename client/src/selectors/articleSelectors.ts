@@ -14,6 +14,12 @@ export const blogArticlesSelector = createSelector<RootState, string, Article[],
   (articles, blogId) => articles.filter(article => article.blogId === blogId),
 );
 
+export const categoryArticlesSelector = createSelector<RootState, string, Article[], string, Article[]>(
+  articlesSelector,
+  (state, categoryId) => categoryId,
+  (articles, categoryId) => articles, // todo: filter
+);
+
 export const articleSelector = createSelector<RootState, string, EntityState, string, Article | undefined>(
   state => state.entityState,
   (state, id) => id,
