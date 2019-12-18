@@ -95,7 +95,7 @@ const ManageBlogs: FC<ManageBlogsProps> = ({
       <div className="d-flex justify-content-between align-items-center mb-2">
         <h2>Blogs</h2>
 
-        {!fetching && (
+        {!fetching && !fetchError && (
           <Button onClick={openCreateModal}>
             <span className="fas fa-plus" aria-label="Add" />
           </Button>
