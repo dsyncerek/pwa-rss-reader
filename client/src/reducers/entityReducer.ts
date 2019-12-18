@@ -25,9 +25,18 @@ export function entityReducer(state: EntityState = initialState, action: RootAct
 
   switch (action.type) {
     case BlogActionTypes.DELETE_BLOG_SUCCESS:
-      return { ...state, blogs: removeEntity(state.blogs, action.id) };
+      return {
+        ...state,
+        blogs: removeEntities(state.blogs, blog => blog.id === action.id),
+        articles: removeEntities(state.articles, article => article.blogId === action.id),
+      };
     case CategoryActionTypes.DELETE_CATEGORY_SUCCESS:
-      return { ...state, categories: removeEntity(state.categories, action.id) };
+      return {
+        ...state,
+        categories: removeEntities(state.categories, category => category.id === action.id),
+        blogs: removeEntities(state.blogs, blog => blog.categoryId === action.id),
+        // todo: articles
+      };
     default:
       return state;
   }
@@ -42,7 +51,6 @@ function mergeEntities(state: EntityState, newEntities: RootEntitiesType): Entit
   };
 }
 
-function removeEntity(coll: Dictionary, id: string): Dictionary {
-  const { [id]: removed, ...rest } = coll;
-  return { ...rest };
+function removeEntities<T>(coll: Dictionary<T>, condition: (entity: T) => boolean): Dictionary<T> {
+  return Object.fromEntries(Object.entries(coll).filter(([, entity]) => !condition(entity)));
 }
