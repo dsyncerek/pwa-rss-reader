@@ -1,5 +1,8 @@
 import React, { FC } from 'react';
-import { Alert, Button, ButtonToolbar, Table } from 'react-bootstrap';
+import Alert from 'react-bootstrap/Alert';
+import Button from 'react-bootstrap/Button';
+import ButtonToolbar from 'react-bootstrap/ButtonToolbar';
+import Table from 'react-bootstrap/Table';
 import BlogName from '../../../components/BlogName';
 import Loader from '../../../components/Loader';
 import { Blog } from '../../../models/Blog';

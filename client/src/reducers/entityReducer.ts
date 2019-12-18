@@ -45,7 +45,7 @@ export function entityReducer(state: EntityState = initialState, action: RootAct
 function mergeEntities(state: EntityState, newEntities: RootEntitiesType): EntityState {
   return {
     ...state,
-    articles: { ...state.articles, ...newEntities.articles },
+    articles: { ...state.articles, ...fixArticleDate(newEntities.articles) },
     blogs: { ...state.blogs, ...newEntities.blogs },
     categories: { ...state.categories, ...newEntities.categories },
   };
@@ -53,4 +53,16 @@ function mergeEntities(state: EntityState, newEntities: RootEntitiesType): Entit
 
 function removeEntities<T>(coll: Dictionary<T>, condition: (entity: T) => boolean): Dictionary<T> {
   return Object.fromEntries(Object.entries(coll).filter(([, entity]) => !condition(entity)));
+}
+
+function fixArticleDate(articles?: Dictionary<Article>): Dictionary<Article> | undefined {
+  if (!articles) {
+    return;
+  }
+
+  return Object.fromEntries(
+    Object.entries(articles).map(([key, article]) => {
+      return [key, { ...article, date: new Date(article.date) }];
+    }),
+  );
 }

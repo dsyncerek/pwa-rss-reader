@@ -1,5 +1,8 @@
 import React, { FC, FormEvent } from 'react';
-import { Alert, Button, Form, Modal } from 'react-bootstrap';
+import Alert from 'react-bootstrap/Alert';
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
+import Modal from 'react-bootstrap/Modal';
 import { SaveCategory } from '../../../models/Category';
 
 type SaveCategoryModalProps = {

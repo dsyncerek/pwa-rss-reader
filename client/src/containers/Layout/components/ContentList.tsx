@@ -1,5 +1,7 @@
 import React, { FC } from 'react';
-import { Alert, Button, ListGroup } from 'react-bootstrap';
+import Alert from 'react-bootstrap/Alert';
+import Button from 'react-bootstrap/Button';
+import ListGroup from 'react-bootstrap/ListGroup';
 import { Link } from 'react-router-dom';
 import BlogName from '../../../components/BlogName';
 import Loader from '../../../components/Loader';

@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { Button } from 'react-bootstrap';
+import Button from 'react-bootstrap/Button';
 import { Article } from '../../../models/Article';
 import { Blog } from '../../../models/Blog';
 import { Category } from '../../../models/Category';
@@ -13,7 +13,7 @@ type ArticleDetailsProps = {
 const ArticleDetails: FC<ArticleDetailsProps> = ({ article, blog, category }) => (
   <>
     <h1>{article.title}</h1>
-    <div>{new Date(article.date).toLocaleDateString()}</div>
+    <div>{article.date.toLocaleDateString()}</div>
     <div>
       {category.name} | {blog.name}
     </div>

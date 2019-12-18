@@ -1,5 +1,5 @@
 import React, { FC, FormEvent, useEffect, useState } from 'react';
-import { Button } from 'react-bootstrap';
+import Button from 'react-bootstrap/Button';
 import { connect, ConnectedProps } from 'react-redux';
 import { createCategory, deleteCategory, updateCategory } from '../../actions/categoryActions';
 import { CategoryActionTypes } from '../../actions/categoryActionTypes';

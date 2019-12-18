@@ -1,5 +1,5 @@
 import React, { FC, useEffect } from 'react';
-import { Alert } from 'react-bootstrap';
+import Alert from 'react-bootstrap/Alert';
 import { connect, ConnectedProps } from 'react-redux';
 import { RouteComponentProps } from 'react-router-dom';
 import { fetchArticle } from '../../actions/articleActions';

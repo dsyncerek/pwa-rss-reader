@@ -1,5 +1,5 @@
 import React, { FC, FormEvent, useEffect, useState } from 'react';
-import { Button } from 'react-bootstrap';
+import Button from 'react-bootstrap/Button';
 import { connect, ConnectedProps } from 'react-redux';
 import { createBlog, deleteBlog, updateBlog } from '../../actions/blogActions';
 import { BlogActionTypes } from '../../actions/blogActionTypes';

@@ -1,5 +1,7 @@
 import React, { FC, ReactNode, useEffect } from 'react';
-import { Col, Container, Row } from 'react-bootstrap';
+import Col from 'react-bootstrap/Col';
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
 import { connect, ConnectedProps } from 'react-redux';
 import { fetchAllBlogs } from '../../actions/blogActions';
 import { BlogActionTypes } from '../../actions/blogActionTypes';

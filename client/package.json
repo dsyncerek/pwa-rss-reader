@@ -5,6 +5,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "analyze": "source-map-explorer 'build/static/js/*.js'",
     "test": "react-scripts test --watchAll=false",
     "test:watch": "react-scripts test",
     "test:cov": "react-scripts test --watchAll=false --coverage",
@@ -17,6 +18,7 @@
     "axios": "^0.19.0",
     "bootstrap": "^4.4.1",
     "immer": "^5.0.1",
+    "lodash": "^4.17.15",
     "normalizr": "^3.4.1",
     "react": "^16.12.0",
     "react-bootstrap": "^1.0.0-beta.16",
@@ -33,6 +35,7 @@
   },
   "devDependencies": {
     "@types/jest": "^24.0.23",
+    "@types/lodash": "^4.14.149",
     "@types/react": "^16.9.16",
     "@types/react-dom": "^16.9.4",
     "@types/react-redux": "^7.1.5",
@@ -43,6 +46,7 @@
     "lint-staged": "^9.5.0",
     "node-sass": "^4.13.0",
     "prettier": "^1.19.1",
+    "source-map-explorer": "^2.1.2",
     "typescript": "~3.7.3"
   }
 }

@@ -1,5 +1,7 @@
 import produce from 'immer';
 import { ArticleActionTypes } from '../actions/articleActionTypes';
+import { BlogActionTypes } from '../actions/blogActionTypes';
+import { CategoryActionTypes } from '../actions/categoryActionTypes';
 import { RootAction } from '../actions/rootTypes';
 import { Dictionary } from '../models/Dictionary';
 import { Pagination } from '../models/Pagination';
@@ -34,6 +36,18 @@ export function paginationReducer(state: PaginationState = initialState, action:
     case ArticleActionTypes.FETCH_CATEGORY_ARTICLES_PAGE_SUCCESS:
       return produce(state, draft => {
         draft.articles.byCategory[action.categoryId] = updatePagination(action.pagination);
+      });
+
+    case BlogActionTypes.DELETE_BLOG_SUCCESS:
+      return produce(state, draft => {
+        delete draft.articles.all;
+        delete draft.articles.byBlog[action.id];
+      });
+
+    case CategoryActionTypes.DELETE_CATEGORY_SUCCESS:
+      return produce(state, draft => {
+        delete draft.articles.all;
+        delete draft.articles.byCategory[action.id];
       });
 
     default:
