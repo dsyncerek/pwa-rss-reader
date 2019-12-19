@@ -8,17 +8,26 @@
 
 ## Demo
 
-todo
+Live: [dsyncerek-rss-reader.herokuapp.com](http://dsyncerek-rss-reader.herokuapp.com/).
+
+OpenAPI: [dsyncerek-rss-reader.herokuapp.com/openapi](https://dsyncerek-rss-reader.herokuapp.com/openapi/).
+
+**NOTE**: Application will load after a short delay. Details [here](https://devcenter.heroku.com/articles/free-dyno-hours).
 
 ## Technologies
 
 ### Front-End
 
-todo
+- [React](https://github.com/facebook/react) with hooks
+- [Redux](https://github.com/reduxjs/redux) with [redux-thunk](https://github.com/reduxjs/redux-thunk), [reselect](https://github.com/reduxjs/reselect) and [immer](https://github.com/immerjs/immer)
+- [Bootstrap](https://github.com/twbs/bootstrap)
 
 ### Back-End
 
-todo
+- [Nest](https://github.com/nestjs/nest)
+- [Express](https://github.com/expressjs/express)
+- [TypeORM](https://github.com/typeorm/typeorm)
+- [Swagger](https://github.com/swagger-api/swagger-ui)
 
 ## Installation
 
@@ -39,6 +48,8 @@ todo
 `npm run start:prod` runs application in production mode.
 
 `npm run build` builds the project.
+
+`npm run test` tests the project.
 
 `npm run lint` lints the project using [eslint](https://github.com/eslint/eslint) and [stylelint](https://github.com/stylelint/stylelint).
 
