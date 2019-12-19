@@ -1,19 +1,24 @@
 import React, { FC } from 'react';
-import { Button, ButtonToolbar, Card } from 'react-bootstrap';
+import Button from 'react-bootstrap/Button';
+import ButtonToolbar from 'react-bootstrap/ButtonToolbar';
+import Card from 'react-bootstrap/Card';
 import { Link } from 'react-router-dom';
 import { Article } from '../../../models/Article';
+import { Blog } from '../../../models/Blog';
+import { Category } from '../../../models/Category';
 
 type ArticleTileProps = {
   article: Article;
-  blogName: string;
+  blog: Blog;
+  category: Category;
 };
 
-const ArticleTile: FC<ArticleTileProps> = ({ article, blogName }) => (
+const ArticleTile: FC<ArticleTileProps> = ({ article, blog, category }) => (
   <Card>
     <Card.Body>
       <Card.Title>{article.title}</Card.Title>
       <Card.Subtitle>
-        {blogName} | {article.date.toLocaleString()}
+        {blog.name} | {category.name} | {article.date.toLocaleDateString()}
       </Card.Subtitle>
       <Card.Text>{article.summary}</Card.Text>
       <ButtonToolbar>
