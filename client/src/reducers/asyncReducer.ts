@@ -24,10 +24,7 @@ export function asyncReducer(state: AsyncState = {}, action: RootAction): AsyncS
 
   if (action.type.endsWith(asyncActionSuccessSuffix)) {
     return produce(state, draft => {
-      draft[action.type.replace(asyncActionSuccessSuffix, '')] = {
-        loading: false,
-        error: undefined,
-      };
+      delete draft[action.type.replace(asyncActionSuccessSuffix, '')];
     });
   }
 
