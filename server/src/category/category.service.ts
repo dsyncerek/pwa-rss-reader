@@ -11,7 +11,7 @@ export class CategoryService {
   private readonly categoryRepository: Repository<Category>;
 
   public async getAllCategories(): Promise<Category[]> {
-    return this.categoryRepository.find({ order: { name: 'ASC' } });
+    return this.categoryRepository.find();
   }
 
   public async getCategory(id: string): Promise<Category> {

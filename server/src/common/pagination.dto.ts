@@ -4,7 +4,10 @@ export class PaginationDto<T> {
   pageCount: number;
   currentPage: number;
 
-  constructor(pagination: PaginationDto<T>) {
-    Object.assign(this, pagination);
+  constructor(items: T[], total: number, page: number, size: number) {
+    this.items = items;
+    this.totalItems = total;
+    this.currentPage = page;
+    this.pageCount = Math.ceil(total / size);
   }
 }

@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { PaginationDto } from '../common/pagination.dto';
+import { getPaginationResponse } from '../common/pagination.utils';
 import { Article } from './article.entity';
 
 @Injectable()
@@ -9,10 +10,8 @@ export class ArticleService {
   @InjectRepository(Article)
   private readonly articleRepository: Repository<Article>;
 
-  private readonly pageSize: number = 20;
-
   public async getAllArticles(): Promise<Article[]> {
-    return this.articleRepository.find({ order: { date: 'DESC' } });
+    return this.articleRepository.find();
   }
 
   public async getArticle(id: string): Promise<Article> {
@@ -20,49 +19,27 @@ export class ArticleService {
   }
 
   public async getArticlesPage(page: number): Promise<PaginationDto<Article>> {
-    const [articles, total] = await this.articleRepository.findAndCount({
-      take: this.pageSize,
-      skip: (page - 1) * this.pageSize,
-      order: { date: 'DESC' },
-    });
+    const query = this.articleRepository.createQueryBuilder('article');
 
-    return new PaginationDto<Article>({
-      items: articles,
-      totalItems: total,
-      currentPage: page,
-      pageCount: Math.ceil(total / this.pageSize),
-    });
+    return getPaginationResponse(query, page);
   }
 
   public async getBlogArticlesPage(id: string, page: number): Promise<PaginationDto<Article>> {
-    const [articles, total] = await this.articleRepository.findAndCount({
-      where: { blog: { id } },
-      take: this.pageSize,
-      skip: (page - 1) * this.pageSize,
-      order: { date: 'DESC' },
-    });
+    const query = this.articleRepository
+      .createQueryBuilder('article')
+      .leftJoin('article.blog', 'blog')
+      .where('blog.id = :id', { id });
 
-    return new PaginationDto<Article>({
-      items: articles,
-      totalItems: total,
-      currentPage: page,
-      pageCount: Math.ceil(total / this.pageSize),
-    });
+    return getPaginationResponse(query, page);
   }
 
   public async getCategoryArticlesPage(id: string, page: number): Promise<PaginationDto<Article>> {
-    const [articles, total] = await this.articleRepository.findAndCount({
-      where: { blog: { category: { id } } }, // todo
-      take: this.pageSize,
-      skip: (page - 1) * this.pageSize,
-      order: { date: 'DESC' },
-    });
+    const query = this.articleRepository
+      .createQueryBuilder('article')
+      .leftJoin('article.blog', 'blog')
+      .leftJoin('blog.category', 'category')
+      .where('category.id = :id', { id });
 
-    return new PaginationDto<Article>({
-      items: articles,
-      totalItems: total,
-      currentPage: page,
-      pageCount: Math.ceil(total / this.pageSize),
-    });
+    return getPaginationResponse(query, page);
   }
 }

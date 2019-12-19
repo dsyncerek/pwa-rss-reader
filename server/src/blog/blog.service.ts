@@ -14,7 +14,9 @@ export class BlogService {
   @InjectRepository(Blog)
   private readonly blogRepository: Repository<Blog>;
 
-  constructor(private readonly rssService: RssService) {}
+  constructor(private readonly rssService: RssService) {
+    this.startRefreshingInterval();
+  }
 
   public async getAllBlogs(): Promise<Blog[]> {
     return this.blogRepository.find({ order: { name: 'ASC' } });
@@ -44,21 +46,23 @@ export class BlogService {
   }
 
   public async createBlog({ rss, categoryId }: CreateBlogDto): Promise<Blog> {
-    // TODO
-    const parsed = await this.rssService.parseBlogRssUrl(rss);
-    const blog = { ...this.getBlogFromRssFeedOutput(parsed), rss, categoryId };
-    await this.blogRepository.save(blog);
-    return this.getBlog(blog.id);
+    const parsedBlog = await this.rssService.parseBlogRssUrl(rss);
+    const blogFromRssFeed = this.getBlogFromRssFeedOutput(parsedBlog);
+    const blogToInsert = { ...blogFromRssFeed, rss, categoryId };
+
+    await this.blogRepository.insert(blogToInsert);
+    return this.getBlog(blogToInsert.id);
   }
 
   public async refreshBlog(id: string): Promise<Blog> {
-    // TODO
-    const blog = await this.getBlog(id);
-    const parsed = await this.rssService.parseBlogRssUrl(blog.rss);
-    const blogFromRssFeed = this.getBlogFromRssFeedOutput(parsed);
-    const blogToSave = { ...blog, ...blogFromRssFeed };
+    const oldBlog = await this.blogRepository.findOneOrFail(id, { relations: ['articles'] });
+    const parsedBlog = await this.rssService.parseBlogRssUrl(oldBlog.rss);
+    const blogFromRssFeed = this.getBlogFromRssFeedOutput(parsedBlog);
+    const newArticles = blogFromRssFeed.articles.filter(a => !oldBlog.articles.find(b => b.slug === a.slug));
+    const blogToSave = { ...oldBlog, ...blogFromRssFeed, articles: [...oldBlog.articles, ...newArticles] };
+
     await this.blogRepository.save(blogToSave);
-    return this.getBlog(blog.id);
+    return this.getBlog(oldBlog.id);
   }
 
   private getBlogFromRssFeedOutput(output: Output): Blog {
@@ -73,7 +77,7 @@ export class BlogService {
       });
     });
 
-    const blog: Blog = new Blog({
+    return new Blog({
       name: output.title,
       slug: generateSlug(output.title),
       link: output.link,
@@ -81,7 +85,13 @@ export class BlogService {
       icon: output?.image?.url,
       articles,
     });
+  }
 
-    return blog;
+  private startRefreshingInterval(): void {
+    const interval = 1000 * 60 * 60 * 8; // 8h
+
+    setInterval(() => {
+      this.refreshAllBlogs();
+    }, interval);
   }
 }
