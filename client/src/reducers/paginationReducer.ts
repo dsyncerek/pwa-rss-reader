@@ -38,6 +38,12 @@ export function paginationReducer(state: PaginationState = initialState, action:
         draft.articles.byCategory[action.categoryId] = updatePagination(action.pagination);
       });
 
+    case BlogActionTypes.CREATE_BLOG_SUCCESS:
+      return produce(state, draft => {
+        delete draft.articles.all;
+        // delete draft.articles.byCategory[]; // todo
+      });
+
     case BlogActionTypes.DELETE_BLOG_SUCCESS:
       return produce(state, draft => {
         delete draft.articles.all;

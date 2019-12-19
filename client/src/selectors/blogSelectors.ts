@@ -9,6 +9,12 @@ export const blogsSelector = createSelector<RootState, EntityState, Blog[]>(
   state => Object.values(state.blogs),
 );
 
+export const categoryBlogsSelector = createSelector<RootState, string, Blog[], string, Blog[]>(
+  blogsSelector,
+  (state, categoryId) => categoryId,
+  (blogs, categoryId) => blogs.filter(blog => blog.categoryId === categoryId),
+);
+
 export const blogSelector = createSelector<RootState, string, EntityState, string, Blog | undefined>(
   state => state.entityState,
   (state, id) => id,

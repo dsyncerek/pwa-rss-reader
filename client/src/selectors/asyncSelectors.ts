@@ -21,9 +21,11 @@ export const errorSelector = createSelector<
   (state: RootState, types: RootActionTypes[]) => types,
   (state, types) => {
     for (const type in state) {
-      if (types.includes(type as RootActionTypes)) {
-        if (state[type]?.error) {
-          return state[type].error;
+      if (state.hasOwnProperty(type)) {
+        if (types.includes(type as RootActionTypes)) {
+          if (state[type]?.error) {
+            return state[type].error;
+          }
         }
       }
     }

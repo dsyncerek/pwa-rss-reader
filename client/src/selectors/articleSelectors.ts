@@ -2,6 +2,7 @@ import { createSelector } from 'reselect';
 import { Article } from '../models/Article';
 import { RootState } from '../reducers';
 import { EntityState } from '../reducers/entityReducer';
+import { categoryBlogsSelector } from './blogSelectors';
 
 export const articlesSelector = createSelector<RootState, EntityState, Article[]>(
   state => state.entityState,
@@ -14,10 +15,10 @@ export const blogArticlesSelector = createSelector<RootState, string, Article[],
   (articles, blogId) => sortArticles(articles.filter(article => article.blogId === blogId)),
 );
 
-export const categoryArticlesSelector = createSelector<RootState, string, Article[], string, Article[]>(
+export const categoryArticlesSelector = createSelector<RootState, string, Article[], string[], Article[]>(
   articlesSelector,
-  (state, categoryId) => categoryId,
-  (articles, categoryId) => sortArticles(articles), // todo: filter
+  (state, categoryId) => categoryBlogsSelector(state, categoryId).map(blog => blog.id),
+  (articles, blogIds) => sortArticles(articles.filter(article => blogIds.includes(article.blogId))),
 );
 
 export const articleSelector = createSelector<RootState, string, EntityState, string, Article | undefined>(

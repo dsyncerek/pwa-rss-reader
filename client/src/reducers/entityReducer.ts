@@ -35,7 +35,6 @@ export function entityReducer(state: EntityState = initialState, action: RootAct
         ...state,
         categories: removeEntities(state.categories, category => category.id === action.id),
         blogs: removeEntities(state.blogs, blog => blog.categoryId === action.id),
-        // todo: articles
       };
     default:
       return state;
