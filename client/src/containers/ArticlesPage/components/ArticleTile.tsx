@@ -18,10 +18,12 @@ const ArticleTile: FC<ArticleTileProps> = ({ article, blog, category }) => (
     <Card.Body>
       <Card.Title>{article.title}</Card.Title>
       <Card.Subtitle>
-        {blog.name} | {category.name} | {article.date.toLocaleDateString()}
+        <time>{article.date.toLocaleDateString()}</time>
+        <div>
+          {category.name} | {blog.name}
+        </div>
       </Card.Subtitle>
-      <Card.Text>{article.summary}</Card.Text>
-      <ButtonToolbar>
+      <ButtonToolbar className="mt-3">
         <Button as={Link} to={`/article/${article.id}`}>
           View
         </Button>

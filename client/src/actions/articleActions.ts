@@ -1,4 +1,5 @@
 import * as articleApi from '../api/articleApi';
+import { saveArticlesToIndexedDb } from '../api/articleApi';
 import { Article, articleSchema } from '../models/Article';
 import { Pagination } from '../models/Pagination';
 import { RootState } from '../reducers';
@@ -20,8 +21,9 @@ export function fetchArticlesPage(page: number): RootThunkAction {
     onInit: () => dispatch => {
       dispatch({ type: ArticleActionTypes.FETCH_ARTICLES_PAGE, page });
     },
-    onSuccess: (entities, pagination) => dispatch => {
+    onSuccess: (entities, pagination) => async dispatch => {
       dispatch({ type: ArticleActionTypes.FETCH_ARTICLES_PAGE_SUCCESS, entities, pagination });
+      await saveArticlesToIndexedDb(pagination.items);
     },
     onError: error => dispatch => {
       dispatch({ type: ArticleActionTypes.FETCH_ARTICLES_PAGE_ERROR, error });
@@ -38,8 +40,9 @@ export function fetchBlogArticlesPage(blogId: string, page: number): RootThunkAc
     onInit: () => dispatch => {
       dispatch({ type: ArticleActionTypes.FETCH_BLOG_ARTICLES_PAGE, blogId, page });
     },
-    onSuccess: (entities, pagination) => dispatch => {
+    onSuccess: (entities, pagination) => async dispatch => {
       dispatch({ type: ArticleActionTypes.FETCH_BLOG_ARTICLES_PAGE_SUCCESS, blogId, entities, pagination });
+      await saveArticlesToIndexedDb(pagination.items);
     },
     onError: error => dispatch => {
       dispatch({ type: ArticleActionTypes.FETCH_BLOG_ARTICLES_PAGE_ERROR, error });
@@ -56,8 +59,9 @@ export function fetchCategoryArticlesPage(categoryId: string, page: number): Roo
     onInit: () => dispatch => {
       dispatch({ type: ArticleActionTypes.FETCH_CATEGORY_ARTICLES_PAGE, categoryId, page });
     },
-    onSuccess: (entities, pagination) => dispatch => {
+    onSuccess: (entities, pagination) => async dispatch => {
       dispatch({ type: ArticleActionTypes.FETCH_CATEGORY_ARTICLES_PAGE_SUCCESS, categoryId, entities, pagination });
+      await saveArticlesToIndexedDb(pagination.items);
     },
     onError: error => dispatch => {
       dispatch({ type: ArticleActionTypes.FETCH_CATEGORY_ARTICLES_PAGE_ERROR, error });
@@ -74,13 +78,21 @@ export function fetchArticle(id: string): RootThunkAction {
     onInit: () => dispatch => {
       dispatch({ type: ArticleActionTypes.FETCH_ARTICLE, id });
     },
-    onSuccess: entities => dispatch => {
+    onSuccess: (entities, article) => async dispatch => {
       dispatch({ type: ArticleActionTypes.FETCH_ARTICLE_SUCCESS, entities });
+      await saveArticlesToIndexedDb([article]);
     },
     onError: error => dispatch => {
       dispatch({ type: ArticleActionTypes.FETCH_ARTICLE_ERROR, error });
     },
   });
+}
+
+export function getArticlesFromIndexedDb(): RootThunkAction {
+  return async dispatch => {
+    const entities = await articleApi.getArticlesFromIndexedDb();
+    dispatch({ type: ArticleActionTypes.FETCH_ARTICLE_SUCCESS, entities }); // todo
+  };
 }
 
 function shouldLoadPage(page: number, state: Pagination): boolean {

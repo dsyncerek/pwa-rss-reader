@@ -43,18 +43,18 @@ const ArticleList: FC<ArticleListProps> = ({
 
   return (
     <>
-      <div>
+      <div className="row row row-cols-1 row-cols-md-3">
         {articles.map((article, index) => {
           const blog = getArticleBlog(article);
           const category = getBlogCategory(blog);
 
           if (blog && category) {
             return (
-              <React.Fragment key={article.id}>
+              <div className="col mb-4" key={article.id}>
                 <ArticleTile article={article} blog={blog} category={category} />
 
                 {index % 20 === 19 && <Waypoint onEnter={() => fetchPage(Math.ceil(index / 20) + 1)} />}
-              </React.Fragment>
+              </div>
             );
           }
 

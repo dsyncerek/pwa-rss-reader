@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, useCallback } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { RouteComponentProps } from 'react-router-dom';
 import { fetchBlogArticlesPage } from '../../actions/articleActions';
@@ -54,20 +54,31 @@ const BlogArticlesPage: FC<ArticlesPageProps> = ({
   fetchError,
   fetchBlogArticlesPage,
   match,
-}) => (
-  <Layout>
-    <ArticleList
-      articles={articles}
-      blogs={blogs}
-      categories={categories}
-      loading={fetching}
-      error={fetchError?.message}
-      fetchPage={page => fetchBlogArticlesPage(match.params.id, page)}
-      currentPage={pagination.currentPage}
-      totalItems={pagination.totalItems}
-      pageCount={pagination.pageCount}
-    />
-  </Layout>
-);
+}) => {
+  const id = match.params.id;
+
+  const fetchPage = useCallback(
+    page => {
+      fetchBlogArticlesPage(id, page);
+    },
+    [fetchBlogArticlesPage, id],
+  );
+
+  return (
+    <Layout>
+      <ArticleList
+        articles={articles}
+        blogs={blogs}
+        categories={categories}
+        loading={fetching}
+        error={fetchError?.message}
+        fetchPage={fetchPage}
+        currentPage={pagination.currentPage}
+        totalItems={pagination.totalItems}
+        pageCount={pagination.pageCount}
+      />
+    </Layout>
+  );
+};
 
 export default connector(BlogArticlesPage);

@@ -1,11 +1,9 @@
-import React, { FC, ReactNode, useEffect } from 'react';
+import React, { FC, ReactNode } from 'react';
 import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import { connect, ConnectedProps } from 'react-redux';
-import { fetchAllBlogs } from '../../actions/blogActions';
 import { BlogActionTypes } from '../../actions/blogActionTypes';
-import { fetchAllCategories } from '../../actions/categoryActions';
 import { CategoryActionTypes } from '../../actions/categoryActionTypes';
 import { hideToast } from '../../actions/toastActions';
 import { RootState } from '../../reducers';
@@ -25,8 +23,6 @@ const mapState = (state: RootState) => ({
 });
 
 const mapDispatch = {
-  fetchAllBlogs,
-  fetchAllCategories,
   hideToast,
 };
 
@@ -35,36 +31,19 @@ const connector = connect(mapState, mapDispatch);
 type PropsFromRedux = ConnectedProps<typeof connector>;
 type LayoutProps = PropsFromRedux & { children: ReactNode };
 
-const Layout: FC<LayoutProps> = ({
-  children,
-  blogs,
-  categories,
-  fetching,
-  fetchError,
-  toasts,
-  fetchAllBlogs,
-  fetchAllCategories,
-  hideToast,
-}) => {
-  useEffect(() => {
-    fetchAllBlogs();
-    fetchAllCategories();
-  }, [fetchAllBlogs, fetchAllCategories]);
+const Layout: FC<LayoutProps> = ({ children, blogs, categories, fetching, fetchError, toasts, hideToast }) => (
+  <>
+    <Container fluid>
+      <Row>
+        <Col lg={2}>
+          <ContentList blogs={blogs} categories={categories} loading={fetching} error={fetchError?.message} />
+        </Col>
+        <Col lg={{ span: 8, offset: 1 }}>{children}</Col>
+      </Row>
+    </Container>
 
-  return (
-    <>
-      <Container fluid>
-        <Row>
-          <Col lg={2}>
-            <ContentList blogs={blogs} categories={categories} loading={fetching} error={fetchError?.message} />
-          </Col>
-          <Col lg={{ span: 8, offset: 1 }}>{children}</Col>
-        </Row>
-      </Container>
-
-      <Toasts onClose={hideToast} toasts={toasts} />
-    </>
-  );
-};
+    <Toasts onClose={hideToast} toasts={toasts} />
+  </>
+);
 
 export default connector(Layout);
