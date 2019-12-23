@@ -3,61 +3,86 @@
 import { files } from '../build/asset-manifest.json';
 
 const CACHES = {
-  STATIC: 'static-cache-v2',
+  STATIC: 'static-cache-v1',
   RUNTIME: 'runtime-cache-v1',
+  API: 'api-cache-v1',
 };
 
 const APP_ENTRYPOINT = '/index.html';
 
+const STATIC_ASSETS = Object.values(files)
+  .filter(asset => !asset.includes('.map') && !asset.includes('service-worker.js'))
+  .map(asset => new URL(asset, location.href).href);
+
 self.addEventListener('install', onInstall);
 self.addEventListener('activate', onActivate);
 self.addEventListener('fetch', onFetch);
-self.addEventListener('message', event => {});
-self.addEventListener('sync', event => {});
-self.addEventListener('push', event => {});
+self.addEventListener('message', console.log);
+self.addEventListener('sync', console.log);
+self.addEventListener('push', console.log);
 
-async function onInstall() {
-  console.log('onInstall');
-
-  await addNewAssetsToCache();
-}
-
-async function onActivate() {
-  console.log('onActivate');
-
-  await removeOldCaches();
-  await removeOldAssetsFromCache();
-}
+/**
+ * FETCHING
+ */
 
 async function onFetch(event) {
-  console.log('onFetch', event.request.url);
+  const { request } = event;
+  const { url, method, mode } = request;
 
-  if (event.request.mode === 'navigate' && !event.request.url.includes('/api/')) {
-    event.respondWith(cacheFirst(APP_ENTRYPOINT));
+  if (method !== 'GET') {
+    event.respondWith(networkOnly(request));
     return;
   }
 
-  if (event.request.method === 'GET') {
-    event.respondWith(cacheFirst(event.request));
-  } else {
-    event.respondWith(networkOnly(event.request));
+  if (STATIC_ASSETS.includes(url)) {
+    event.respondWith(cacheFirst(request, { cacheName: CACHES.STATIC }));
+    return;
   }
+
+  if (url.match(/\/api\//)) {
+    event.respondWith(networkFirst(request, { cacheName: CACHES.API }));
+    return;
+  }
+
+  if (mode === 'navigate') {
+    event.respondWith(staleWhileRevalidate(APP_ENTRYPOINT, { cacheName: CACHES.STATIC }));
+    return;
+  }
+
+  event.respondWith(staleWhileRevalidate(request, { cacheName: CACHES.RUNTIME }));
 }
 
-async function cacheFirst(request) {
+/**
+ * STRATEGIES
+ */
+
+async function staleWhileRevalidate(request, { cacheName }) {
+  let response;
+
   try {
-    return await fromCache(request);
+    response = await getFromCache(request, cacheName);
   } catch {
-    return await fromNetwork(request);
+    return await getFromNetworkAndCache(request, cacheName);
+  }
+
+  getFromNetworkAndCache(request, cacheName);
+  return response;
+}
+
+async function cacheFirst(request, { cacheName }) {
+  try {
+    return await getFromCache(request, cacheName);
+  } catch {
+    return await getFromNetworkAndCache(request, cacheName);
   }
 }
 
-async function networkFirst(request) {
+async function networkFirst(request, { cacheName }) {
   try {
-    return await fromNetwork(request);
+    return await getFromNetworkAndCache(request, cacheName);
   } catch (error) {
     try {
-      return await fromCache(request);
+      return await getFromCache(request, cacheName);
     } catch {
       throw error;
     }
@@ -65,11 +90,11 @@ async function networkFirst(request) {
 }
 
 async function networkOnly(request) {
-  return fromNetwork(request);
+  return await getFromNetwork(request);
 }
 
-async function fromCache(request) {
-  const cache = await caches.open(CACHES.STATIC);
+async function getFromCache(request, cacheName) {
+  const cache = await caches.open(cacheName);
   const response = await cache.match(request);
 
   if (!response) {
@@ -79,17 +104,56 @@ async function fromCache(request) {
   return response;
 }
 
-async function fromNetwork(request) {
+async function getFromNetworkAndCache(request, cacheName) {
+  const response = await getFromNetwork(request);
+  await putIntoCache(request, response, cacheName);
+  return response;
+}
+
+async function getFromNetwork(request) {
   return await fetch(request);
 }
 
+async function putIntoCache(request, response, cacheName) {
+  if (request.method !== 'GET') {
+    return;
+  }
+
+  if (response.status !== 200 && response.status !== 0) {
+    return;
+  }
+
+  const cache = await caches.open(cacheName);
+  await cache.put(request, response.clone());
+}
+
+/**
+ * INSTALLING
+ */
+
+async function onInstall() {
+  console.log('onInstall');
+
+  await addNewAssetsToCache();
+}
+
 async function addNewAssetsToCache() {
-  const projectAssets = getProjectAssets();
   const cache = await caches.open(CACHES.STATIC);
   const cachedAssets = (await cache.keys()).map(request => request.url);
-  const assetsToCache = projectAssets.filter(file => !cachedAssets.includes(file));
+  const assetsToCache = STATIC_ASSETS.filter(file => !cachedAssets.includes(file));
 
-  await cache.addAll([APP_ENTRYPOINT, ...assetsToCache]);
+  await cache.addAll(assetsToCache);
+}
+
+/**
+ * ACTIVATING
+ */
+
+async function onActivate() {
+  console.log('onActivate');
+
+  await removeOldCaches();
+  await removeOldAssetsFromCache();
 }
 
 async function removeOldCaches() {
@@ -104,22 +168,11 @@ async function removeOldCaches() {
 }
 
 async function removeOldAssetsFromCache() {
-  const projectAssets = getProjectAssets();
   const cache = await caches.open(CACHES.STATIC);
   const cachedAssets = (await cache.keys()).map(request => request.url);
-  const assetsToRemove = cachedAssets.filter(file => !projectAssets.includes(file));
+  const assetsToRemove = cachedAssets.filter(file => !STATIC_ASSETS.includes(file));
 
   for (const asset of assetsToRemove) {
     await cache.delete(asset);
   }
-}
-
-function getProjectAssets() {
-  return Object.values(files).map(prepareFullUrl)
-    .filter(asset => !asset.includes('.map') && !asset.includes('service-worker.js'));
-}
-
-function prepareFullUrl(path) {
-  const url = new URL(path, location.href);
-  return url.href;
 }
