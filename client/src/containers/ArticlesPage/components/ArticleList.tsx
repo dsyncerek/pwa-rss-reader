@@ -35,7 +35,6 @@ const ArticleList: FC<ArticleListProps> = ({
     categories.find(category => category.id === blog?.categoryId);
 
   useEffect(() => {
-    console.log('xd');
     fetchPage(1);
   }, [fetchPage]);
 

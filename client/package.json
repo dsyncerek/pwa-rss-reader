@@ -4,7 +4,9 @@
   "proxy": "http://localhost:5000/",
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "npm run build:app && npm run build:sw",
+    "build:app": "react-scripts build",
+    "build:sw": "webpack src/serviceWorker.js --output build/service-worker.js --optimize-max-chunks 1 --module-bind js=babel-loader",
     "analyze": "source-map-explorer 'build/static/js/*.js'",
     "test": "react-scripts test --watchAll=false",
     "test:watch": "react-scripts test",
@@ -32,6 +34,7 @@
     "redux-devtools-extension": "^2.13.8",
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.3.0",
+    "register-service-worker": "^1.6.2",
     "reselect": "^4.0.0"
   },
   "devDependencies": {
@@ -48,6 +51,7 @@
     "node-sass": "^4.13.0",
     "prettier": "^1.19.1",
     "source-map-explorer": "^2.1.2",
-    "typescript": "~3.7.4"
+    "typescript": "~3.7.4",
+    "webpack-cli": "^3.3.10"
   }
 }
