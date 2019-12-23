@@ -2,8 +2,12 @@
 
 import { files } from '../build/asset-manifest.json';
 
-const STATIC_CACHE_NAME = 'static-cache';
-const RUNTIME_CACHE_NAME = 'runtime-cache';
+const CACHES = {
+  STATIC: 'static-cache-v2',
+  RUNTIME: 'runtime-cache-v1',
+};
+
+const APP_ENTRYPOINT = '/index.html';
 
 self.addEventListener('install', onInstall);
 self.addEventListener('activate', onActivate);
@@ -12,28 +16,24 @@ self.addEventListener('message', event => {});
 self.addEventListener('sync', event => {});
 self.addEventListener('push', event => {});
 
-async function onInstall(event) {
+async function onInstall() {
   console.log('onInstall');
 
-  const projectFiles = Object.values(files)
-    .filter(file => !file.endsWith('.map') && !file.includes('service-worker.js'));
-
-  const cache = await caches.open(STATIC_CACHE_NAME);
-  const alreadyCachedFiles = (await cache.keys()).map(request => request.url);
-  const filesToCache = projectFiles.filter(file => !alreadyCachedFiles.includes(file));
-
-  await cache.addAll(filesToCache);
+  await addNewAssetsToCache();
 }
 
-function onActivate(event) {
+async function onActivate() {
   console.log('onActivate');
+
+  await removeOldCaches();
+  await removeOldAssetsFromCache();
 }
 
 async function onFetch(event) {
   console.log('onFetch', event.request.url);
 
-  if (event.request.mode === 'navigate') {
-    event.respondWith(cacheFirst('/index.html'));
+  if (event.request.mode === 'navigate' && !event.request.url.includes('/api/')) {
+    event.respondWith(cacheFirst(APP_ENTRYPOINT));
     return;
   }
 
@@ -69,9 +69,7 @@ async function networkOnly(request) {
 }
 
 async function fromCache(request) {
-  console.log(' fromCache', request.url || request);
-
-  const cache = await caches.open(STATIC_CACHE_NAME);
+  const cache = await caches.open(CACHES.STATIC);
   const response = await cache.match(request);
 
   if (!response) {
@@ -82,7 +80,46 @@ async function fromCache(request) {
 }
 
 async function fromNetwork(request) {
-  console.log(' fromNetwork', request.url || request);
-
   return await fetch(request);
+}
+
+async function addNewAssetsToCache() {
+  const projectAssets = getProjectAssets();
+  const cache = await caches.open(CACHES.STATIC);
+  const cachedAssets = (await cache.keys()).map(request => request.url);
+  const assetsToCache = projectAssets.filter(file => !cachedAssets.includes(file));
+
+  await cache.addAll([APP_ENTRYPOINT, ...assetsToCache]);
+}
+
+async function removeOldCaches() {
+  const activeCacheNames = Object.values(CACHES);
+  const cacheNames = await caches.keys();
+
+  for (const cacheName of cacheNames) {
+    if (!activeCacheNames.includes(cacheName)) {
+      await caches.delete(cacheName);
+    }
+  }
+}
+
+async function removeOldAssetsFromCache() {
+  const projectAssets = getProjectAssets();
+  const cache = await caches.open(CACHES.STATIC);
+  const cachedAssets = (await cache.keys()).map(request => request.url);
+  const assetsToRemove = cachedAssets.filter(file => !projectAssets.includes(file));
+
+  for (const asset of assetsToRemove) {
+    await cache.delete(asset);
+  }
+}
+
+function getProjectAssets() {
+  return Object.values(files).map(prepareFullUrl)
+    .filter(asset => !asset.includes('.map') && !asset.includes('service-worker.js'));
+}
+
+function prepareFullUrl(path) {
+  const url = new URL(path, location.href);
+  return url.href;
 }

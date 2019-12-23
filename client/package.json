@@ -6,7 +6,7 @@
     "start": "react-scripts start",
     "build": "npm run build:app && npm run build:sw",
     "build:app": "react-scripts build",
-    "build:sw": "webpack src/serviceWorker.js --output build/service-worker.js --optimize-max-chunks 1 --module-bind js=babel-loader",
+    "build:sw": "webpack src/serviceWorker.js --output build/service-worker.js --mode=production --optimize-max-chunks 1 --module-bind js=babel-loader",
     "analyze": "source-map-explorer 'build/static/js/*.js'",
     "test": "react-scripts test --watchAll=false",
     "test:watch": "react-scripts test",
