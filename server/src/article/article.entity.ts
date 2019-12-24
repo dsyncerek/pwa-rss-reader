@@ -25,6 +25,9 @@ export class Article {
   @Column()
   content: string;
 
+  @Column({ default: false })
+  read: boolean;
+
   @Column()
   blogId: string;
 

@@ -11,6 +11,7 @@ import {
 import { apiCallThunkAction } from './apiCallThunkAction';
 import { ArticleActionTypes } from './articleActionTypes';
 import { RootThunkAction } from './rootTypes';
+import { showErrorToast } from './toastActions';
 
 export function fetchArticlesPage(page: number): RootThunkAction {
   return apiCallThunkAction<Pagination<Article>>({
@@ -84,6 +85,20 @@ export function fetchArticle(id: string): RootThunkAction {
     },
     onError: error => dispatch => {
       dispatch({ type: ArticleActionTypes.FETCH_ARTICLE_ERROR, error });
+    },
+  });
+}
+
+export function markArticleAsReadOptimistic(id: string): RootThunkAction {
+  return apiCallThunkAction<void>({
+    callApi: async () => articleApi.markArticleAsRead(id),
+
+    onInit: () => dispatch => {
+      dispatch({ type: ArticleActionTypes.MARK_ARTICLE_AS_READ_OPTIMISTIC, id });
+    },
+    onError: error => dispatch => {
+      dispatch(showErrorToast(error.message));
+      dispatch({ type: ArticleActionTypes.MARK_ARTICLE_AS_UNREAD_OPTIMISTIC, id });
     },
   });
 }

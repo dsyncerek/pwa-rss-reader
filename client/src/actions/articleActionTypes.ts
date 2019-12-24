@@ -19,6 +19,9 @@ export enum ArticleActionTypes {
   FETCH_ARTICLE = 'FETCH_ARTICLE',
   FETCH_ARTICLE_SUCCESS = 'FETCH_ARTICLE_SUCCESS',
   FETCH_ARTICLE_ERROR = 'FETCH_ARTICLE_ERROR',
+
+  MARK_ARTICLE_AS_READ_OPTIMISTIC = 'MARK_ARTICLE_AS_READ_OPTIMISTIC',
+  MARK_ARTICLE_AS_UNREAD_OPTIMISTIC = 'MARK_ARTICLE_AS_UNREAD_OPTIMISTIC',
 }
 
 export interface FetchArticlesPageAction {
@@ -88,6 +91,16 @@ export interface FetchArticleErrorAction {
   error: HttpError;
 }
 
+export interface MarkArticleAsReadOptimisticAction {
+  type: ArticleActionTypes.MARK_ARTICLE_AS_READ_OPTIMISTIC;
+  id: string;
+}
+
+export interface MarkArticleAsUnreadOptimisticAction {
+  type: ArticleActionTypes.MARK_ARTICLE_AS_UNREAD_OPTIMISTIC;
+  id: string;
+}
+
 export type ArticleAction =
   | FetchArticlesPageAction
   | FetchArticlesPageSuccessAction
@@ -100,4 +113,6 @@ export type ArticleAction =
   | FetchCategoryArticlesPageErrorAction
   | FetchArticleAction
   | FetchArticleSuccessAction
-  | FetchArticleErrorAction;
+  | FetchArticleErrorAction
+  | MarkArticleAsReadOptimisticAction
+  | MarkArticleAsUnreadOptimisticAction;

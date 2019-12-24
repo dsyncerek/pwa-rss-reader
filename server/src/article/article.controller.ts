@@ -1,4 +1,4 @@
-import { Controller, Get, Param } from '@nestjs/common';
+import { Controller, Get, Param, Patch } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { PaginationDto } from '../common/pagination.dto';
 import { Article } from './article.entity';
@@ -22,5 +22,10 @@ export class ArticleController {
   @Get(':id')
   public async getArticle(@Param('id') id: string): Promise<Article> {
     return this.articleService.getArticle(id);
+  }
+
+  @Patch(':id/read')
+  public async markArticleAsRead(@Param('id') id: string): Promise<void> {
+    return this.articleService.markArticleAsRead(id);
   }
 }

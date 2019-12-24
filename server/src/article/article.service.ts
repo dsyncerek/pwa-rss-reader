@@ -18,6 +18,10 @@ export class ArticleService {
     return this.articleRepository.findOneOrFail(id);
   }
 
+  public async markArticleAsRead(id: string): Promise<void> {
+    await this.articleRepository.update(id, { read: true });
+  }
+
   public async getArticlesPage(page: number): Promise<PaginationDto<Article>> {
     const query = this.articleRepository.createQueryBuilder('article');
 

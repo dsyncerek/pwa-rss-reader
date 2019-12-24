@@ -8,6 +8,7 @@ export interface Article {
   link: string;
   summary: string;
   content: string;
+  read: boolean;
   blogId: string;
 }
 

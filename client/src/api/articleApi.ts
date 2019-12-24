@@ -22,6 +22,10 @@ export async function fetchArticle(id: string): Promise<Article> {
   return axiosInstance.get(`/articles/${id}`);
 }
 
+export async function markArticleAsRead(id: string): Promise<void> {
+  return axiosInstance.patch(`/articles/${id}/read`);
+}
+
 export async function saveArticlesToIndexedDb(articles?: Article[]): Promise<void> {
   if (!articles) {
     return;
