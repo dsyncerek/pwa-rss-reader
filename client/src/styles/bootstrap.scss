@@ -5,6 +5,8 @@ $toast-border-radius: 0;
 
 $primary: lighten(#58355e, 15%);
 
+$font-family-base: "Ubuntu", "sans-serif";
+
 @import "~bootstrap/scss/functions";
 @import "~bootstrap/scss/variables";
 @import "~bootstrap/scss/mixins";
