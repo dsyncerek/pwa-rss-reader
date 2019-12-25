@@ -1,5 +1,5 @@
 import { Category, SaveCategory } from '../models/Category';
-import { axiosInstance } from './axiosInstance';
+import { axiosInstance } from './axios';
 
 export async function fetchAllCategories(): Promise<Category[]> {
   return axiosInstance.get(`/categories`);

@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { RouteComponentProps } from 'react-router-dom';
-import { fetchArticlesPage } from '../../actions/articleActions';
+import { fetchArticlesPage, markArticleAsReadOptimistic } from '../../actions/articleActions';
 import { ArticleActionTypes } from '../../actions/articleActionTypes';
 import { BlogActionTypes } from '../../actions/blogActionTypes';
 import { CategoryActionTypes } from '../../actions/categoryActionTypes';
@@ -35,6 +35,7 @@ const mapState = (state: RootState) => {
 
 const mapDispatch = {
   fetchArticlesPage,
+  markArticleAsReadOptimistic,
 };
 
 const connector = connect(mapState, mapDispatch);
@@ -51,6 +52,7 @@ const AllArticlesPage: FC<ArticlesPageProps> = ({
   fetching,
   fetchError,
   fetchArticlesPage,
+  markArticleAsReadOptimistic,
 }) => (
   <Layout>
     <ArticleList
@@ -60,6 +62,7 @@ const AllArticlesPage: FC<ArticlesPageProps> = ({
       loading={fetching}
       error={fetchError?.message}
       fetchPage={fetchArticlesPage}
+      markAsRead={markArticleAsReadOptimistic}
       currentPage={pagination.currentPage}
       totalItems={pagination.totalItems}
       pageCount={pagination.pageCount}

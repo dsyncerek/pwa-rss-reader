@@ -62,10 +62,10 @@ async function staleWhileRevalidate(request, { cacheName }) {
   try {
     response = await getFromCache(request, cacheName);
   } catch {
-    return await getFromNetworkAndCache(request, cacheName);
+    return await getFromNetworkAndPutIntoCache(request, cacheName);
   }
 
-  getFromNetworkAndCache(request, cacheName);
+  getFromNetworkAndPutIntoCache(request, cacheName);
   return response;
 }
 
@@ -73,13 +73,13 @@ async function cacheFirst(request, { cacheName }) {
   try {
     return await getFromCache(request, cacheName);
   } catch {
-    return await getFromNetworkAndCache(request, cacheName);
+    return await getFromNetworkAndPutIntoCache(request, cacheName);
   }
 }
 
 async function networkFirst(request, { cacheName }) {
   try {
-    return await getFromNetworkAndCache(request, cacheName);
+    return await getFromNetworkAndPutIntoCache(request, cacheName);
   } catch (error) {
     try {
       return await getFromCache(request, cacheName);
@@ -94,6 +94,8 @@ async function networkOnly(request) {
 }
 
 async function getFromCache(request, cacheName) {
+  console.log('fromCache', request.url || request);
+
   const cache = await caches.open(cacheName);
   const response = await cache.match(request);
 
@@ -104,13 +106,15 @@ async function getFromCache(request, cacheName) {
   return response;
 }
 
-async function getFromNetworkAndCache(request, cacheName) {
+async function getFromNetworkAndPutIntoCache(request, cacheName) {
   const response = await getFromNetwork(request);
   await putIntoCache(request, response, cacheName);
   return response;
 }
 
 async function getFromNetwork(request) {
+  console.log('fromNetwork', request.url || request);
+
   return await fetch(request);
 }
 

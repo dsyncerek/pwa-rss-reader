@@ -17,6 +17,7 @@ type ArticleListProps = {
   loading: boolean;
   error?: string;
   fetchPage: (page: number) => void;
+  markAsRead: (id: string) => void;
 };
 
 const ArticleList: FC<ArticleListProps> = ({
@@ -29,6 +30,7 @@ const ArticleList: FC<ArticleListProps> = ({
   loading,
   error,
   fetchPage,
+  markAsRead,
 }) => {
   const getArticleBlog = (article?: Article): Blog | undefined => blogs.find(blog => blog.id === article?.blogId);
   const getBlogCategory = (blog?: Blog): Category | undefined =>
@@ -50,7 +52,7 @@ const ArticleList: FC<ArticleListProps> = ({
           if (blog && category) {
             return (
               <div className="col mb-4" key={article.id}>
-                <ArticleTile article={article} blog={blog} category={category} />
+                <ArticleTile article={article} blog={blog} category={category} markAsRead={markAsRead} />
 
                 {index % 20 === 19 && <Waypoint onEnter={() => fetchPage(Math.ceil(index / 20) + 1)} />}
               </div>

@@ -1,5 +1,5 @@
 import { Blog, SaveBlog } from '../models/Blog';
-import { axiosInstance } from './axiosInstance';
+import { axiosInstance } from './axios';
 
 export async function fetchAllBlogs(): Promise<Blog[]> {
   return axiosInstance.get(`/blogs`);

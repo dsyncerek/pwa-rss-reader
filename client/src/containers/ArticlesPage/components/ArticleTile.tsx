@@ -11,10 +11,11 @@ type ArticleTileProps = {
   article: Article;
   blog: Blog;
   category: Category;
+  markAsRead: (id: string) => void;
 };
 
-const ArticleTile: FC<ArticleTileProps> = ({ article, blog, category }) => (
-  <Card>
+const ArticleTile: FC<ArticleTileProps> = ({ article, blog, category, markAsRead }) => (
+  <Card style={{ opacity: article.read ? 0.5 : 1 }}>
     <Card.Body>
       <Card.Title>{article.title}</Card.Title>
       <Card.Subtitle>
@@ -30,6 +31,7 @@ const ArticleTile: FC<ArticleTileProps> = ({ article, blog, category }) => (
         <Button as="a" href={article.link} target="_blank">
           View original
         </Button>
+        <Button onClick={() => markAsRead(article.id)}>Mark as Read</Button>
       </ButtonToolbar>
     </Card.Body>
   </Card>
