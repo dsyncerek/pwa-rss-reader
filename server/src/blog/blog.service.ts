@@ -50,7 +50,7 @@ export class BlogService {
     const blogFromRssFeed = this.getBlogFromRssFeedOutput(parsedBlog);
     const blogToInsert = { ...blogFromRssFeed, rss, categoryId };
 
-    await this.blogRepository.insert(blogToInsert);
+    await this.blogRepository.save(blogToInsert);
     return this.getBlog(blogToInsert.id);
   }
 
