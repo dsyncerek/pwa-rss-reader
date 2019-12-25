@@ -1,10 +1,8 @@
 import { openDB } from 'idb';
-import { IDBPDatabase } from 'idb/lib/entry';
 import { normalize } from 'normalizr';
-import { Article, articleSchema } from '../models/Article';
-import { Dictionary } from '../models/Dictionary';
+import { articleSchema } from '../models/Article';
 
-export async function openIndexedDb(): Promise<IDBPDatabase> {
+export async function openIndexedDb() {
   return openDB('rss-reader', 1, {
     upgrade(db) {
       const articleStore = db.createObjectStore('articles', { keyPath: 'id' });
@@ -19,7 +17,7 @@ export async function openIndexedDb(): Promise<IDBPDatabase> {
   });
 }
 
-export async function saveArticlesToIndexedDb(articles?: Article[]): Promise<void> {
+export async function saveArticlesToIndexedDb(articles) {
   if (!articles) {
     return;
   }
@@ -43,7 +41,7 @@ export async function saveArticlesToIndexedDb(articles?: Article[]): Promise<voi
   await tx.done;
 }
 
-export async function getArticlesFromIndexedDb(): Promise<Dictionary<Article>> {
+export async function getArticlesFromIndexedDb() {
   const db = await openIndexedDb();
   const articles = await db.getAllFromIndex('articles', 'date');
   const { entities } = normalize(articles, [articleSchema]);

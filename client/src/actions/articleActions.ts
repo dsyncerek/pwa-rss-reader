@@ -23,7 +23,6 @@ export function fetchArticlesPage(page: number): RootThunkAction {
     },
     onSuccess: (entities, pagination) => async dispatch => {
       dispatch({ type: ArticleActionTypes.FETCH_ARTICLES_PAGE_SUCCESS, entities, pagination });
-      // await saveArticlesToIndexedDb(pagination.items);
     },
     onError: error => dispatch => {
       dispatch({ type: ArticleActionTypes.FETCH_ARTICLES_PAGE_ERROR, error });
@@ -42,7 +41,6 @@ export function fetchBlogArticlesPage(blogId: string, page: number): RootThunkAc
     },
     onSuccess: (entities, pagination) => async dispatch => {
       dispatch({ type: ArticleActionTypes.FETCH_BLOG_ARTICLES_PAGE_SUCCESS, blogId, entities, pagination });
-      // await saveArticlesToIndexedDb(pagination.items);
     },
     onError: error => dispatch => {
       dispatch({ type: ArticleActionTypes.FETCH_BLOG_ARTICLES_PAGE_ERROR, error });
@@ -61,7 +59,6 @@ export function fetchCategoryArticlesPage(categoryId: string, page: number): Roo
     },
     onSuccess: (entities, pagination) => async dispatch => {
       dispatch({ type: ArticleActionTypes.FETCH_CATEGORY_ARTICLES_PAGE_SUCCESS, categoryId, entities, pagination });
-      // await saveArticlesToIndexedDb(pagination.items);
     },
     onError: error => dispatch => {
       dispatch({ type: ArticleActionTypes.FETCH_CATEGORY_ARTICLES_PAGE_ERROR, error });
@@ -80,7 +77,6 @@ export function fetchArticle(id: string): RootThunkAction {
     },
     onSuccess: (entities, article) => async dispatch => {
       dispatch({ type: ArticleActionTypes.FETCH_ARTICLE_SUCCESS, entities });
-      // await saveArticlesToIndexedDb([article]);
     },
     onError: error => dispatch => {
       dispatch({ type: ArticleActionTypes.FETCH_ARTICLE_ERROR, error });
@@ -100,13 +96,6 @@ export function markArticleAsReadOptimistic(id: string): RootThunkAction {
       dispatch({ type: ArticleActionTypes.MARK_ARTICLE_AS_UNREAD_OPTIMISTIC, id });
     },
   });
-}
-
-export function getArticlesFromIndexedDb(): RootThunkAction {
-  return async dispatch => {
-    // const entities = await articleApi.getArticlesFromIndexedDb();
-    // dispatch({ type: ArticleActionTypes.FETCH_ARTICLE_SUCCESS, entities }); // todo
-  };
 }
 
 function shouldLoadPage(page: number, state: Pagination): boolean {

@@ -1,7 +1,6 @@
 import React, { FC, useEffect } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom';
-import { getArticlesFromIndexedDb } from './actions/articleActions';
 import { fetchAllBlogs } from './actions/blogActions';
 import { fetchAllCategories } from './actions/categoryActions';
 import ArticlePage from './containers/ArticlePage/ArticlePage';
@@ -16,18 +15,16 @@ const mapState = (state: RootState) => ({});
 const mapDispatch = {
   fetchAllBlogs,
   fetchAllCategories,
-  getArticlesFromIndexedDb,
 };
 
 const connector = connect(mapState, mapDispatch);
 type PropsFromRedux = ConnectedProps<typeof connector>;
 
-const App: FC<PropsFromRedux> = ({ fetchAllBlogs, fetchAllCategories, getArticlesFromIndexedDb }) => {
+const App: FC<PropsFromRedux> = ({ fetchAllBlogs, fetchAllCategories }) => {
   useEffect(() => {
     fetchAllBlogs();
     fetchAllCategories();
-    getArticlesFromIndexedDb();
-  }, [fetchAllBlogs, fetchAllCategories, getArticlesFromIndexedDb]);
+  }, [fetchAllBlogs, fetchAllCategories]);
 
   return (
     <BrowserRouter>
