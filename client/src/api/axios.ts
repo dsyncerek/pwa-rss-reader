@@ -1,10 +1,7 @@
 import axios, { AxiosError, AxiosResponse } from 'axios';
 import { HttpError } from '../models/HttpError';
 
-export const axiosInstance = axios.create({
-  baseURL: '/api/',
-  timeout: 3000,
-});
+export const axiosInstance = axios.create({ baseURL: '/api/' });
 
 axiosInstance.interceptors.response.use(handleResponse, handleError);
 
