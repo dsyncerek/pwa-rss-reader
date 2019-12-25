@@ -17,17 +17,9 @@ function handleError(error: AxiosError): never {
     throw new HttpError(error.response.data);
   }
 
-  if (!isOnline()) {
-    throw new HttpError({ message: 'Looks, you are offline.' });
+  if (error.message === 'Network Error') {
+    throw new HttpError({ error: 'Offline', message: 'Looks, you are offline.', statusCode: 503 });
   }
 
   throw new HttpError({ message: error.message });
-}
-
-function isOnline(): boolean {
-  if (typeof navigator.onLine !== 'undefined') {
-    return navigator.onLine;
-  }
-
-  return true;
 }
