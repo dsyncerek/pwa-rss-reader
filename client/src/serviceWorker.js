@@ -44,10 +44,10 @@ async function onFetch(event) {
     return;
   }
 
-  if (mode === 'navigate') {
-    event.respondWith(staleWhileRevalidate(APP_ENTRYPOINT, { cacheName: CACHES.STATIC }));
-    return;
-  }
+  // if (mode === 'navigate') {
+  //   event.respondWith(staleWhileRevalidate(APP_ENTRYPOINT, { cacheName: CACHES.STATIC }));
+  //   return;
+  // }
 
   event.respondWith(staleWhileRevalidate(request, { cacheName: CACHES.RUNTIME }));
 }

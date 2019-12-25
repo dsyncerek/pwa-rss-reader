@@ -18,20 +18,20 @@ const ArticleTile: FC<ArticleTileProps> = ({ article, blog, category, markAsRead
   <Card style={{ opacity: article.read ? 0.5 : 1 }}>
     <Card.Body>
       <Card.Title>{article.title}</Card.Title>
-      <Card.Subtitle>
+      <Card.Text>
         <time>{article.date.toLocaleDateString()}</time>
         <div>
           {category.name} | {blog.name}
         </div>
-      </Card.Subtitle>
-      <ButtonToolbar className="mt-3">
-        <Button as={Link} to={`/article/${article.id}`}>
+      </Card.Text>
+      <ButtonToolbar>
+        <Button as={Link} to={`/article/${article.id}`} onClick={() => markAsRead(article.id)}>
           View
         </Button>
         <Button as="a" href={article.link} target="_blank">
           View original
         </Button>
-        <Button onClick={() => markAsRead(article.id)}>Mark as Read</Button>
+        {!article.read && <Button onClick={() => markAsRead(article.id)}>Mark as Read</Button>}
       </ButtonToolbar>
     </Card.Body>
   </Card>
