@@ -3,20 +3,21 @@ export async function getFromCache(request, cacheName) {
   return await cache.match(request);
 }
 
-export async function getFromNetwork(request) {
+export async function getFromNetwork(request, timeout = 3000) {
+  // todo: timeout
   return await fetch(request);
 }
 
 export async function getFromNetworkAndPutIntoCache(request, cacheName) {
   const response = await getFromNetwork(request);
-  await putIntoCache(request, response, cacheName);
+  putIntoCache(request, response.clone(), cacheName).catch();
   return response;
 }
 
 async function putIntoCache(request, response, cacheName) {
   if (canCache(request, response)) {
     const cache = await caches.open(cacheName);
-    await cache.put(request, response.clone());
+    await cache.put(request, response);
   }
 }
 
