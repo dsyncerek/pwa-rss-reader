@@ -28,7 +28,7 @@ const ArticleTile: FC<ArticleTileProps> = ({ article, blog, category, markAsRead
         <Button as={Link} to={`/article/${article.id}`} onClick={() => markAsRead(article.id)}>
           View
         </Button>
-        <Button as="a" href={article.link} target="_blank">
+        <Button as="a" href={article.link} target="_blank" rel="noreferrer">
           View original
         </Button>
         {!article.read && <Button onClick={() => markAsRead(article.id)}>Mark as Read</Button>}

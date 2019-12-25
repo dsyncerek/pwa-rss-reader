@@ -1,6 +1,7 @@
 {
   "lang": "en",
   "name": "RSS Reader",
+  "short_name": "RSS Reader",
   "description": "",
   "author": "Dariusz Syncerek",
   "start_url": "/",

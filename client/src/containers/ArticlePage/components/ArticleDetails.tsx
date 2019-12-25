@@ -17,7 +17,7 @@ const ArticleDetails: FC<ArticleDetailsProps> = ({ article, blog, category }) =>
     <div>
       {category.name} | {blog.name}
     </div>
-    <Button as="a" href={article.link} target="_blank">
+    <Button as="a" href={article.link} target="_blank" rel="noreferrer">
       View original
     </Button>
     <div>{article.summary}</div>
