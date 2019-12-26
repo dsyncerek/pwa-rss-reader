@@ -14,9 +14,5 @@ function handleError(error: AxiosError): never {
     throw new HttpError(error.response.data);
   }
 
-  if (error.message === 'Network Error') {
-    throw new HttpError({ error: 'Offline', message: 'Looks, you are offline.', statusCode: 503 });
-  }
-
-  throw new HttpError({ message: error.message });
+  throw new HttpError({ error: 'Offline', message: 'Looks, you are offline.', statusCode: 503 });
 }

@@ -10,6 +10,7 @@ export async function onFetch(event) {
 
   if (method !== 'GET') {
     event.respondWith(networkOnly(request));
+    // event.respondWith(networkOnlyWithBackgroundSync(request)); // todo
     return;
   }
 

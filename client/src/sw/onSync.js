@@ -30,7 +30,7 @@ export async function replayRequests() {
   }
 }
 
-export async function addRequest(request) {
+export async function addRequestToBackgroundSync(request) {
   await requestStore.add(request);
 
   if (syncInProgress) {

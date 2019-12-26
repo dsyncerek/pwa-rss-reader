@@ -4,8 +4,10 @@ export async function getFromCache(request, cacheName) {
 }
 
 export async function getFromNetwork(request, timeout = 3000) {
-  // todo: timeout
-  return await fetch(request);
+  return Promise.race([
+    fetch(request),
+    new Promise(((resolve, reject) => setTimeout(reject, timeout))),
+  ]);
 }
 
 export async function getFromNetworkAndPutIntoCache(request, cacheName) {
