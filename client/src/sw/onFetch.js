@@ -1,6 +1,5 @@
 import { API_URL_REGEX, APP_ENTRYPOINT, CACHES, FILE_URL_REGEX, STATIC_ASSETS } from './constants';
 import { cacheFirst } from './strategies/cacheFirst';
-import { networkFirst } from './strategies/networkFirst';
 import { networkOnly } from './strategies/networkOnly';
 import { staleWhileRevalidate } from './strategies/staleWhileRevalidate';
 
@@ -22,8 +21,8 @@ export async function onFetch(event) {
   }
 
   if (url.match(API_URL_REGEX)) {
-    console.log('API call, networkFirst', request.url);
-    event.respondWith(networkFirst(request, { cacheName: CACHES.API }));
+    console.log('API call, networkOnly', request.url);
+    event.respondWith(networkOnly(request));
     return;
   }
 
