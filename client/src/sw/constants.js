@@ -7,6 +7,9 @@ export const REQUESTS_DB_NAME = 'request-store';
 export const REQUESTS_TABLE = 'requests';
 export const REQUESTS_SYNC_EVENT_TAG = 'sync-requests';
 
+export const API_URL_REGEX = /\/api\//;
+export const FILE_URL_REGEX = /[^/?]+\.[^/]+$/;
+
 export const CACHES = {
   STATIC: 'static-cache-v1',
   RUNTIME: 'runtime-cache-v1',

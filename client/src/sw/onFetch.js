@@ -1,4 +1,4 @@
-import { CACHES, STATIC_ASSETS } from './constants';
+import { API_URL_REGEX, APP_ENTRYPOINT, CACHES, FILE_URL_REGEX, STATIC_ASSETS } from './constants';
 import { cacheFirst } from './strategies/cacheFirst';
 import { networkFirst } from './strategies/networkFirst';
 import { networkOnly } from './strategies/networkOnly';
@@ -18,15 +18,15 @@ export async function onFetch(event) {
     return;
   }
 
-  if (url.match(/\/api\//)) {
+  if (url.match(API_URL_REGEX)) {
     event.respondWith(networkFirst(request, { cacheName: CACHES.API }));
     return;
   }
 
-  // if (mode === 'navigate') {
-  //   event.respondWith(staleWhileRevalidate(APP_ENTRYPOINT, { cacheName: CACHES.STATIC }));
-  //   return;
-  // }
+  if (mode === 'navigate' && !url.match(FILE_URL_REGEX)) {
+    event.respondWith(staleWhileRevalidate(APP_ENTRYPOINT, { cacheName: CACHES.STATIC }));
+    return;
+  }
 
   event.respondWith(staleWhileRevalidate(request, { cacheName: CACHES.RUNTIME }));
 }
