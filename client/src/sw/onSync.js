@@ -1,49 +1,37 @@
-import { openDB } from 'idb';
-import { REQUESTS_DB_NAME, REQUESTS_SYNC_EVENT_TAG, REQUESTS_TABLE } from './constants';
+import { REQUESTS_SYNC_EVENT_TAG } from './constants';
+import { requestStore } from './utils/requestStore';
 
 let syncInProgress = false;
 let requestsAddedDuringSync = false;
 
-const dbPromise = openDB(REQUESTS_DB_NAME, 1, {
-  upgrade(db) {
-    db.createObjectStore(REQUESTS_TABLE, { autoIncrement: true });
-  },
-});
-
 export async function onSync(event) {
   if (event.tag === REQUESTS_SYNC_EVENT_TAG) {
-    const syncPromise = async () => {
-      syncInProgress = true;
-
-      try {
-        await replayRequests();
-      } finally {
-        if (requestsAddedDuringSync) {
-          await registerSync();
-        }
-
-        syncInProgress = false;
-        requestsAddedDuringSync = false;
-      }
-    };
-
-    event.waitUntil(syncPromise());
+    event.waitUntil(replayRequests());
   }
 }
 
 export async function replayRequests() {
-  const serializedRequests = await getAllRequests();
+  syncInProgress = true;
 
-  for (const [id, serializedRequest] of Object.entries(serializedRequests)) {
-    const request = deserializeRequest(serializedRequest);
+  try {
+    const requests = await requestStore.getAll();
 
-    await fetch(request);
-    await deleteRequest(parseInt(id));
+    for (const [id, request] of Object.entries(requests)) {
+      await fetch(request);
+      await requestStore.delete(parseInt(id));
+    }
+  } finally {
+    syncInProgress = false;
+    requestsAddedDuringSync = false;
+
+    if (requestsAddedDuringSync) {
+      await registerSync();
+    }
   }
 }
 
 export async function addRequest(request) {
-  (await dbPromise).add(REQUESTS_TABLE, await serializeRequest(request));
+  await requestStore.add(request);
 
   if (syncInProgress) {
     requestsAddedDuringSync = true;
@@ -52,60 +40,8 @@ export async function addRequest(request) {
   }
 }
 
-async function deleteRequest(id) {
-  (await dbPromise).delete(REQUESTS_TABLE, id);
-}
-
-async function getAllRequests() {
-  const db = await dbPromise;
-  const keys = await db.getAllKeys(REQUESTS_TABLE);
-  const values = await db.getAll(REQUESTS_TABLE);
-
-  const requests = {};
-
-  for (let i = 0; i < keys.length; i++) {
-    requests[keys[i]] = values[i];
-  }
-
-  return requests;
-}
-
 async function registerSync() {
   if ('sync' in self.registration) {
     await self.registration.sync.register(REQUESTS_SYNC_EVENT_TAG);
   }
-}
-
-async function serializeRequest(request) {
-  const serializedRequest = {
-    url: request.url,
-    headers: {},
-    method: request.method,
-    referrer: request.referer,
-    referrerPolicy: request.referrerPolicy,
-    mode: request.mode,
-    credentials: request.credentials,
-    cache: request.cache,
-    redirect: request.redirect,
-    integrity: request.integrity,
-    keepalive: request.keepalive,
-  };
-
-  if (request.method !== 'GET') {
-    serializedRequest.body = await request.clone().arrayBuffer();
-  }
-
-  for (const [key, value] of request.headers.entries()) {
-    serializedRequest.headers[key] = value;
-  }
-
-  if (serializedRequest.mode === 'navigate') {
-    serializedRequest.mode = 'same-origin';
-  }
-
-  return serializedRequest;
-}
-
-function deserializeRequest(serializedRequest) {
-  return new Request(serializedRequest.url, serializedRequest);
 }
