@@ -1,8 +1,9 @@
 /* eslint-disable no-restricted-globals */
 
 import { files } from '../../build/asset-manifest';
+import { prepareFullUrl } from './utils/prepareFullUrl';
 
-export const APP_ENTRYPOINT = '/index.html';
+export const APP_ENTRYPOINT = prepareFullUrl('/index.html');
 export const REQUESTS_DB_NAME = 'request-store';
 export const REQUESTS_TABLE = 'requests';
 export const REQUESTS_SYNC_EVENT_TAG = 'sync-requests';
@@ -16,6 +17,6 @@ export const CACHES = {
   API: 'api-cache-v1',
 };
 
-export const STATIC_ASSETS = Object.values(files)
-  .filter(asset => !asset.includes('.map') && !asset.includes('service-worker.js'))
-  .map(asset => new URL(asset, location.href).href);
+export const STATIC_ASSETS = Object.values(files).map(prepareFullUrl)
+  .filter(asset => !asset.includes('.map') && !asset.includes('service-worker.js'));
+

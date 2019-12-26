@@ -28,8 +28,8 @@ export async function onFetch(event) {
   }
 
   if (mode === 'navigate' && !url.match(FILE_URL_REGEX)) {
-    console.log('Navigate, staleWhileRevalidate', request.url);
-    event.respondWith(staleWhileRevalidate(APP_ENTRYPOINT, { cacheName: CACHES.STATIC }));
+    console.log('Navigate, cacheFirst', request.url);
+    event.respondWith(cacheFirst(APP_ENTRYPOINT, { cacheName: CACHES.STATIC }));
     return;
   }
 
