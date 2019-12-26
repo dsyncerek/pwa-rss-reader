@@ -19,10 +19,11 @@ const ArticleTile: FC<ArticleTileProps> = ({ article, blog, category, markAsRead
     <Card.Body>
       <Card.Title>{article.title}</Card.Title>
       <Card.Text>
-        <time>{article.date.toLocaleDateString()}</time>
-        <div>
+        {/*todo*/}
+        {/*<time>{article.date.toLocaleDateString()}</time>*/}
+        <span className="d-block">
           {category.name} | {blog.name}
-        </div>
+        </span>
       </Card.Text>
       <ButtonToolbar>
         <Button as={Link} to={`/article/${article.id}`} onClick={() => markAsRead(article.id)}>

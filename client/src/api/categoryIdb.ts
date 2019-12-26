@@ -31,5 +31,7 @@ export async function deleteCategory(id: string) {
 
   tx.store.delete(id);
 
+  // todo: remove blogs and articles
+
   await tx.done;
 }

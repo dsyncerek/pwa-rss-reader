@@ -13,7 +13,8 @@ type ArticleDetailsProps = {
 const ArticleDetails: FC<ArticleDetailsProps> = ({ article, blog, category }) => (
   <>
     <h1>{article.title}</h1>
-    <div>{article.date.toLocaleDateString()}</div>
+    {/*todo*/}
+    {/*<div>{article.date.toLocaleDateString()}</div>*/}
     <div>
       {category.name} | {blog.name}
     </div>

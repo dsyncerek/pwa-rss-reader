@@ -31,5 +31,7 @@ export async function deleteBlog(id: string) {
 
   tx.store.delete(id);
 
+  // todo: remove articles
+
   await tx.done;
 }
