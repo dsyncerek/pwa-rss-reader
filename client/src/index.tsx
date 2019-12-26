@@ -9,12 +9,12 @@ import './styles/font-awesome.scss';
 
 register('/service-worker.js');
 
-const store = configureStore();
+configureStore().then(store => {
+  const Root = () => (
+    <Provider store={store}>
+      <App />
+    </Provider>
+  );
 
-const Root = () => (
-  <Provider store={store}>
-    <App />
-  </Provider>
-);
-
-ReactDOM.render(<Root />, document.getElementById('root'));
+  ReactDOM.render(<Root />, document.getElementById('root'));
+});
