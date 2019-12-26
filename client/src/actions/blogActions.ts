@@ -1,4 +1,5 @@
 import * as blogApi from '../api/blogApi';
+import * as blogIdb from '../api/blogIdb';
 import { Blog, blogSchema, SaveBlog } from '../models/Blog';
 import { RootState } from '../reducers';
 import { allBlogsLoadedSelector } from '../selectors/blogSelectors';
@@ -16,8 +17,9 @@ export function fetchAllBlogs(): RootThunkAction {
     onInit: () => dispatch => {
       dispatch({ type: BlogActionTypes.FETCH_ALL_BLOGS });
     },
-    onSuccess: entities => dispatch => {
+    onSuccess: (entities, blogs) => dispatch => {
       dispatch({ type: BlogActionTypes.FETCH_ALL_BLOGS_SUCCESS, entities });
+      blogIdb.saveAllBlogs(blogs).catch();
     },
     onError: error => dispatch => {
       dispatch({ type: BlogActionTypes.FETCH_ALL_BLOGS_ERROR, error });
@@ -33,9 +35,10 @@ export function createBlog(blog: SaveBlog): RootThunkAction {
     onInit: () => dispatch => {
       dispatch({ type: BlogActionTypes.CREATE_BLOG, blog });
     },
-    onSuccess: entities => dispatch => {
+    onSuccess: (entities, blog) => dispatch => {
       dispatch(showSuccessToast('Blog has been created.'));
       dispatch({ type: BlogActionTypes.CREATE_BLOG_SUCCESS, entities });
+      blogIdb.saveBlog(blog).catch();
     },
     onError: error => dispatch => {
       dispatch({ type: BlogActionTypes.CREATE_BLOG_ERROR, error });
@@ -51,9 +54,10 @@ export function updateBlog(blog: SaveBlog): RootThunkAction {
     onInit: () => dispatch => {
       dispatch({ type: BlogActionTypes.UPDATE_BLOG, blog });
     },
-    onSuccess: entities => dispatch => {
+    onSuccess: (entities, blog) => dispatch => {
       dispatch(showSuccessToast('Blog has been updated.'));
       dispatch({ type: BlogActionTypes.UPDATE_BLOG_SUCCESS, entities });
+      blogIdb.saveBlog(blog).catch();
     },
     onError: error => dispatch => {
       dispatch({ type: BlogActionTypes.UPDATE_BLOG_ERROR, error });
@@ -71,6 +75,7 @@ export function deleteBlog(id: string): RootThunkAction {
     onSuccess: () => dispatch => {
       dispatch(showSuccessToast('Blog has been deleted.'));
       dispatch({ type: BlogActionTypes.DELETE_BLOG_SUCCESS, id });
+      blogIdb.deleteBlog(id).catch();
     },
     onError: error => dispatch => {
       dispatch(showErrorToast(error.message));

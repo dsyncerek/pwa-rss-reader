@@ -1,4 +1,5 @@
 import * as categoryApi from '../api/categoryApi';
+import * as categoryIdb from '../api/categoryIdb';
 import { Category, categorySchema, SaveCategory } from '../models/Category';
 import { RootState } from '../reducers';
 import { allCategoriesLoadedSelector } from '../selectors/categorySelectors';
@@ -16,8 +17,9 @@ export function fetchAllCategories(): RootThunkAction {
     onInit: () => dispatch => {
       dispatch({ type: CategoryActionTypes.FETCH_ALL_CATEGORIES });
     },
-    onSuccess: entities => dispatch => {
+    onSuccess: (entities, categories) => async dispatch => {
       dispatch({ type: CategoryActionTypes.FETCH_ALL_CATEGORIES_SUCCESS, entities });
+      categoryIdb.saveAllCategories(categories).catch();
     },
     onError: error => dispatch => {
       dispatch({ type: CategoryActionTypes.FETCH_ALL_CATEGORIES_ERROR, error });
@@ -33,9 +35,10 @@ export function createCategory(category: SaveCategory): RootThunkAction {
     onInit: () => dispatch => {
       dispatch({ type: CategoryActionTypes.CREATE_CATEGORY, category });
     },
-    onSuccess: entities => dispatch => {
+    onSuccess: (entities, category) => dispatch => {
       dispatch(showSuccessToast('Category has been created.'));
       dispatch({ type: CategoryActionTypes.CREATE_CATEGORY_SUCCESS, entities });
+      categoryIdb.saveCategory(category).catch();
     },
     onError: error => dispatch => {
       dispatch({ type: CategoryActionTypes.CREATE_CATEGORY_ERROR, error });
@@ -51,9 +54,10 @@ export function updateCategory(category: SaveCategory): RootThunkAction {
     onInit: () => dispatch => {
       dispatch({ type: CategoryActionTypes.UPDATE_CATEGORY, category });
     },
-    onSuccess: entities => dispatch => {
+    onSuccess: (entities, category) => dispatch => {
       dispatch(showSuccessToast('Category has been updated.'));
       dispatch({ type: CategoryActionTypes.UPDATE_CATEGORY_SUCCESS, entities });
+      categoryIdb.saveCategory(category).catch();
     },
     onError: error => dispatch => {
       dispatch({ type: CategoryActionTypes.UPDATE_CATEGORY_ERROR, error });
@@ -71,6 +75,7 @@ export function deleteCategory(id: string): RootThunkAction {
     onSuccess: () => dispatch => {
       dispatch(showSuccessToast('Category has been deleted.'));
       dispatch({ type: CategoryActionTypes.DELETE_CATEGORY_SUCCESS, id });
+      categoryIdb.deleteCategory(id).catch();
     },
     onError: error => dispatch => {
       dispatch(showErrorToast(error.message));

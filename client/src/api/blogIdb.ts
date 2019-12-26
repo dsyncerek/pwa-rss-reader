@@ -16,6 +16,15 @@ export async function saveAllBlogs(blogs: Blog[]): Promise<void> {
   await tx.done;
 }
 
+export async function saveBlog(blog: Blog): Promise<void> {
+  const db = await openIndexedDb();
+  const tx = db.transaction('blogs', 'readwrite');
+
+  tx.store.put(blog);
+
+  await tx.done;
+}
+
 export async function deleteBlog(id: string) {
   const db = await openIndexedDb();
   const tx = db.transaction('blogs', 'readwrite');

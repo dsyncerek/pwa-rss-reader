@@ -1,4 +1,5 @@
 import * as articleApi from '../api/articleApi';
+import * as articleIdb from '../api/articleIdb';
 import { Article, articleSchema } from '../models/Article';
 import { Pagination } from '../models/Pagination';
 import { RootState } from '../reducers';
@@ -23,6 +24,7 @@ export function fetchArticlesPage(page: number): RootThunkAction {
     },
     onSuccess: (entities, pagination) => async dispatch => {
       dispatch({ type: ArticleActionTypes.FETCH_ARTICLES_PAGE_SUCCESS, entities, pagination });
+      articleIdb.saveArticles(pagination.items).catch();
     },
     onError: error => dispatch => {
       dispatch({ type: ArticleActionTypes.FETCH_ARTICLES_PAGE_ERROR, error });
@@ -41,6 +43,7 @@ export function fetchBlogArticlesPage(blogId: string, page: number): RootThunkAc
     },
     onSuccess: (entities, pagination) => async dispatch => {
       dispatch({ type: ArticleActionTypes.FETCH_BLOG_ARTICLES_PAGE_SUCCESS, blogId, entities, pagination });
+      articleIdb.saveArticles(pagination.items).catch();
     },
     onError: error => dispatch => {
       dispatch({ type: ArticleActionTypes.FETCH_BLOG_ARTICLES_PAGE_ERROR, error });
@@ -59,6 +62,7 @@ export function fetchCategoryArticlesPage(categoryId: string, page: number): Roo
     },
     onSuccess: (entities, pagination) => async dispatch => {
       dispatch({ type: ArticleActionTypes.FETCH_CATEGORY_ARTICLES_PAGE_SUCCESS, categoryId, entities, pagination });
+      articleIdb.saveArticles(pagination.items).catch();
     },
     onError: error => dispatch => {
       dispatch({ type: ArticleActionTypes.FETCH_CATEGORY_ARTICLES_PAGE_ERROR, error });
@@ -77,6 +81,7 @@ export function fetchArticle(id: string): RootThunkAction {
     },
     onSuccess: (entities, article) => async dispatch => {
       dispatch({ type: ArticleActionTypes.FETCH_ARTICLE_SUCCESS, entities });
+      articleIdb.saveArticles([article]).catch();
     },
     onError: error => dispatch => {
       dispatch({ type: ArticleActionTypes.FETCH_ARTICLE_ERROR, error });
@@ -90,10 +95,12 @@ export function markArticleAsReadOptimistic(id: string): RootThunkAction {
 
     onInit: () => dispatch => {
       dispatch({ type: ArticleActionTypes.MARK_ARTICLE_AS_READ_OPTIMISTIC, id });
+      articleIdb.updateArticle(id, { read: true }).catch();
     },
     onError: error => dispatch => {
       dispatch(showErrorToast(error.message));
       dispatch({ type: ArticleActionTypes.MARK_ARTICLE_AS_UNREAD_OPTIMISTIC, id });
+      articleIdb.updateArticle(id, { read: false }).catch();
     },
   });
 }

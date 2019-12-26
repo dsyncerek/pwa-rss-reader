@@ -16,6 +16,15 @@ export async function saveAllCategories(categories: Category[]): Promise<void> {
   await tx.done;
 }
 
+export async function saveCategory(category: Category): Promise<void> {
+  const db = await openIndexedDb();
+  const tx = db.transaction('categories', 'readwrite');
+
+  tx.store.put(category);
+
+  await tx.done;
+}
+
 export async function deleteCategory(id: string) {
   const db = await openIndexedDb();
   const tx = db.transaction('categories', 'readwrite');
