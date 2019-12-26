@@ -25,24 +25,6 @@ export function fetchAllBlogs(): RootThunkAction {
   });
 }
 
-export function fetchBlog(id: string): RootThunkAction {
-  return apiCallThunkAction<Blog>({
-    callApi: async () => blogApi.fetchBlog(id),
-    shouldCallApi: (state: RootState) => !state.entityState.blogs[id],
-    schema: blogSchema,
-
-    onInit: () => dispatch => {
-      dispatch({ type: BlogActionTypes.FETCH_BLOG, id });
-    },
-    onSuccess: entities => dispatch => {
-      dispatch({ type: BlogActionTypes.FETCH_BLOG_SUCCESS, entities });
-    },
-    onError: error => dispatch => {
-      dispatch({ type: BlogActionTypes.FETCH_BLOG_ERROR, error });
-    },
-  });
-}
-
 export function createBlog(blog: SaveBlog): RootThunkAction {
   return apiCallThunkAction<Blog>({
     callApi: async () => blogApi.createBlog(blog),

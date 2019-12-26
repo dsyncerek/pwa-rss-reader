@@ -25,24 +25,6 @@ export function fetchAllCategories(): RootThunkAction {
   });
 }
 
-export function fetchCategory(id: string): RootThunkAction {
-  return apiCallThunkAction<Category>({
-    callApi: async () => categoryApi.fetchCategory(id),
-    shouldCallApi: (state: RootState) => !state.entityState.categories[id],
-    schema: categorySchema,
-
-    onInit: () => dispatch => {
-      dispatch({ type: CategoryActionTypes.FETCH_CATEGORY, id });
-    },
-    onSuccess: entities => dispatch => {
-      dispatch({ type: CategoryActionTypes.FETCH_CATEGORY_SUCCESS, entities });
-    },
-    onError: error => dispatch => {
-      dispatch({ type: CategoryActionTypes.FETCH_CATEGORY_ERROR, error });
-    },
-  });
-}
-
 export function createCategory(category: SaveCategory): RootThunkAction {
   return apiCallThunkAction<Category>({
     callApi: async () => categoryApi.createCategory(category),

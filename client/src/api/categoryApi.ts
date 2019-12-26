@@ -5,10 +5,6 @@ export async function fetchAllCategories(): Promise<Category[]> {
   return axiosInstance.get(`/categories`);
 }
 
-export async function fetchCategory(id: string): Promise<Category> {
-  return axiosInstance.get(`/categories/${id}`);
-}
-
 export async function createCategory(category: SaveCategory): Promise<Category> {
   return axiosInstance.post(`/categories`, category);
 }

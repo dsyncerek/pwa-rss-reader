@@ -7,10 +7,6 @@ export enum CategoryActionTypes {
   FETCH_ALL_CATEGORIES_SUCCESS = 'FETCH_ALL_CATEGORIES_SUCCESS',
   FETCH_ALL_CATEGORIES_ERROR = 'FETCH_ALL_CATEGORIES_ERROR',
 
-  FETCH_CATEGORY = 'FETCH_CATEGORY',
-  FETCH_CATEGORY_SUCCESS = 'FETCH_CATEGORY_SUCCESS',
-  FETCH_CATEGORY_ERROR = 'FETCH_CATEGORY_ERROR',
-
   CREATE_CATEGORY = 'CREATE_CATEGORY',
   CREATE_CATEGORY_SUCCESS = 'CREATE_CATEGORY_SUCCESS',
   CREATE_CATEGORY_ERROR = 'CREATE_CATEGORY_ERROR',
@@ -35,21 +31,6 @@ export interface FetchAllCategoriesSuccessAction {
 
 export interface FetchAllCategoriesErrorAction {
   type: CategoryActionTypes.FETCH_ALL_CATEGORIES_ERROR;
-  error: HttpError;
-}
-
-export interface FetchCategoryAction {
-  type: CategoryActionTypes.FETCH_CATEGORY;
-  id: string;
-}
-
-export interface FetchCategorySuccessAction {
-  type: CategoryActionTypes.FETCH_CATEGORY_SUCCESS;
-  entities: RootEntitiesType;
-}
-
-export interface FetchCategoryErrorAction {
-  type: CategoryActionTypes.FETCH_CATEGORY_ERROR;
   error: HttpError;
 }
 
@@ -102,9 +83,6 @@ export type CategoryAction =
   | FetchAllCategoriesAction
   | FetchAllCategoriesSuccessAction
   | FetchAllCategoriesErrorAction
-  | FetchCategoryAction
-  | FetchCategorySuccessAction
-  | FetchCategoryErrorAction
   | CreateCategoryAction
   | CreateCategorySuccessAction
   | CreateCategoryErrorAction

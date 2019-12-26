@@ -7,10 +7,6 @@ export enum BlogActionTypes {
   FETCH_ALL_BLOGS_SUCCESS = 'FETCH_ALL_BLOGS_SUCCESS',
   FETCH_ALL_BLOGS_ERROR = 'FETCH_ALL_BLOGS_ERROR',
 
-  FETCH_BLOG = 'FETCH_BLOG',
-  FETCH_BLOG_SUCCESS = 'FETCH_BLOG_SUCCESS',
-  FETCH_BLOG_ERROR = 'FETCH_BLOG_ERROR',
-
   CREATE_BLOG = 'CREATE_BLOG',
   CREATE_BLOG_SUCCESS = 'CREATE_BLOG_SUCCESS',
   CREATE_BLOG_ERROR = 'CREATE_BLOG_ERROR',
@@ -35,21 +31,6 @@ export interface FetchAllBlogsSuccessAction {
 
 export interface FetchAllBlogsErrorAction {
   type: BlogActionTypes.FETCH_ALL_BLOGS_ERROR;
-  error: HttpError;
-}
-
-export interface FetchBlogAction {
-  type: BlogActionTypes.FETCH_BLOG;
-  id: string;
-}
-
-export interface FetchBlogSuccessAction {
-  type: BlogActionTypes.FETCH_BLOG_SUCCESS;
-  entities: RootEntitiesType;
-}
-
-export interface FetchBlogErrorAction {
-  type: BlogActionTypes.FETCH_BLOG_ERROR;
   error: HttpError;
 }
 
@@ -102,9 +83,6 @@ export type BlogAction =
   | FetchAllBlogsAction
   | FetchAllBlogsSuccessAction
   | FetchAllBlogsErrorAction
-  | FetchBlogAction
-  | FetchBlogSuccessAction
-  | FetchBlogErrorAction
   | CreateBlogAction
   | CreateBlogSuccessAction
   | CreateBlogErrorAction
