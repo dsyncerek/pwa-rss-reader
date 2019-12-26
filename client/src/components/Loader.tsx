@@ -8,7 +8,7 @@ type LoaderProps = {
 const Loader: FC<LoaderProps> = ({ children, loading }) => (
   <>
     {loading ? (
-      <div className="d-flex justify-content-center p-5">
+      <div className="d-flex justify-content-center m-4">
         <Spinner animation="border" role="status">
           <span className="sr-only">Loading...</span>
         </Spinner>

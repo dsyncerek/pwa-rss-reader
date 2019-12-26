@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import Toast from 'react-bootstrap/Toast';
-import { Toast as ToastModel } from '../../../models/Toast';
+import { Toast as ToastModel } from '../models/Toast';
 
 type NotificationsProps = {
   toasts?: ToastModel[];

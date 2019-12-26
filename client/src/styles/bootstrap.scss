@@ -32,16 +32,6 @@ $font-family-base: "Ubuntu", "sans-serif";
   margin-left: 0.5em;
 }
 
-.card-columns {
-  @include media-breakpoint-up(xs) {
-    column-count: 2;
-  }
-
-  @include media-breakpoint-up(lg) {
-    column-count: 3;
-  }
-}
-
 .table td {
   vertical-align: middle;
 }
