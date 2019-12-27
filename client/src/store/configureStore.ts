@@ -9,6 +9,12 @@ const logger = createLogger({ collapsed: true });
 
 export async function configureStore(): Promise<Store> {
   const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(thunk, logger)));
-  await initEntitiesFromIndexedDb()(store.dispatch, store.getState, null);
+
+  try {
+    await initEntitiesFromIndexedDb()(store.dispatch, store.getState, null);
+  } catch {
+    // ignore
+  }
+
   return store;
 }

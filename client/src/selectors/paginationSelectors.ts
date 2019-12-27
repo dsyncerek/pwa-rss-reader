@@ -1,20 +1,17 @@
 import { createSelector } from 'reselect';
-import { Pagination } from '../models/Pagination';
 import { RootState } from '../reducers';
 
-export const initialPagination: Pagination = { totalItems: 0, pageCount: Number.MAX_SAFE_INTEGER, currentPage: 0 };
-
-export const allArticlesPaginationSelector = createSelector<RootState, Pagination | undefined, Pagination>(
-  state => state.paginationState.articles.all,
-  pagination => pagination ?? initialPagination,
+export const allArticlesLoadedPagesSelector = createSelector<RootState, number[] | undefined, number[]>(
+  state => state.paginationState.articles.all?.loadedPages,
+  loadedPages => loadedPages || [],
 );
 
-export const blogArticlesPaginationSelector = createSelector<RootState, string, Pagination, Pagination>(
-  (state, blogId) => state.paginationState.articles.byBlog[blogId],
-  pagination => pagination ?? initialPagination,
+export const blogArticlesLoadedPagesSelector = createSelector<RootState, string, number[], number[]>(
+  (state, blogId) => state.paginationState.articles.byBlog[blogId]?.loadedPages,
+  loadedPages => loadedPages || [],
 );
 
-export const categoryArticlesPaginationSelector = createSelector<RootState, string, Pagination, Pagination>(
-  (state, categoryId) => state.paginationState.articles.byCategory[categoryId],
-  pagination => pagination ?? initialPagination,
+export const categoryArticlesLoadedPagesSelector = createSelector<RootState, string, number[], number[]>(
+  (state, categoryId) => state.paginationState.articles.byCategory[categoryId]?.loadedPages,
+  loadedPages => loadedPages || [],
 );

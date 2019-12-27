@@ -6,11 +6,17 @@ import { RootAction } from '../actions/rootTypes';
 import { Dictionary } from '../models/Dictionary';
 import { Pagination } from '../models/Pagination';
 
+export interface PaginationStateSlice {
+  totalItems: number;
+  pageCount: number;
+  loadedPages: number[];
+}
+
 export interface PaginationState {
   articles: {
-    all?: Pagination;
-    byBlog: Dictionary<Pagination>;
-    byCategory: Dictionary<Pagination>;
+    all?: PaginationStateSlice;
+    byBlog: Dictionary<PaginationStateSlice>;
+    byCategory: Dictionary<PaginationStateSlice>;
   };
 }
 
@@ -25,17 +31,23 @@ export function paginationReducer(state: PaginationState = initialState, action:
   switch (action.type) {
     case ArticleActionTypes.FETCH_ARTICLES_PAGE_SUCCESS:
       return produce(state, draft => {
-        draft.articles.all = updatePagination(action.pagination);
+        draft.articles.all = updatePagination(action.pagination, draft.articles.all);
       });
 
     case ArticleActionTypes.FETCH_BLOG_ARTICLES_PAGE_SUCCESS:
       return produce(state, draft => {
-        draft.articles.byBlog[action.blogId] = updatePagination(action.pagination);
+        draft.articles.byBlog[action.blogId] = updatePagination(
+          action.pagination,
+          draft.articles.byBlog[action.blogId],
+        );
       });
 
     case ArticleActionTypes.FETCH_CATEGORY_ARTICLES_PAGE_SUCCESS:
       return produce(state, draft => {
-        draft.articles.byCategory[action.categoryId] = updatePagination(action.pagination);
+        draft.articles.byCategory[action.categoryId] = updatePagination(
+          action.pagination,
+          draft.articles.byCategory[action.categoryId],
+        );
       });
 
     case BlogActionTypes.CREATE_BLOG_SUCCESS:
@@ -61,7 +73,10 @@ export function paginationReducer(state: PaginationState = initialState, action:
   }
 }
 
-function updatePagination(pagination: Pagination): Pagination {
-  const { items, ...rest } = pagination;
-  return { ...rest };
+function updatePagination(pagination: Pagination, state?: PaginationStateSlice): PaginationStateSlice {
+  return {
+    totalItems: pagination.totalItems,
+    pageCount: pagination.pageCount,
+    loadedPages: state?.loadedPages ? [...state.loadedPages, pagination.currentPage] : [pagination.currentPage],
+  };
 }

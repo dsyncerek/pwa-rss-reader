@@ -3,7 +3,7 @@ import { Article } from '../models/Article';
 import { Blog } from '../models/Blog';
 import { Dictionary } from '../models/Dictionary';
 import { RootState } from '../reducers';
-import { blogsSelector, categoryBlogsSelector } from './blogSelectors';
+import { blogsSelector } from './blogSelectors';
 
 export const articlesSelector = createSelector<RootState, Dictionary<Article>, Blog[], Article[]>(
   state => state.entityState.articles,
@@ -14,13 +14,13 @@ export const articlesSelector = createSelector<RootState, Dictionary<Article>, B
 export const blogArticlesSelector = createSelector<RootState, string, Article[], string, Article[]>(
   articlesSelector,
   (state, blogId) => blogId,
-  (articles, blogId) => sortArticles(articles.filter(article => article.blogId === blogId)),
+  (articles, blogId) => articles.filter(article => article.blogId === blogId),
 );
 
-export const categoryArticlesSelector = createSelector<RootState, string, Article[], string[], Article[]>(
+export const categoryArticlesSelector = createSelector<RootState, string, Article[], string, Article[]>(
   articlesSelector,
-  (state, categoryId) => categoryBlogsSelector(state, categoryId).map(blog => blog.id),
-  (articles, blogIds) => sortArticles(articles.filter(article => blogIds.includes(article.blogId))),
+  (state, categoryId) => categoryId,
+  (articles, categoryId) => articles.filter(article => article.blog?.categoryId === categoryId),
 );
 
 export const articleSelector = createSelector<RootState, string, Article, Blog[], Article | undefined>(

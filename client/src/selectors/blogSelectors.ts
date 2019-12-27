@@ -11,12 +11,6 @@ export const blogsSelector = createSelector<RootState, Dictionary<Blog>, Categor
   (blogs, categories) => Object.values(blogs).map(blog => prepareBlog(blog, categories)),
 );
 
-export const categoryBlogsSelector = createSelector<RootState, string, Blog[], string, Blog[]>(
-  blogsSelector,
-  (state, categoryId) => categoryId,
-  (blogs, categoryId) => blogs.filter(blog => blog.categoryId === categoryId),
-);
-
 export const allBlogsLoadedSelector = createSelector<RootState, boolean, boolean>(
   state => state.blogState.allLoaded,
   allLoaded => allLoaded,

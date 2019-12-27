@@ -1,7 +1,7 @@
 import { normalize, Schema } from 'normalizr';
 import { HttpError } from '../models/HttpError';
 import { RootState } from '../reducers';
-import { RootEntitiesType, RootThunkAction, RootThunkDispatch } from './rootTypes';
+import { RootEntitiesType, RootThunkAction, RootThunkDispatch } from '../actions/rootTypes';
 
 export interface ApiCallThunkActionParams<T = any> {
   callApi: () => Promise<T>;

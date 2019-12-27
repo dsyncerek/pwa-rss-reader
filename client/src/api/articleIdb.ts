@@ -7,11 +7,7 @@ export async function fetchAllArticles(): Promise<Article[]> {
   return await db.getAllFromIndex('articles', 'date');
 }
 
-export async function saveArticles(articles?: Article[]): Promise<void> {
-  if (!articles) {
-    return;
-  }
-
+export async function saveArticles(articles: Article[]): Promise<void> {
   const db = await openIndexedDb();
   const tx = db.transaction('articles', 'readwrite');
 
