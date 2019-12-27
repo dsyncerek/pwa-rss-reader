@@ -6,5 +6,6 @@ export async function networkOnlyWithBackgroundSync(request) {
     return await getFromNetwork(request);
   } catch {
     await addRequestToBackgroundSync(request);
+    return new Response();
   }
 }

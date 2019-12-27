@@ -19,10 +19,10 @@ const ArticleTile: FC<ArticleTileProps> = ({ article, markAsRead }) => (
         {article.blog?.category?.name} | {article.blog?.name}
       </p>
       <ButtonToolbar>
-        <Button as={Link} to={`/article/${article.id}`} onClick={() => markAsRead(article.id)}>
+        <Button as={Link} to={`/article/${article.id}`}>
           View
         </Button>
-        <Button as="a" href={article.link} target="_blank" rel="noreferrer">
+        <Button as="a" href={article.link} target="_blank" rel="noreferrer" onClick={() => markAsRead(article.id)}>
           View original
         </Button>
         {!article.read && <Button onClick={() => markAsRead(article.id)}>Mark as Read</Button>}

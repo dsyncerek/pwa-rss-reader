@@ -1,16 +1,22 @@
-import { API_URL_REGEX, APP_ENTRYPOINT, CACHES, FILE_URL_REGEX, STATIC_ASSETS } from './constants';
+import { API_URL_REGEX, APP_ENTRYPOINT, CACHES, FILE_URL_REGEX, REQUESTS_SYNC_HEADER, STATIC_ASSETS } from './constants';
 import { cacheFirst } from './strategies/cacheFirst';
 import { networkOnly } from './strategies/networkOnly';
+import { networkOnlyWithBackgroundSync } from './strategies/networkOnlyWithBackgroundSync';
 import { staleWhileRevalidate } from './strategies/staleWhileRevalidate';
 
 export async function onFetch(event) {
   const { request } = event;
-  const { url, method, mode } = request;
+  const { url, method, mode, headers } = request;
 
   if (method !== 'GET') {
+    if (headers.has(REQUESTS_SYNC_HEADER)) {
+      console.log('GET, networkOnlyWithBackgroundSync', request.url);
+      event.respondWith(networkOnlyWithBackgroundSync(request));
+      return;
+    }
+
     console.log('GET, networkOnly', request.url);
     event.respondWith(networkOnly(request));
-    // event.respondWith(networkOnlyWithBackgroundSync(request)); // todo
     return;
   }
 

@@ -19,5 +19,5 @@ export async function fetchArticle(id: string): Promise<Article> {
 }
 
 export async function markArticleAsRead(id: string): Promise<void> {
-  return axiosInstance.patch(`/articles/${id}/read`);
+  return axiosInstance.patch(`/articles/${id}/read`, {}, { headers: { 'X-BG-SYNC': 'yes' } });
 }

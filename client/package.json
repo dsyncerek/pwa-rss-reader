@@ -11,8 +11,8 @@
     "test": "react-scripts test --watchAll=false",
     "test:watch": "react-scripts test",
     "test:cov": "react-scripts test --watchAll=false --coverage",
-    "format": "prettier src/**/*.{ts,tsx} --write",
-    "lint": "eslint src/**/*.{ts,tsx} --fix",
+    "format": "prettier src/**/*.{ts,tsx,js,jsx} --write",
+    "lint": "eslint src/**/*.{ts,tsx,js,jsx} --fix",
     "precommit": "lint-staged"
   },
   "dependencies": {
