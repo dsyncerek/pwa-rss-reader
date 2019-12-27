@@ -8,16 +8,12 @@ import { CategoryActionTypes } from '../../actions/categoryActionTypes';
 import { RootState } from '../../reducers';
 import { articlesSelector } from '../../selectors/articleSelectors';
 import { errorSelector, loadingSelector } from '../../selectors/asyncSelectors';
-import { blogsSelector } from '../../selectors/blogSelectors';
-import { categoriesSelector } from '../../selectors/categorySelectors';
 import { allArticlesPaginationSelector } from '../../selectors/paginationSelectors';
 import Layout from '../Layout/Layout';
 import ArticleList from './components/ArticleList';
 
 const mapState = (state: RootState) => {
   const articles = articlesSelector(state);
-  const blogs = blogsSelector(state);
-  const categories = categoriesSelector(state);
 
   const fetchActions = [
     ArticleActionTypes.FETCH_ARTICLES_PAGE,
@@ -30,7 +26,7 @@ const mapState = (state: RootState) => {
 
   const pagination = allArticlesPaginationSelector(state);
 
-  return { articles, blogs, categories, pagination, fetching, fetchError };
+  return { articles, pagination, fetching, fetchError };
 };
 
 const mapDispatch = {
@@ -46,8 +42,6 @@ type ArticlesPageProps = PropsFromRedux & PropsFromRouter;
 
 const AllArticlesPage: FC<ArticlesPageProps> = ({
   articles,
-  blogs,
-  categories,
   pagination,
   fetching,
   fetchError,
@@ -57,8 +51,6 @@ const AllArticlesPage: FC<ArticlesPageProps> = ({
   <Layout>
     <ArticleList
       articles={articles}
-      blogs={blogs}
-      categories={categories}
       loading={fetching}
       error={fetchError?.message}
       fetchPage={fetchArticlesPage}

@@ -1,4 +1,5 @@
 import { schema } from 'normalizr';
+import { Category } from './Category';
 
 export interface Blog {
   id: string;
@@ -8,6 +9,9 @@ export interface Blog {
   rss: string;
   icon: string;
   categoryId: string;
+
+  // only frontend
+  category?: Category;
 }
 
 export const blogSchema = new schema.Entity('blogs', {}, { idAttribute: 'id' });

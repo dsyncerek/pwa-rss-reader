@@ -1,21 +1,14 @@
 import { createSelector } from 'reselect';
 import { Category } from '../models/Category';
+import { Dictionary } from '../models/Dictionary';
 import { RootState } from '../reducers';
-import { CategoryState } from '../reducers/categoryReducer';
-import { EntityState } from '../reducers/entityReducer';
 
-export const categoriesSelector = createSelector<RootState, EntityState, Category[]>(
-  state => state.entityState,
-  state => Object.values(state.categories),
+export const categoriesSelector = createSelector<RootState, Dictionary<Category>, Category[]>(
+  state => state.entityState.categories,
+  categories => Object.values(categories),
 );
 
-export const categorySelector = createSelector<RootState, string, EntityState, string, Category | undefined>(
-  state => state.entityState,
-  (state, id) => id,
-  (state, id) => state.categories[id],
-);
-
-export const allCategoriesLoadedSelector = createSelector<RootState, CategoryState, boolean>(
-  state => state.categoryState,
-  state => state.allLoaded,
+export const allCategoriesLoadedSelector = createSelector<RootState, boolean, boolean>(
+  state => state.categoryState.allLoaded,
+  allLoaded => allLoaded,
 );

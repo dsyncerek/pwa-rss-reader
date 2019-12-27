@@ -1,4 +1,5 @@
 import { schema } from 'normalizr';
+import { Blog } from './Blog';
 
 export interface Article {
   id: string;
@@ -10,6 +11,9 @@ export interface Article {
   content: string;
   read: boolean;
   blogId: string;
+
+  // only frontend
+  blog?: Blog;
 }
 
 export const articleSchema = new schema.Entity('articles', {}, { idAttribute: 'id' });

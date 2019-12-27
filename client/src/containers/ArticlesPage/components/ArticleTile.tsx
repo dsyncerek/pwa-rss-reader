@@ -4,17 +4,13 @@ import ButtonToolbar from 'react-bootstrap/ButtonToolbar';
 import Card from 'react-bootstrap/Card';
 import { Link } from 'react-router-dom';
 import { Article } from '../../../models/Article';
-import { Blog } from '../../../models/Blog';
-import { Category } from '../../../models/Category';
 
 type ArticleTileProps = {
   article: Article;
-  blog: Blog;
-  category: Category;
   markAsRead: (id: string) => void;
 };
 
-const ArticleTile: FC<ArticleTileProps> = ({ article, blog, category, markAsRead }) => (
+const ArticleTile: FC<ArticleTileProps> = ({ article, markAsRead }) => (
   <Card style={{ opacity: article.read ? 0.5 : 1 }}>
     <Card.Body>
       <Card.Title>{article.title}</Card.Title>
@@ -22,7 +18,7 @@ const ArticleTile: FC<ArticleTileProps> = ({ article, blog, category, markAsRead
         {/*todo*/}
         {/*<time>{article.date.toLocaleDateString()}</time>*/}
         <span className="d-block">
-          {category.name} | {blog.name}
+          {article.blog?.category?.name} | {article.blog?.name}
         </span>
       </Card.Text>
       <ButtonToolbar>

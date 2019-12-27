@@ -100,7 +100,6 @@ const ManageBlogs: FC<ManageBlogsProps> = ({
 
       <BlogTable
         blogs={blogs}
-        categories={categories}
         loading={fetching}
         removing={removing}
         selectedId={selected?.id}

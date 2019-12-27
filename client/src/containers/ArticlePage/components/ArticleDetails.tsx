@@ -1,22 +1,18 @@
 import React, { FC } from 'react';
 import Button from 'react-bootstrap/Button';
 import { Article } from '../../../models/Article';
-import { Blog } from '../../../models/Blog';
-import { Category } from '../../../models/Category';
 
 type ArticleDetailsProps = {
   article: Article;
-  blog: Blog;
-  category: Category;
 };
 
-const ArticleDetails: FC<ArticleDetailsProps> = ({ article, blog, category }) => (
+const ArticleDetails: FC<ArticleDetailsProps> = ({ article }) => (
   <>
-    <h1>{article.title}</h1>
+    <h2>{article.title}</h2>
     {/*todo*/}
     {/*<div>{article.date.toLocaleDateString()}</div>*/}
     <div>
-      {category.name} | {blog.name}
+      {article.blog?.category?.name} | {article.blog?.name}
     </div>
     <Button as="a" href={article.link} target="_blank" rel="noreferrer">
       View original

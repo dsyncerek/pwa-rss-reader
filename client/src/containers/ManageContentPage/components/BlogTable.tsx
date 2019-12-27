@@ -5,11 +5,9 @@ import Table from 'react-bootstrap/Table';
 import BlogName from '../../../components/BlogName';
 import Loader from '../../../components/Loader';
 import { Blog } from '../../../models/Blog';
-import { Category } from '../../../models/Category';
 
 type BlogTableProps = {
   blogs: Blog[];
-  categories: Category[];
   loading?: boolean;
   removing?: boolean;
   selectedId?: string;
@@ -17,7 +15,7 @@ type BlogTableProps = {
   onDelete: (blog: Blog) => void;
 };
 
-const BlogTable: FC<BlogTableProps> = ({ blogs, categories, loading, removing, selectedId, onUpdate, onDelete }) => {
+const BlogTable: FC<BlogTableProps> = ({ blogs, loading, removing, selectedId, onUpdate, onDelete }) => {
   const isRemovingCurrentRow = (id: string): boolean => {
     return !!removing && selectedId === id;
   };
@@ -39,7 +37,7 @@ const BlogTable: FC<BlogTableProps> = ({ blogs, categories, loading, removing, s
                 <BlogName blog={blog} />
               </a>
             </td>
-            <td>{categories.find(category => category.id === blog.categoryId)?.name}</td>
+            <td>{blog.category?.name}</td>
             <td>
               <ButtonToolbar>
                 <Button size="sm" onClick={() => onUpdate(blog)}>

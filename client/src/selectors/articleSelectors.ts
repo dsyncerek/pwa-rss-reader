@@ -1,12 +1,14 @@
 import { createSelector } from 'reselect';
 import { Article } from '../models/Article';
+import { Blog } from '../models/Blog';
+import { Dictionary } from '../models/Dictionary';
 import { RootState } from '../reducers';
-import { EntityState } from '../reducers/entityReducer';
-import { categoryBlogsSelector } from './blogSelectors';
+import { blogsSelector, categoryBlogsSelector } from './blogSelectors';
 
-export const articlesSelector = createSelector<RootState, EntityState, Article[]>(
-  state => state.entityState,
-  state => sortArticles(Object.values(state.articles)),
+export const articlesSelector = createSelector<RootState, Dictionary<Article>, Blog[], Article[]>(
+  state => state.entityState.articles,
+  blogsSelector,
+  (articles, blogs) => sortArticles(Object.values(articles).map(article => prepareArticle(article, blogs))),
 );
 
 export const blogArticlesSelector = createSelector<RootState, string, Article[], string, Article[]>(
@@ -21,11 +23,16 @@ export const categoryArticlesSelector = createSelector<RootState, string, Articl
   (articles, blogIds) => sortArticles(articles.filter(article => blogIds.includes(article.blogId))),
 );
 
-export const articleSelector = createSelector<RootState, string, EntityState, string, Article | undefined>(
-  state => state.entityState,
-  (state, id) => id,
-  (state, id) => state.articles[id],
+export const articleSelector = createSelector<RootState, string, Article, Blog[], Article | undefined>(
+  (state, id) => state.entityState.articles[id],
+  blogsSelector,
+  (article, blogs) => prepareArticle(article, blogs),
 );
+
+function prepareArticle(article: Article, blogs: Blog[]): Article {
+  const blog = blogs.find(blog => blog.id === article.blogId);
+  return { ...article, blog };
+}
 
 function sortArticles(articles: Article[]): Article[] {
   return articles.sort((a, b) => (a.date > b.date ? -1 : 1));
