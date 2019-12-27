@@ -1,3 +1,5 @@
+/* eslint-disable no-restricted-globals */
+
 import { REQUESTS_SYNC_EVENT_TAG } from './constants';
 import { requestStore } from './utils/requestStore';
 
