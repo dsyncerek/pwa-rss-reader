@@ -15,7 +15,6 @@ const mapState = (state: RootState) => ({
   fetching: loadingSelector(state, [CategoryActionTypes.FETCH_ALL_CATEGORIES]),
   saving: loadingSelector(state, [CategoryActionTypes.CREATE_CATEGORY, CategoryActionTypes.UPDATE_CATEGORY]),
   removing: loadingSelector(state, [CategoryActionTypes.DELETE_CATEGORY]),
-  fetchError: errorSelector(state, [CategoryActionTypes.FETCH_ALL_CATEGORIES]),
   saveError: errorSelector(state, [CategoryActionTypes.CREATE_CATEGORY, CategoryActionTypes.UPDATE_CATEGORY]),
 });
 
@@ -35,7 +34,6 @@ const ManageCategories: FC<ManageCategoriesProps> = ({
   fetching,
   saving,
   removing,
-  fetchError,
   saveError,
   createCategory,
   updateCategory,
@@ -87,15 +85,13 @@ const ManageCategories: FC<ManageCategoriesProps> = ({
   };
 
   return (
-    <>
+    <div className="mb-n3">
       <div className="d-flex justify-content-between align-items-center mb-2">
         <h2 className="mb-0">Categories</h2>
 
-        {!fetching && !fetchError && (
-          <Button onClick={openCreateModal}>
-            <span className="fas fa-plus" aria-label="Add" />
-          </Button>
-        )}
+        <Button onClick={openCreateModal}>
+          <span className="fas fa-plus" aria-label="Add" />
+        </Button>
       </div>
 
       <CategoryTable
@@ -103,7 +99,6 @@ const ManageCategories: FC<ManageCategoriesProps> = ({
         loading={fetching}
         removing={removing}
         selectedId={selected?.id}
-        error={fetchError?.message}
         onDelete={performDelete}
         onUpdate={openUpdateModal}
       />
@@ -117,7 +112,7 @@ const ManageCategories: FC<ManageCategoriesProps> = ({
         onChange={changeInput}
         onSubmit={submitForm}
       />
-    </>
+    </div>
   );
 };
 

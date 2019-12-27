@@ -8,10 +8,10 @@ import ManageCategories from './ManageCategories';
 const ManageContentPage: FC = () => (
   <Layout>
     <Row>
-      <Col lg={4}>
+      <Col xl={4} className="mb-5 mb-xl-0">
         <ManageCategories />
       </Col>
-      <Col lg={8}>
+      <Col xl={8}>
         <ManageBlogs />
       </Col>
     </Row>

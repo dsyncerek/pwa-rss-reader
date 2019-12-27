@@ -36,6 +36,7 @@ const Layout: FC<LayoutProps> = ({ children, blogs, categories, fetching, fetchE
     <Container fluid>
       <Row>
         <Col xl={2} lg={4} className="bg-light py-4">
+          <h1>RSS Reader</h1>
           <ContentList blogs={blogs} categories={categories} loading={fetching} error={fetchError?.message} />
         </Col>
         <Col xl={{ span: 8, offset: 1 }} lg={8} className="py-4">

@@ -18,7 +18,6 @@ const mapState = (state: RootState) => ({
   fetching: loadingSelector(state, [BlogActionTypes.FETCH_ALL_BLOGS, CategoryActionTypes.FETCH_ALL_CATEGORIES]),
   saving: loadingSelector(state, [BlogActionTypes.CREATE_BLOG, BlogActionTypes.UPDATE_BLOG]),
   removing: loadingSelector(state, [BlogActionTypes.DELETE_BLOG]),
-  fetchError: errorSelector(state, [BlogActionTypes.FETCH_ALL_BLOGS, CategoryActionTypes.FETCH_ALL_CATEGORIES]),
   saveError: errorSelector(state, [BlogActionTypes.CREATE_BLOG, BlogActionTypes.UPDATE_BLOG]),
 });
 
@@ -39,7 +38,6 @@ const ManageBlogs: FC<ManageBlogsProps> = ({
   fetching,
   saving,
   removing,
-  fetchError,
   saveError,
   createBlog,
   updateBlog,
@@ -91,15 +89,13 @@ const ManageBlogs: FC<ManageBlogsProps> = ({
   };
 
   return (
-    <>
+    <div className="mb-n3">
       <div className="d-flex justify-content-between align-items-center mb-2">
         <h2 className="mb-0">Blogs</h2>
 
-        {!fetching && !fetchError && (
-          <Button onClick={openCreateModal}>
-            <span className="fas fa-plus" aria-label="Add" />
-          </Button>
-        )}
+        <Button onClick={openCreateModal}>
+          <span className="fas fa-plus" aria-label="Add" />
+        </Button>
       </div>
 
       <BlogTable
@@ -108,7 +104,6 @@ const ManageBlogs: FC<ManageBlogsProps> = ({
         loading={fetching}
         removing={removing}
         selectedId={selected?.id}
-        error={fetchError?.message}
         onDelete={performDelete}
         onUpdate={openUpdateModal}
       />
@@ -123,7 +118,7 @@ const ManageBlogs: FC<ManageBlogsProps> = ({
         onChange={changeInput}
         onSubmit={submitForm}
       />
-    </>
+    </div>
   );
 };
 
