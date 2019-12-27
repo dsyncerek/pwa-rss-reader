@@ -9,8 +9,8 @@ import { RootState } from '../../reducers';
 import { errorSelector, loadingSelector } from '../../selectors/asyncSelectors';
 import { blogsSelector } from '../../selectors/blogSelectors';
 import { categoriesSelector } from '../../selectors/categorySelectors';
-import BlogTable from './components/BlogTable';
-import SaveBlogModal from './components/SaveBlogModal';
+import BlogTable from '../../components/blog/BlogTable';
+import SaveBlogModal from '../../components/blog/SaveBlogModal';
 
 const mapState = (state: RootState) => ({
   blogs: blogsSelector(state),

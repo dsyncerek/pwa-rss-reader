@@ -9,8 +9,8 @@ import { RootState } from '../../reducers';
 import { categoryArticlesSelector } from '../../selectors/articleSelectors';
 import { errorSelector, loadingSelector } from '../../selectors/asyncSelectors';
 import { categoryArticlesPaginationSelector } from '../../selectors/paginationSelectors';
-import Layout from '../Layout/Layout';
-import ArticleList from './components/ArticleList';
+import Layout from '../Layout';
+import ArticleList from '../../components/article/ArticleList';
 
 const mapState = (state: RootState, props: PropsFromRouter) => {
   const slug = props.match.params.id;

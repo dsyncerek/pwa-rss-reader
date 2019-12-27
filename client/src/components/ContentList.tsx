@@ -4,7 +4,7 @@ import ListGroup from 'react-bootstrap/ListGroup';
 import { NavLink } from 'react-router-dom';
 import { Blog } from '../models/Blog';
 import { Category } from '../models/Category';
-import BlogName from './BlogName';
+import BlogName from './blog/BlogName';
 import Loader from './Loader';
 
 type ContentListProps = {
@@ -28,13 +28,12 @@ const ContentList: FC<ContentListProps> = ({ blogs, categories, loading, error }
         </ListGroup.Item>
       </ListGroup>
 
-      <Loader loading={loading}>
-        {error && (
-          <Alert className="mb-2" variant="danger">
-            {error}
-          </Alert>
-        )}
-      </Loader>
+      {loading && <Loader />}
+      {error && (
+        <Alert className="mb-2" variant="danger">
+          {error}
+        </Alert>
+      )}
 
       {categories.map(category => (
         <ListGroup key={category.id} className="mb-2">
@@ -44,7 +43,7 @@ const ContentList: FC<ContentListProps> = ({ blogs, categories, loading, error }
 
           {getCategoryBlogs(category.id).map(blog => (
             <ListGroup.Item activeClassName="active" action as={NavLink} to={`/blog/${blog.id}`} key={blog.id}>
-              <span className="ml-4">
+              <span className="ml-4 d-block">
                 <BlogName blog={blog} />
               </span>
             </ListGroup.Item>

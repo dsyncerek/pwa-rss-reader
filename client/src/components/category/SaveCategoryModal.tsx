@@ -3,7 +3,7 @@ import Alert from 'react-bootstrap/Alert';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
-import { SaveCategory } from '../../../models/Category';
+import { SaveCategory } from '../../models/Category';
 
 type SaveCategoryModalProps = {
   category: SaveCategory;

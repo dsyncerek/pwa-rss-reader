@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { Blog } from '../models/Blog';
+import { Blog } from '../../models/Blog';
 
 type BlogNameProps = {
   blog: Blog;

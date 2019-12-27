@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
-import Layout from '../Layout/Layout';
+import Layout from '../Layout';
 import ManageBlogs from './ManageBlogs';
 import ManageCategories from './ManageCategories';
 

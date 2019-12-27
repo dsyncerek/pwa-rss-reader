@@ -3,8 +3,8 @@ import Alert from 'react-bootstrap/Alert';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
-import { SaveBlog } from '../../../models/Blog';
-import { Category } from '../../../models/Category';
+import { SaveBlog } from '../../models/Blog';
+import { Category } from '../../models/Category';
 
 type SaveBlogModalProps = {
   blog: SaveBlog;

@@ -1,8 +1,8 @@
 import React, { FC, useEffect } from 'react';
 import Alert from 'react-bootstrap/Alert';
 import { Waypoint } from 'react-waypoint';
-import Loader from '../../../components/Loader';
-import { Article } from '../../../models/Article';
+import Loader from '../Loader';
+import { Article } from '../../models/Article';
 import ArticleTile from './ArticleTile';
 
 type ArticleListProps = {

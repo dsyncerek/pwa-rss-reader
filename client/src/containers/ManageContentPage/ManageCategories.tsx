@@ -7,8 +7,8 @@ import { Category, SaveCategory } from '../../models/Category';
 import { RootState } from '../../reducers';
 import { errorSelector, loadingSelector } from '../../selectors/asyncSelectors';
 import { categoriesSelector } from '../../selectors/categorySelectors';
-import CategoryTable from './components/CategoryTable';
-import SaveCategoryModal from './components/SaveCategoryModal';
+import CategoryTable from '../../components/category/CategoryTable';
+import SaveCategoryModal from '../../components/category/SaveCategoryModal';
 
 const mapState = (state: RootState) => ({
   categories: categoriesSelector(state),

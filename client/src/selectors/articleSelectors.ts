@@ -26,7 +26,7 @@ export const categoryArticlesSelector = createSelector<RootState, string, Articl
 export const articleSelector = createSelector<RootState, string, Article, Blog[], Article | undefined>(
   (state, id) => state.entityState.articles[id],
   blogsSelector,
-  (article, blogs) => prepareArticle(article, blogs),
+  (article, blogs) => (article ? prepareArticle(article, blogs) : undefined),
 );
 
 function prepareArticle(article: Article, blogs: Blog[]): Article {

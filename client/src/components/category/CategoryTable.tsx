@@ -2,54 +2,47 @@ import React, { FC } from 'react';
 import Button from 'react-bootstrap/Button';
 import ButtonToolbar from 'react-bootstrap/ButtonToolbar';
 import Table from 'react-bootstrap/Table';
-import BlogName from '../../../components/BlogName';
-import Loader from '../../../components/Loader';
-import { Blog } from '../../../models/Blog';
+import { Category } from '../../models/Category';
+import Loader from '../Loader';
 
-type BlogTableProps = {
-  blogs: Blog[];
+type CategoryTableProps = {
+  categories: Category[];
   loading?: boolean;
   removing?: boolean;
   selectedId?: string;
-  onUpdate: (blog: Blog) => void;
-  onDelete: (blog: Blog) => void;
+  onUpdate: (category: Category) => void;
+  onDelete: (category: Category) => void;
 };
 
-const BlogTable: FC<BlogTableProps> = ({ blogs, loading, removing, selectedId, onUpdate, onDelete }) => {
+const CategoryTable: FC<CategoryTableProps> = ({ categories, loading, removing, selectedId, onUpdate, onDelete }) => {
   const isRemovingCurrentRow = (id: string): boolean => {
     return !!removing && selectedId === id;
   };
 
   return (
-    <Table bordered>
+    <Table responsive bordered>
       <thead>
         <tr>
           <th>Name</th>
-          <th>Category</th>
           <th />
         </tr>
       </thead>
       <tbody>
-        {blogs.map(blog => (
-          <tr key={blog.id}>
-            <td>
-              <a href={blog.link} target="_blank" rel="noopener noreferrer">
-                <BlogName blog={blog} />
-              </a>
-            </td>
-            <td>{blog.category?.name}</td>
-            <td>
+        {categories.map(category => (
+          <tr key={category.id}>
+            <td>{category.name}</td>
+            <td className="text-nowrap">
               <ButtonToolbar>
-                <Button size="sm" onClick={() => onUpdate(blog)}>
+                <Button size="sm" onClick={() => onUpdate(category)}>
                   <span className="fas fa-fw fa-pen" aria-label="Edit" />
                 </Button>
                 <Button
                   size="sm"
                   variant="danger"
-                  onClick={() => onDelete(blog)}
-                  disabled={isRemovingCurrentRow(blog.id)}
+                  disabled={isRemovingCurrentRow(category.id)}
+                  onClick={() => onDelete(category)}
                 >
-                  {isRemovingCurrentRow(blog.id) ? (
+                  {isRemovingCurrentRow(category.id) ? (
                     <span className="fas fa-fw fa-spin fa-spinner" aria-label="Delete" />
                   ) : (
                     <span className="fas fa-fw fa-trash" aria-label="Removing" />
@@ -61,14 +54,14 @@ const BlogTable: FC<BlogTableProps> = ({ blogs, loading, removing, selectedId, o
         ))}
         {loading && (
           <tr>
-            <td colSpan={3} className="p-0">
-              <Loader loading={true} />
+            <td colSpan={2} className="p-0">
+              <Loader />
             </td>
           </tr>
         )}
-        {!blogs.length && !loading && (
+        {!categories.length && !loading && (
           <tr>
-            <td colSpan={3}>No results.</td>
+            <td colSpan={2}>No results.</td>
           </tr>
         )}
       </tbody>
@@ -76,4 +69,4 @@ const BlogTable: FC<BlogTableProps> = ({ blogs, loading, removing, selectedId, o
   );
 };
 
-export default BlogTable;
+export default CategoryTable;

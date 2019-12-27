@@ -9,8 +9,8 @@ import { RootState } from '../../reducers';
 import { articlesSelector } from '../../selectors/articleSelectors';
 import { errorSelector, loadingSelector } from '../../selectors/asyncSelectors';
 import { allArticlesPaginationSelector } from '../../selectors/paginationSelectors';
-import Layout from '../Layout/Layout';
-import ArticleList from './components/ArticleList';
+import Layout from '../Layout';
+import ArticleList from '../../components/article/ArticleList';
 
 const mapState = (state: RootState) => {
   const articles = articlesSelector(state);

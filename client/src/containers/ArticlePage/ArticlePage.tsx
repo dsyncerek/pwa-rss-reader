@@ -1,32 +1,19 @@
 import React, { FC, useEffect } from 'react';
-import Alert from 'react-bootstrap/Alert';
 import { connect, ConnectedProps } from 'react-redux';
 import { RouteComponentProps } from 'react-router-dom';
 import { fetchArticle } from '../../actions/articleActions';
 import { ArticleActionTypes } from '../../actions/articleActionTypes';
-import { BlogActionTypes } from '../../actions/blogActionTypes';
-import { CategoryActionTypes } from '../../actions/categoryActionTypes';
-import Loader from '../../components/Loader';
+import ArticleDetails from '../../components/article/ArticleDetails';
 import { RootState } from '../../reducers';
 import { articleSelector } from '../../selectors/articleSelectors';
 import { errorSelector, loadingSelector } from '../../selectors/asyncSelectors';
-import Layout from '../Layout/Layout';
-import ArticleDetails from './components/ArticleDetails';
+import Layout from '../Layout';
 
-const mapState = (state: RootState, props: PropsFromRouter) => {
-  const article = articleSelector(state, props.match.params.id);
-
-  const fetchActions = [
-    ArticleActionTypes.FETCH_ARTICLE,
-    BlogActionTypes.FETCH_ALL_BLOGS,
-    CategoryActionTypes.FETCH_ALL_CATEGORIES,
-  ];
-
-  const fetching = loadingSelector(state, fetchActions);
-  const fetchError = errorSelector(state, fetchActions);
-
-  return { article, fetching, fetchError };
-};
+const mapState = (state: RootState, props: PropsFromRouter) => ({
+  article: articleSelector(state, props.match.params.id),
+  fetching: loadingSelector(state, [ArticleActionTypes.FETCH_ARTICLE]),
+  fetchError: errorSelector(state, [ArticleActionTypes.FETCH_ARTICLE]),
+});
 
 const mapDispatch = {
   fetchArticle,
@@ -47,10 +34,7 @@ const ArticlePage: FC<ArticlePageProps> = ({ article, fetching, fetchError, fetc
 
   return (
     <Layout>
-      <Loader loading={fetching}>
-        {fetchError && <Alert variant="danger">{fetchError.message}</Alert>}
-        {article && <ArticleDetails article={article} />}
-      </Loader>
+      <ArticleDetails article={article} loading={fetching} error={fetchError?.message} />
     </Layout>
   );
 };

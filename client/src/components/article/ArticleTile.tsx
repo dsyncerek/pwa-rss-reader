@@ -3,7 +3,7 @@ import Button from 'react-bootstrap/Button';
 import ButtonToolbar from 'react-bootstrap/ButtonToolbar';
 import Card from 'react-bootstrap/Card';
 import { Link } from 'react-router-dom';
-import { Article } from '../../../models/Article';
+import { Article } from '../../models/Article';
 
 type ArticleTileProps = {
   article: Article;
@@ -13,14 +13,11 @@ type ArticleTileProps = {
 const ArticleTile: FC<ArticleTileProps> = ({ article, markAsRead }) => (
   <Card style={{ opacity: article.read ? 0.5 : 1 }}>
     <Card.Body>
-      <Card.Title>{article.title}</Card.Title>
-      <Card.Text>
-        {/*todo*/}
-        {/*<time>{article.date.toLocaleDateString()}</time>*/}
-        <span className="d-block">
-          {article.blog?.category?.name} | {article.blog?.name}
-        </span>
-      </Card.Text>
+      <h2 className="h5">{article.title}</h2>
+      <time>{new Date(article.date).toLocaleDateString()}</time>
+      <p>
+        {article.blog?.category?.name} | {article.blog?.name}
+      </p>
       <ButtonToolbar>
         <Button as={Link} to={`/article/${article.id}`} onClick={() => markAsRead(article.id)}>
           View
