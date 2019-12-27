@@ -1,7 +1,7 @@
 import React, { FC, useEffect } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { RouteComponentProps } from 'react-router-dom';
-import { fetchArticle } from '../../actions/articleActions';
+import { fetchArticle, markArticleAsReadOptimistic } from '../../actions/articleActions';
 import { ArticleActionTypes } from '../../actions/articleActionTypes';
 import ArticleDetails from '../../components/article/ArticleDetails';
 import { RootState } from '../../reducers';
@@ -17,6 +17,7 @@ const mapState = (state: RootState, props: PropsFromRouter) => ({
 
 const mapDispatch = {
   fetchArticle,
+  markArticleAsReadOptimistic,
 };
 
 const connector = connect(mapState, mapDispatch);
@@ -25,7 +26,14 @@ type PropsFromRedux = ConnectedProps<typeof connector>;
 type PropsFromRouter = RouteComponentProps<{ id: string }>;
 type ArticlePageProps = PropsFromRedux & PropsFromRouter;
 
-const ArticlePage: FC<ArticlePageProps> = ({ article, fetching, fetchError, fetchArticle, match }) => {
+const ArticlePage: FC<ArticlePageProps> = ({
+  article,
+  fetching,
+  fetchError,
+  fetchArticle,
+  markArticleAsReadOptimistic,
+  match,
+}) => {
   const id = match.params.id;
 
   useEffect(() => {
@@ -34,7 +42,12 @@ const ArticlePage: FC<ArticlePageProps> = ({ article, fetching, fetchError, fetc
 
   return (
     <Layout>
-      <ArticleDetails article={article} loading={fetching} error={fetchError?.message} />
+      <ArticleDetails
+        article={article}
+        loading={fetching}
+        error={fetchError?.message}
+        markAsRead={markArticleAsReadOptimistic}
+      />
     </Layout>
   );
 };

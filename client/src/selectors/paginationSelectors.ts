@@ -2,7 +2,7 @@ import { createSelector } from 'reselect';
 import { Pagination } from '../models/Pagination';
 import { RootState } from '../reducers';
 
-export const initialPagination: Pagination = { totalItems: 0, pageCount: 1, currentPage: 0 };
+export const initialPagination: Pagination = { totalItems: 0, pageCount: Number.MAX_SAFE_INTEGER, currentPage: 0 };
 
 export const allArticlesPaginationSelector = createSelector<RootState, Pagination | undefined, Pagination>(
   state => state.paginationState.articles.all,

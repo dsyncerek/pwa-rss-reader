@@ -3,33 +3,16 @@ import { connect, ConnectedProps } from 'react-redux';
 import { RouteComponentProps } from 'react-router-dom';
 import { fetchBlogArticlesPage, markArticleAsReadOptimistic } from '../../actions/articleActions';
 import { ArticleActionTypes } from '../../actions/articleActionTypes';
-import { BlogActionTypes } from '../../actions/blogActionTypes';
-import { CategoryActionTypes } from '../../actions/categoryActionTypes';
+import ArticleList from '../../components/article/ArticleList';
 import { RootState } from '../../reducers';
 import { blogArticlesSelector } from '../../selectors/articleSelectors';
-import { errorSelector, loadingSelector } from '../../selectors/asyncSelectors';
-import { blogArticlesPaginationSelector } from '../../selectors/paginationSelectors';
+import { loadingSelector } from '../../selectors/asyncSelectors';
 import Layout from '../Layout';
-import ArticleList from '../../components/article/ArticleList';
 
-const mapState = (state: RootState, props: PropsFromRouter) => {
-  const slug = props.match.params.id;
-
-  const articles = blogArticlesSelector(state, slug);
-
-  const fetchActions = [
-    ArticleActionTypes.FETCH_BLOG_ARTICLES_PAGE,
-    BlogActionTypes.FETCH_ALL_BLOGS,
-    CategoryActionTypes.FETCH_ALL_CATEGORIES,
-  ];
-
-  const fetching = loadingSelector(state, fetchActions);
-  const fetchError = errorSelector(state, fetchActions);
-
-  const pagination = blogArticlesPaginationSelector(state, slug);
-
-  return { articles, pagination, fetching, fetchError };
-};
+const mapState = (state: RootState, props: PropsFromRouter) => ({
+  articles: blogArticlesSelector(state, props.match.params.id),
+  fetching: loadingSelector(state, [ArticleActionTypes.FETCH_BLOG_ARTICLES_PAGE]),
+});
 
 const mapDispatch = {
   fetchBlogArticlesPage,
@@ -44,33 +27,22 @@ type ArticlesPageProps = PropsFromRedux & PropsFromRouter;
 
 const BlogArticlesPage: FC<ArticlesPageProps> = ({
   articles,
-  pagination,
   fetching,
-  fetchError,
   fetchBlogArticlesPage,
   markArticleAsReadOptimistic,
   match,
 }) => {
   const id = match.params.id;
 
-  const fetchPage = useCallback(
-    page => {
-      fetchBlogArticlesPage(id, page);
-    },
-    [fetchBlogArticlesPage, id],
-  );
+  const fetchPage = useCallback(page => fetchBlogArticlesPage(id, page), [fetchBlogArticlesPage, id]);
 
   return (
     <Layout>
       <ArticleList
         articles={articles}
         loading={fetching}
-        error={fetchError?.message}
         fetchPage={fetchPage}
         markAsRead={markArticleAsReadOptimistic}
-        currentPage={pagination.currentPage}
-        totalItems={pagination.totalItems}
-        pageCount={pagination.pageCount}
       />
     </Layout>
   );

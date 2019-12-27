@@ -37,3 +37,11 @@ $enable-responsive-font-sizes: true;
 .table td {
   vertical-align: middle;
 }
+
+article {
+  overflow: hidden;
+
+  img {
+    max-width: 100%;
+  }
+}

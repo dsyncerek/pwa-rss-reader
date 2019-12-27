@@ -3,31 +3,16 @@ import { connect, ConnectedProps } from 'react-redux';
 import { RouteComponentProps } from 'react-router-dom';
 import { fetchArticlesPage, markArticleAsReadOptimistic } from '../../actions/articleActions';
 import { ArticleActionTypes } from '../../actions/articleActionTypes';
-import { BlogActionTypes } from '../../actions/blogActionTypes';
-import { CategoryActionTypes } from '../../actions/categoryActionTypes';
+import ArticleList from '../../components/article/ArticleList';
 import { RootState } from '../../reducers';
 import { articlesSelector } from '../../selectors/articleSelectors';
-import { errorSelector, loadingSelector } from '../../selectors/asyncSelectors';
-import { allArticlesPaginationSelector } from '../../selectors/paginationSelectors';
+import { loadingSelector } from '../../selectors/asyncSelectors';
 import Layout from '../Layout';
-import ArticleList from '../../components/article/ArticleList';
 
-const mapState = (state: RootState) => {
-  const articles = articlesSelector(state);
-
-  const fetchActions = [
-    ArticleActionTypes.FETCH_ARTICLES_PAGE,
-    BlogActionTypes.FETCH_ALL_BLOGS,
-    CategoryActionTypes.FETCH_ALL_CATEGORIES,
-  ];
-
-  const fetching = loadingSelector(state, fetchActions);
-  const fetchError = errorSelector(state, fetchActions);
-
-  const pagination = allArticlesPaginationSelector(state);
-
-  return { articles, pagination, fetching, fetchError };
-};
+const mapState = (state: RootState) => ({
+  articles: articlesSelector(state),
+  fetching: loadingSelector(state, [ArticleActionTypes.FETCH_ARTICLES_PAGE]),
+});
 
 const mapDispatch = {
   fetchArticlesPage,
@@ -42,9 +27,7 @@ type ArticlesPageProps = PropsFromRedux & PropsFromRouter;
 
 const AllArticlesPage: FC<ArticlesPageProps> = ({
   articles,
-  pagination,
   fetching,
-  fetchError,
   fetchArticlesPage,
   markArticleAsReadOptimistic,
 }) => (
@@ -52,12 +35,8 @@ const AllArticlesPage: FC<ArticlesPageProps> = ({
     <ArticleList
       articles={articles}
       loading={fetching}
-      error={fetchError?.message}
       fetchPage={fetchArticlesPage}
       markAsRead={markArticleAsReadOptimistic}
-      currentPage={pagination.currentPage}
-      totalItems={pagination.totalItems}
-      pageCount={pagination.pageCount}
     />
   </Layout>
 );
