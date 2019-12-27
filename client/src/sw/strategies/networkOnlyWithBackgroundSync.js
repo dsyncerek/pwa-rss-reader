@@ -3,9 +3,9 @@ import { getFromNetwork } from './utils';
 
 export async function networkOnlyWithBackgroundSync(request) {
   try {
-    return await getFromNetwork(request);
+    return await getFromNetwork(request.clone());
   } catch {
-    await addRequestToBackgroundSync(request.clone());
+    await addRequestToBackgroundSync(request);
     return new Response();
   }
 }
