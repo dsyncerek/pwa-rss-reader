@@ -5,7 +5,7 @@ export async function networkOnlyWithBackgroundSync(request) {
   try {
     return await getFromNetwork(request);
   } catch {
-    await addRequestToBackgroundSync(request);
+    await addRequestToBackgroundSync(request.clone());
     return new Response();
   }
 }

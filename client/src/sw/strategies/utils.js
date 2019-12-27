@@ -5,21 +5,21 @@ export async function getFromCache(request, cacheName) {
 
 export async function getFromNetwork(request, timeout = 3000) {
   return Promise.race([
-    fetch(request.clone()),
+    fetch(request),
     new Promise(((resolve, reject) => setTimeout(reject, timeout))),
   ]);
 }
 
 export async function getFromNetworkAndPutIntoCache(request, cacheName) {
   const response = await getFromNetwork(request);
-  putIntoCache(request, response, cacheName).catch();
+  putIntoCache(request, response.clone(), cacheName).catch();
   return response;
 }
 
 async function putIntoCache(request, response, cacheName) {
   if (canCache(request, response)) {
     const cache = await caches.open(cacheName);
-    await cache.put(request, response.clone());
+    await cache.put(request, response);
   }
 }
 
