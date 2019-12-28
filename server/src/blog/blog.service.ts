@@ -72,7 +72,6 @@ export class BlogService {
         slug: `${generateSlug(output.title)}-${generateSlug(item.title)}`,
         date: new Date(item.isoDate),
         link: item.link,
-        summary: item.contentSnippet,
         content: item.content,
       });
     });

@@ -1,11 +1,20 @@
 import { Injectable } from '@nestjs/common';
 import * as Parser from 'rss-parser';
+import * as sanitizeHtml from 'sanitize-html';
+import { sanitizeHtmlConfig } from '../config/sanitize-html.config';
 
 @Injectable()
 export class RssService {
   private readonly parser = new Parser();
 
   public async parseBlogRssUrl(url: string): Promise<Parser.Output> {
-    return this.parser.parseURL(url);
+    const parsed = await this.parser.parseURL(url);
+
+    parsed.items = parsed.items.map(item => ({
+      ...item,
+      content: sanitizeHtml(item.content, sanitizeHtmlConfig),
+    }));
+
+    return parsed;
   }
 }

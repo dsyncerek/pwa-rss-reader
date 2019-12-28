@@ -7,7 +7,6 @@ export interface Article {
   slug: string;
   date: Date;
   link: string;
-  summary: string;
   content: string;
   read: boolean;
   blogId: string;

@@ -21,9 +21,6 @@ export class Article {
   link: string;
 
   @Column()
-  summary: string;
-
-  @Column()
   content: string;
 
   @Column({ default: false })
