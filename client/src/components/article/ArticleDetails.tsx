@@ -23,6 +23,7 @@ const ArticleDetails: FC<ArticleDetailsProps> = ({ article, loading, error, mark
   return (
     <>
       {loading && <Loader />}
+
       {error && (
         <Alert className="mb-2" variant="danger">
           {error}
