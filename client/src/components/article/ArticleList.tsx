@@ -8,14 +8,13 @@ import ArticleTile from './ArticleTile';
 type ArticleListProps = {
   articles: Article[];
   loading: boolean;
+  pageCount: number;
   fetchPage: (page: number) => void;
   markAsRead: (id: string) => void;
 };
 
-const ArticleList: FC<ArticleListProps> = ({ articles, loading, fetchPage, markAsRead }) => {
-  useEffect(() => {
-    fetchPage(1);
-  }, [fetchPage]);
+const ArticleList: FC<ArticleListProps> = ({ articles, loading, pageCount, fetchPage, markAsRead }) => {
+  useEffect(() => fetchPage(1), [fetchPage]);
 
   const renderNextPageWaypoint = (articleIndex: number) => {
     const pageSize = +(process.env.REACT_APP_ARTICLES_PAGE_SIZE || 20);
@@ -23,7 +22,11 @@ const ArticleList: FC<ArticleListProps> = ({ articles, loading, fetchPage, markA
     // load next page if we are in the middle of current
     if (articleIndex % pageSize === pageSize / 2) {
       const currentPage = Math.ceil(articleIndex / pageSize);
-      return <Waypoint onEnter={() => fetchPage(currentPage + 1)} />;
+      const nextPage = currentPage + 1;
+
+      if (nextPage <= pageCount) {
+        return <Waypoint onEnter={() => fetchPage(nextPage)} />;
+      }
     }
 
     return null;

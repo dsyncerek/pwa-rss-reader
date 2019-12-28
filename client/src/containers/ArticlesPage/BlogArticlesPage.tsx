@@ -7,11 +7,13 @@ import ArticleList from '../../components/article/ArticleList';
 import { RootState } from '../../reducers';
 import { blogArticlesSelector } from '../../selectors/articleSelectors';
 import { loadingSelector } from '../../selectors/asyncSelectors';
+import { blogArticlesPageCountSelector } from '../../selectors/paginationSelectors';
 import Layout from '../Layout';
 
 const mapState = (state: RootState, props: PropsFromRouter) => ({
   articles: blogArticlesSelector(state, props.match.params.id),
   fetching: loadingSelector(state, [ArticleActionTypes.FETCH_BLOG_ARTICLES_PAGE]),
+  pageCount: blogArticlesPageCountSelector(state, props.match.params.id),
 });
 
 const mapDispatch = {
@@ -28,6 +30,7 @@ type ArticlesPageProps = PropsFromRedux & PropsFromRouter;
 const BlogArticlesPage: FC<ArticlesPageProps> = ({
   articles,
   fetching,
+  pageCount,
   fetchBlogArticlesPage,
   markArticleAsReadOptimistic,
   match,
@@ -41,6 +44,7 @@ const BlogArticlesPage: FC<ArticlesPageProps> = ({
       <ArticleList
         articles={articles}
         loading={fetching}
+        pageCount={pageCount}
         fetchPage={fetchPage}
         markAsRead={markArticleAsReadOptimistic}
       />
