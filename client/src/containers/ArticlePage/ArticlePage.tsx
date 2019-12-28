@@ -36,7 +36,9 @@ const ArticlePage: FC<ArticlePageProps> = ({
 }) => {
   const id = match.params.id;
 
-  useEffect(() => fetchArticle(id), [fetchArticle, id]);
+  useEffect(() => {
+    fetchArticle(id);
+  }, [fetchArticle, id]);
 
   return (
     <Layout>

@@ -14,7 +14,9 @@ type ArticleListProps = {
 };
 
 const ArticleList: FC<ArticleListProps> = ({ articles, loading, pageCount, fetchPage, markAsRead }) => {
-  useEffect(() => fetchPage(1), [fetchPage]);
+  useEffect(() => {
+    fetchPage(1);
+  }, [fetchPage]);
 
   const renderNextPageWaypoint = (articleIndex: number) => {
     const pageSize = +(process.env.REACT_APP_ARTICLES_PAGE_SIZE || 20);
