@@ -8,7 +8,13 @@ import { blogsSelector } from './blogSelectors';
 export const articlesSelector = createSelector<RootState, Dictionary<Article>, Blog[], Article[]>(
   state => state.entityState.articles,
   blogsSelector,
-  (articles, blogs) => sortArticles(Object.values(articles).map(article => prepareArticle(article, blogs))),
+  (articles, blogs) => {
+    return sortArticles(
+      Object.values(articles)
+        .map(article => prepareArticle(article, blogs)!)
+        .filter(Boolean),
+    );
+  },
 );
 
 export const blogArticlesSelector = createSelector<RootState, string, Article[], string, Article[]>(
@@ -29,8 +35,14 @@ export const articleSelector = createSelector<RootState, string, Article, Blog[]
   (article, blogs) => (article ? prepareArticle(article, blogs) : undefined),
 );
 
-function prepareArticle(article: Article, blogs: Blog[]): Article {
+function prepareArticle(article: Article, blogs: Blog[]): Article | undefined {
   const blog = blogs.find(blog => blog.id === article.blogId);
+
+  if (!blog) {
+    // if blog doesn't exist, skip article
+    return;
+  }
+
   return { ...article, blog };
 }
 

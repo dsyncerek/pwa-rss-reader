@@ -1,4 +1,4 @@
-import { SaveBlog } from '../models/Blog';
+import { Blog, SaveBlog } from '../models/Blog';
 import { HttpError } from '../models/HttpError';
 import { RootEntitiesType } from './rootTypes';
 
@@ -41,6 +41,7 @@ export interface CreateBlogAction {
 
 export interface CreateBlogSuccessAction {
   type: BlogActionTypes.CREATE_BLOG_SUCCESS;
+  blog: Blog;
   entities: RootEntitiesType;
 }
 

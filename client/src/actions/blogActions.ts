@@ -36,7 +36,7 @@ export function createBlog(blog: SaveBlog): RootThunkAction {
     },
     onSuccess: (entities, blog) => dispatch => {
       dispatch(showSuccessToast('Blog has been created.'));
-      dispatch({ type: BlogActionTypes.CREATE_BLOG_SUCCESS, entities });
+      dispatch({ type: BlogActionTypes.CREATE_BLOG_SUCCESS, entities, blog });
       blogIdb.saveBlog(blog).catch();
     },
     onError: error => dispatch => {

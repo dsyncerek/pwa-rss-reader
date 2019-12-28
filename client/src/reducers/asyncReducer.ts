@@ -28,7 +28,6 @@ export function asyncReducer(state: AsyncState = {}, action: RootAction): AsyncS
     });
   }
 
-  // todo: handle only async actions
   return produce(state, draft => {
     draft[action.type] = {
       loading: true,
