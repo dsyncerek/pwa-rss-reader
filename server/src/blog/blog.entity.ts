@@ -1,3 +1,4 @@
+import { ApiHideProperty } from '@nestjs/swagger';
 import { Column, Entity, Index, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { Article } from '../article/article.entity';
 import { Category } from '../category/category.entity';
@@ -38,7 +39,7 @@ export class Blog {
     () => Category,
     category => category.blogs,
   )
-  // @ApiHideProperty()
+  @ApiHideProperty()
   category: Category;
 
   constructor(blog: Partial<Blog> = {}) {

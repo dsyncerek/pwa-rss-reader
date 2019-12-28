@@ -7,8 +7,7 @@ import { UpdateCategoryDto } from './update-category.dto';
 
 @Injectable()
 export class CategoryService {
-  @InjectRepository(Category)
-  private readonly categoryRepository: Repository<Category>;
+  constructor(@InjectRepository(Category) private readonly categoryRepository: Repository<Category>) {}
 
   public async getAllCategories(): Promise<Category[]> {
     return this.categoryRepository.find();

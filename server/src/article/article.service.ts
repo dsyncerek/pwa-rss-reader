@@ -7,8 +7,7 @@ import { Article } from './article.entity';
 
 @Injectable()
 export class ArticleService {
-  @InjectRepository(Article)
-  private readonly articleRepository: Repository<Article>;
+  constructor(@InjectRepository(Article) private readonly articleRepository: Repository<Article>) {}
 
   public async getAllArticles(): Promise<Article[]> {
     return this.articleRepository.find();

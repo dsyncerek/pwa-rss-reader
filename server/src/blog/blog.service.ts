@@ -11,10 +11,10 @@ import { UpdateBlogDto } from './update-blog.dto';
 
 @Injectable()
 export class BlogService {
-  @InjectRepository(Blog)
-  private readonly blogRepository: Repository<Blog>;
-
-  constructor(private readonly rssService: RssService) {
+  constructor(
+    @InjectRepository(Blog) private readonly blogRepository: Repository<Blog>,
+    private readonly rssService: RssService,
+  ) {
     this.startRefreshingInterval();
   }
 
@@ -88,10 +88,10 @@ export class BlogService {
   }
 
   private startRefreshingInterval(): void {
-    const interval = 1000 * 60 * 60 * 8; // 8h
+    this.refreshAllBlogs().catch();
 
     setInterval(() => {
-      this.refreshAllBlogs();
-    }, interval);
+      this.refreshAllBlogs().catch();
+    }, +process.env.BLOGS_REFRESH_INTERVAL);
   }
 }

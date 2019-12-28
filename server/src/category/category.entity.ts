@@ -1,3 +1,4 @@
+import { ApiHideProperty } from '@nestjs/swagger';
 import { Column, Entity, Index, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { Blog } from '../blog/blog.entity';
 
@@ -14,6 +15,6 @@ export class Category {
     () => Blog,
     blog => blog.category,
   )
-  // @ApiHideProperty()
+  @ApiHideProperty()
   blogs: Blog[];
 }
