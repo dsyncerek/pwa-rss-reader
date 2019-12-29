@@ -1,16 +1,16 @@
-[![Actions Status](https://github.com/dsyncerek/rss-reader/workflows/ServerCI/badge.svg)](https://github.com/dsyncerek/rss-reader/actions)
-[![Actions Status](https://github.com/dsyncerek/rss-reader/workflows/ClientCI/badge.svg)](https://github.com/dsyncerek/rss-reader/actions)
-[![Dependabot Status](https://api.dependabot.com/badges/status?host=github&repo=dsyncerek/rss-reader&identifier=224730216)](https://dependabot.com)
+[![Actions Status](https://github.com/dsyncerek/pwa-rss-reader/workflows/ServerCI/badge.svg)](https://github.com/dsyncerek/pwa-rss-reader/actions)
+[![Actions Status](https://github.com/dsyncerek/pwa-rss-reader/workflows/ClientCI/badge.svg)](https://github.com/dsyncerek/pwa-rss-reader/actions)
+[![Dependabot Status](https://api.dependabot.com/badges/status?host=github&repo=dsyncerek/pwa-rss-reader&identifier=224730216)](https://dependabot.com)
 
-# RSS Reader
+# PWA RSS Reader
 
 > todo 
 
 ## Demo
 
-Live: [dsyncerek-rss-reader.herokuapp.com](http://dsyncerek-rss-reader.herokuapp.com/).
+Live: [pwa-rss-reader.herokuapp.com](http://pwa-rss-reader.herokuapp.com/).
 
-OpenAPI: [dsyncerek-rss-reader.herokuapp.com/openapi](https://dsyncerek-rss-reader.herokuapp.com/openapi/).
+OpenAPI: [pwa-rss-reader.herokuapp.com/openapi](https://pwa-rss-reader.herokuapp.com/openapi/).
 
 **NOTE**: Application will load after a short delay. Details [here](https://devcenter.heroku.com/articles/free-dyno-hours).
 
@@ -32,8 +32,8 @@ OpenAPI: [dsyncerek-rss-reader.herokuapp.com/openapi](https://dsyncerek-rss-read
 ## Installation
 
 ```
-git clone https://github.com/dsyncerek/rss-reader.git
-cd rss-reader
+git clone https://github.com/dsyncerek/pwa-rss-reader.git
+cd pwa-rss-reader
 npm install
 ```
 
