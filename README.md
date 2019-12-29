@@ -39,7 +39,7 @@ npm install
 
 ## Configuration
 
-todo
+Rename `server/.env.example` to `server/.env`, `client/.env.example` to `client/.env` and edit with your needs.
 
 ## Usage
 
