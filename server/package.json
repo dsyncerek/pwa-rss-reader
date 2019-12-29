@@ -1,5 +1,5 @@
 {
-  "name": "rss-reader-server",
+  "name": "pwa-rss-reader-server",
   "version": "1.0.0",
   "scripts": {
     "start:dev": "nest start --watch --path tsconfig.json",
