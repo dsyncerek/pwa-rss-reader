@@ -1,13 +1,8 @@
-$border-radius: 0;
-$border-radius-lg: 0;
-$border-radius-sm: 0;
-$toast-border-radius: 0;
-
 $primary: lighten(#58355e, 15%);
-
 $font-family-base: "Ubuntu", "sans-serif";
-
 $enable-responsive-font-sizes: true;
+$enable-rounded: false;
+$grid-breakpoints: (xs: 0, sm: 576px, md: 768px, lg: 992px, xl: 1440px);
 
 @import "~bootstrap/scss/functions";
 @import "~bootstrap/scss/variables";
@@ -15,9 +10,9 @@ $enable-responsive-font-sizes: true;
 @import "~bootstrap/scss/root";
 @import "~bootstrap/scss/reboot";
 @import "~bootstrap/scss/type";
-@import "~bootstrap/scss/transitions";
 
 @import "~bootstrap/scss/grid";
+@import "~bootstrap/scss/navbar";
 @import "~bootstrap/scss/tables";
 @import "~bootstrap/scss/forms";
 @import "~bootstrap/scss/buttons";
@@ -28,6 +23,7 @@ $enable-responsive-font-sizes: true;
 @import "~bootstrap/scss/close";
 @import "~bootstrap/scss/modal";
 @import "~bootstrap/scss/spinners";
+@import "~bootstrap/scss/transitions";
 @import "~bootstrap/scss/utilities";
 
 .btn-toolbar > * + * {
@@ -36,12 +32,4 @@ $enable-responsive-font-sizes: true;
 
 .table td {
   vertical-align: middle;
-}
-
-article {
-  overflow: hidden;
-
-  img {
-    max-width: 100%;
-  }
 }

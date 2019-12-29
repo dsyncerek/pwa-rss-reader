@@ -11,7 +11,7 @@ type ArticleTileProps = {
 };
 
 const ArticleTile: FC<ArticleTileProps> = ({ article, markAsRead }) => (
-  <Card style={{ opacity: article.read ? 0.5 : 1 }}>
+  <Card as="article" style={{ opacity: article.read ? 0.5 : 1 }}>
     <Card.Body>
       <h2 className="h5">{article.title}</h2>
       <time>{new Date(article.date).toLocaleDateString()}</time>
@@ -19,13 +19,24 @@ const ArticleTile: FC<ArticleTileProps> = ({ article, markAsRead }) => (
         {article.blog?.category?.name} | {article.blog?.name}
       </p>
       <ButtonToolbar>
-        <Button as={Link} to={`/article/${article.id}`}>
+        <Button size="sm" as={Link} to={`/article/${article.id}`}>
           View
         </Button>
-        <Button as="a" href={article.link} target="_blank" rel="noreferrer" onClick={() => markAsRead(article.id)}>
+        <Button
+          size="sm"
+          as="a"
+          href={article.link}
+          target="_blank"
+          rel="noreferrer"
+          onClick={() => markAsRead(article.id)}
+        >
           View original
         </Button>
-        {!article.read && <Button onClick={() => markAsRead(article.id)}>Mark as Read</Button>}
+        {!article.read && (
+          <Button size="sm" onClick={() => markAsRead(article.id)}>
+            Mark as Read
+          </Button>
+        )}
       </ButtonToolbar>
     </Card.Body>
   </Card>

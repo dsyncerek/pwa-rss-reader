@@ -26,3 +26,7 @@
 .#{$fa-css-prefix}-spinner:before {
   content: fa-content($fa-var-spinner);
 }
+
+.#{$fa-css-prefix}-bars:before {
+  content: fa-content($fa-var-bars);
+}

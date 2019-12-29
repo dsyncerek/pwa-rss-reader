@@ -1,4 +1,7 @@
 import React, { FC, ReactNode } from 'react';
+import { Navbar } from 'react-bootstrap';
+import Alert from 'react-bootstrap/Alert';
+import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
@@ -7,6 +10,7 @@ import { BlogActionTypes } from '../actions/blogActionTypes';
 import { CategoryActionTypes } from '../actions/categoryActionTypes';
 import { hideToast } from '../actions/toastActions';
 import ContentList from '../components/ContentList';
+import Loader from '../components/Loader';
 import Toasts from '../components/Toasts';
 import { RootState } from '../reducers';
 import { errorSelector, loadingSelector } from '../selectors/asyncSelectors';
@@ -36,10 +40,27 @@ const Layout: FC<LayoutProps> = ({ children, blogs, categories, fetching, fetchE
     <Container fluid>
       <Row>
         <Col xl={2} lg={4} className="bg-light py-4">
-          <aside>
-            <h1>RSS Reader</h1>
-            <ContentList blogs={blogs} categories={categories} loading={fetching} error={fetchError?.message} />
-          </aside>
+          <Navbar className="d-block p-0" expand="lg" collapseOnSelect>
+            <div className="d-flex justify-content-between align-items-center">
+              <h1 className="mb-0">RSS Reader</h1>
+
+              <Navbar.Toggle as={Button} className="text-white" aria-controls="navbar-nav">
+                <span className="fas fa-fw fa-bars" />
+              </Navbar.Toggle>
+            </div>
+
+            {fetching && <Loader />}
+
+            {fetchError && (
+              <Alert className="mb-2" variant="danger">
+                {fetchError.message}
+              </Alert>
+            )}
+
+            <Navbar.Collapse className="mt-2" id="navbar-nav">
+              <ContentList blogs={blogs} categories={categories} />
+            </Navbar.Collapse>
+          </Navbar>
         </Col>
         <Col xl={{ span: 8, offset: 1 }} lg={8} className="py-5">
           {children}

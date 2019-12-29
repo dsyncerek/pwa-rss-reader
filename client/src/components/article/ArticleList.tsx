@@ -35,17 +35,17 @@ const ArticleList: FC<ArticleListProps> = ({ articles, loading, pageCount, fetch
   };
 
   return (
-    <div className="mb-n4">
-      <div className="row row-cols-1 row-cols-md-2 row-cols-xl-3">
+    <div className="mb-n3">
+      <div className="row mx-n2 row-cols-1 row-cols-md-2 row-cols-xl-3">
         {articles.map((article, index) => (
-          <div className="col mb-4" key={article.id}>
+          <div className="col mb-3 px-2" key={article.id}>
             <ArticleTile article={article} markAsRead={markAsRead} />
             {renderNextPageWaypoint(index)}
           </div>
         ))}
       </div>
 
-      <div className="mb-4">
+      <div className="mb-3">
         {loading && <Loader />}
 
         {!loading && !articles.length && (

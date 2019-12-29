@@ -1,20 +1,16 @@
 import React, { FC } from 'react';
-import Alert from 'react-bootstrap/Alert';
 import ListGroup from 'react-bootstrap/ListGroup';
 import { NavLink } from 'react-router-dom';
 import { Blog } from '../models/Blog';
 import { Category } from '../models/Category';
 import BlogName from './blog/BlogName';
-import Loader from './Loader';
 
 type ContentListProps = {
   blogs: Blog[];
   categories: Category[];
-  loading: boolean;
-  error?: string;
 };
 
-const ContentList: FC<ContentListProps> = ({ blogs, categories, loading, error }) => {
+const ContentList: FC<ContentListProps> = ({ blogs, categories }) => {
   const getCategoryBlogs = (categoryId: string): Blog[] => blogs.filter(blog => blog.categoryId === categoryId);
 
   return (
@@ -27,13 +23,6 @@ const ContentList: FC<ContentListProps> = ({ blogs, categories, loading, error }
           Add content
         </ListGroup.Item>
       </ListGroup>
-
-      {loading && <Loader />}
-      {error && (
-        <Alert className="mb-2" variant="danger">
-          {error}
-        </Alert>
-      )}
 
       {categories.map(category => (
         <ListGroup key={category.id} className="mb-2">

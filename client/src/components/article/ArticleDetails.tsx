@@ -31,7 +31,7 @@ const ArticleDetails: FC<ArticleDetailsProps> = ({ article, loading, error, mark
       )}
 
       {article && (
-        <article>
+        <article className="overflow-hidden">
           <h2 className="h1">{article.title}</h2>
           <time>{new Date(article.date).toLocaleDateString()}</time>
           <p>
