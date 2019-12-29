@@ -8,7 +8,7 @@
 
 ## Demo
 
-Live: [pwa-rss-reader.herokuapp.com](http://pwa-rss-reader.herokuapp.com/).
+Live: [pwa-rss-reader.herokuapp.com](https://pwa-rss-reader.herokuapp.com/).
 
 OpenAPI: [pwa-rss-reader.herokuapp.com/openapi](https://pwa-rss-reader.herokuapp.com/openapi/).
 
