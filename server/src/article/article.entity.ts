@@ -1,5 +1,14 @@
 import { ApiHideProperty } from '@nestjs/swagger';
-import { Column, Entity, Index, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  Index,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+  VersionColumn,
+} from 'typeorm';
 import { Blog } from '../blog/blog.entity';
 
 @Entity({ orderBy: { date: 'DESC' } })
@@ -36,6 +45,18 @@ export class Article {
   )
   @ApiHideProperty()
   blog: Blog;
+
+  @CreateDateColumn()
+  @ApiHideProperty()
+  createdAt: Date;
+
+  @UpdateDateColumn()
+  @ApiHideProperty()
+  updatedAt: Date;
+
+  @VersionColumn()
+  @ApiHideProperty()
+  version: number;
 
   constructor(article: Partial<Article> = {}) {
     Object.assign(this, article);
