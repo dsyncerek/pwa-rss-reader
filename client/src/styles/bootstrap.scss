@@ -12,7 +12,6 @@ $grid-breakpoints: (xs: 0, sm: 576px, md: 768px, lg: 992px, xl: 1440px);
 @import "~bootstrap/scss/type";
 
 @import "~bootstrap/scss/grid";
-@import "~bootstrap/scss/navbar";
 @import "~bootstrap/scss/tables";
 @import "~bootstrap/scss/forms";
 @import "~bootstrap/scss/buttons";
@@ -32,4 +31,16 @@ $grid-breakpoints: (xs: 0, sm: 576px, md: 768px, lg: 992px, xl: 1440px);
 
 .table td {
   vertical-align: middle;
+}
+
+@include media-breakpoint-up(lg) {
+  .navbar-expand-lg {
+    .navbar-toggler {
+      display: none;
+    }
+
+    .navbar-collapse {
+      display: block !important;
+    }
+  }
 }

@@ -40,7 +40,7 @@ const Layout: FC<LayoutProps> = ({ children, blogs, categories, fetching, fetchE
     <Container fluid>
       <Row>
         <Col xl={2} lg={4} className="bg-light py-4">
-          <Navbar className="d-block p-0" expand="lg" collapseOnSelect>
+          <Navbar expand="lg" collapseOnSelect>
             <div className="d-flex justify-content-between align-items-center">
               <h1 className="mb-0">RSS Reader</h1>
 
@@ -49,13 +49,15 @@ const Layout: FC<LayoutProps> = ({ children, blogs, categories, fetching, fetchE
               </Navbar.Toggle>
             </div>
 
-            {fetching && <Loader />}
+            <div className="mt-2">
+              {fetching && <Loader />}
 
-            {fetchError && (
-              <Alert className="mb-2" variant="danger">
-                {fetchError.message}
-              </Alert>
-            )}
+              {fetchError && (
+                <Alert className="mb-0" variant="danger">
+                  {fetchError.message}
+                </Alert>
+              )}
+            </div>
 
             <Navbar.Collapse className="mt-2" id="navbar-nav">
               <ContentList blogs={blogs} categories={categories} />

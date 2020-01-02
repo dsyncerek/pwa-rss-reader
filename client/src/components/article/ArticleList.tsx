@@ -35,26 +35,30 @@ const ArticleList: FC<ArticleListProps> = ({ articles, loading, pageCount, fetch
   };
 
   return (
-    <div className="mb-n3">
-      <div className="row mx-n2 row-cols-1 row-cols-md-2 row-cols-xl-3">
-        {articles.map((article, index) => (
-          <div className="col mb-3 px-2" key={article.id}>
-            <ArticleTile article={article} markAsRead={markAsRead} />
-            {renderNextPageWaypoint(index)}
-          </div>
-        ))}
+    <>
+      {!loading && !articles.length && (
+        <Alert className="mb-0" variant="danger">
+          No articles found.
+        </Alert>
+      )}
+
+      <div className="mb-n3">
+        <div className="row mx-n2 row-cols-1 row-cols-md-2 row-cols-xl-3">
+          {articles.map((article, index) => (
+            <div className="col mb-3 px-2" key={article.id}>
+              <ArticleTile article={article} markAsRead={markAsRead} />
+              {renderNextPageWaypoint(index)}
+            </div>
+          ))}
+        </div>
       </div>
 
-      <div className="mb-3">
-        {loading && <Loader />}
-
-        {!loading && !articles.length && (
-          <Alert className="mb-0" variant="danger">
-            No articles found.
-          </Alert>
-        )}
-      </div>
-    </div>
+      {loading && (
+        <div className="mt-5">
+          <Loader />
+        </div>
+      )}
+    </>
   );
 };
 
