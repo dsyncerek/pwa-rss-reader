@@ -39,7 +39,11 @@ export class BlogService {
     const blogs = await this.getAllBlogs();
 
     for (const blog of blogs) {
-      await this.refreshBlog(blog.id);
+      try {
+        await this.refreshBlog(blog.id);
+      } catch {
+        // ignore
+      }
     }
 
     return this.getAllBlogs();
