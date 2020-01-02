@@ -10,10 +10,14 @@ export class RssService {
   public async parseBlogRssUrl(url: string): Promise<Parser.Output> {
     const parsed = await this.parser.parseURL(url);
 
-    parsed.items = parsed.items.map(item => ({
-      ...item,
-      content: sanitizeHtml(item.content, sanitizeHtmlConfig),
-    }));
+    parsed.items = parsed.items.map(item => {
+      try {
+        const content = sanitizeHtml(item.content, sanitizeHtmlConfig);
+        return { ...item, content };
+      } catch {
+        return { ...item, content: '' };
+      }
+    });
 
     return parsed;
   }
