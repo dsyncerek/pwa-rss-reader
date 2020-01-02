@@ -1,4 +1,3 @@
-import { ApiHideProperty } from '@nestjs/swagger';
 import {
   Column,
   CreateDateColumn,
@@ -49,19 +48,19 @@ export class Blog {
     () => Category,
     category => category.blogs,
   )
-  @ApiHideProperty()
+  // @ApiHideProperty()
   category: Category;
 
   @CreateDateColumn()
-  @ApiHideProperty()
+  // @ApiHideProperty()
   createdAt: Date;
 
   @UpdateDateColumn()
-  @ApiHideProperty()
+  // @ApiHideProperty()
   updatedAt: Date;
 
   @VersionColumn()
-  @ApiHideProperty()
+  // @ApiHideProperty()
   version: number;
 
   constructor(blog: Partial<Blog> = {}) {
