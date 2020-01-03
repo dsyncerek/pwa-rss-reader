@@ -1,5 +1,6 @@
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import * as compression from 'compression';
 import { config } from 'dotenv';
 
 config();
@@ -9,6 +10,7 @@ config();
   const app = await NestFactory.create(AppModule);
 
   app.setGlobalPrefix('api');
+  app.use(compression());
 
   const swaggerOptions = new DocumentBuilder().setTitle('RSS Reader API').build();
 
