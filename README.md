@@ -4,7 +4,7 @@
 
 # PWA RSS Reader
 
-> todo 
+> A PWA which organizes your RSS sources.
 
 ## Demo
 
