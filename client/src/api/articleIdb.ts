@@ -1,4 +1,4 @@
-import { IDBPTransaction } from 'idb/lib/entry';
+import { IDBPTransaction } from 'idb';
 import { Article } from '../models/Article';
 import { openIndexedDb } from './idb';
 
