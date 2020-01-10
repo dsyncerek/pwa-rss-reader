@@ -23,7 +23,7 @@
     "class-validator": "^0.11.0",
     "compression": "^1.7.4",
     "dotenv": "^8.2.0",
-    "pg": "^7.17.0",
+    "pg": "^7.17.1",
     "reflect-metadata": "^0.1.13",
     "rss-parser": "^3.7.3",
     "rxjs": "^6.5.4",
