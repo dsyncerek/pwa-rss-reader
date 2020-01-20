@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { Interval } from '@nestjs/schedule';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Output } from 'rss-parser';
 import { Repository } from 'typeorm';
@@ -15,7 +16,7 @@ export class BlogService {
     @InjectRepository(Blog) private readonly blogRepository: Repository<Blog>,
     private readonly rssService: RssService,
   ) {
-    this.startRefreshingInterval();
+    this.handleRefreshAllBlogs();
   }
 
   public async getAllBlogs(): Promise<Blog[]> {
@@ -90,11 +91,8 @@ export class BlogService {
     });
   }
 
-  private startRefreshingInterval(): void {
+  @Interval(+process.env.BLOGS_REFRESH_INTERVAL)
+  private handleRefreshAllBlogs(): void {
     this.refreshAllBlogs().catch();
-
-    setInterval(() => {
-      this.refreshAllBlogs().catch();
-    }, +process.env.BLOGS_REFRESH_INTERVAL);
   }
 }
