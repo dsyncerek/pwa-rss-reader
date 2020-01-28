@@ -1,5 +1,5 @@
 import * as blogApi from '../api/blogApi';
-import * as blogIdb from '../api/blogIdb';
+import * as blogIdb from '../idb/blogIdb';
 import { Blog, blogSchema, SaveBlog } from '../models/Blog';
 import { allBlogsLoadedSelector } from '../selectors/blogSelectors';
 import { apiCallThunkAction } from '../utils/apiCallThunkAction';

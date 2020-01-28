@@ -1,7 +1,7 @@
 import { normalize } from 'normalizr';
-import { fetchAllArticles } from '../api/articleIdb';
-import { fetchAllBlogs } from '../api/blogIdb';
-import { fetchAllCategories } from '../api/categoryIdb';
+import { fetchAllArticles } from '../idb/articleIdb';
+import { fetchAllBlogs } from '../idb/blogIdb';
+import { fetchAllCategories } from '../idb/categoryIdb';
 import { articleSchema } from '../models/Article';
 import { blogSchema } from '../models/Blog';
 import { categorySchema } from '../models/Category';

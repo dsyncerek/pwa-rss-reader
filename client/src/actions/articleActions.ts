@@ -1,5 +1,5 @@
 import * as articleApi from '../api/articleApi';
-import * as articleIdb from '../api/articleIdb';
+import * as articleIdb from '../idb/articleIdb';
 import { Article, articleSchema } from '../models/Article';
 import { Pagination } from '../models/Pagination';
 import {

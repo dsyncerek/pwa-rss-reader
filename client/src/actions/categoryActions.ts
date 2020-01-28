@@ -1,5 +1,5 @@
 import * as categoryApi from '../api/categoryApi';
-import * as categoryIdb from '../api/categoryIdb';
+import * as categoryIdb from '../idb/categoryIdb';
 import { Category, categorySchema, SaveCategory } from '../models/Category';
 import { allCategoriesLoadedSelector } from '../selectors/categorySelectors';
 import { apiCallThunkAction } from '../utils/apiCallThunkAction';
