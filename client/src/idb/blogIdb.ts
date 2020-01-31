@@ -3,7 +3,7 @@ import { openIndexedDb } from './idb';
 
 export async function fetchAllBlogs(): Promise<Blog[]> {
   const db = await openIndexedDb();
-  return await db.getAllFromIndex('blogs', 'name');
+  return await db.getAll('blogs');
 }
 
 export async function saveAllBlogs(blogs: Blog[]): Promise<void> {

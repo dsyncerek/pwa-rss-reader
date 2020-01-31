@@ -4,7 +4,7 @@ import { openIndexedDb } from './idb';
 
 export async function fetchAllArticles(): Promise<Article[]> {
   const db = await openIndexedDb();
-  return await db.getAllFromIndex('articles', 'date');
+  return await db.getAll('articles');
 }
 
 export async function saveArticles(articles: Article[]): Promise<void> {

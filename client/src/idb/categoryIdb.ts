@@ -3,7 +3,7 @@ import { openIndexedDb } from './idb';
 
 export async function fetchAllCategories(): Promise<Category[]> {
   const db = await openIndexedDb();
-  return await db.getAllFromIndex('categories', 'name');
+  return await db.getAll('categories');
 }
 
 export async function saveAllCategories(categories: Category[]): Promise<void> {
