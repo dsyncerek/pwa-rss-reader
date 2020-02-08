@@ -15,7 +15,7 @@
   "dependencies": {
     "@nestjs/common": "^6.11.5",
     "@nestjs/core": "^6.11.6",
-    "@nestjs/platform-express": "^6.11.5",
+    "@nestjs/platform-express": "^6.11.6",
     "@nestjs/schedule": "^0.2.0",
     "@nestjs/serve-static": "^1.0.2",
     "@nestjs/swagger": "^4.2.6",
