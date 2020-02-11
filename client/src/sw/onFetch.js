@@ -1,4 +1,11 @@
-import { API_URL_REGEX, APP_ENTRYPOINT, CACHES, FILE_URL_REGEX, REQUESTS_SYNC_HEADER, STATIC_ASSETS } from './constants';
+import {
+  API_URL_REGEX,
+  APP_ENTRYPOINT,
+  CACHES,
+  FILE_URL_REGEX,
+  REQUESTS_SYNC_HEADER,
+  STATIC_ASSETS,
+} from './constants';
 import { cacheFirst } from './strategies/cacheFirst';
 import { networkOnly } from './strategies/networkOnly';
 import { networkOnlyWithBackgroundSync } from './strategies/networkOnlyWithBackgroundSync';

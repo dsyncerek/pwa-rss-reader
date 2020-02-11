@@ -17,6 +17,6 @@ export const CACHES = {
   RUNTIME: 'runtime-cache-v1',
 };
 
-export const STATIC_ASSETS = Object.values(files).map(prepareFullUrl)
+export const STATIC_ASSETS = Object.values(files)
+  .map(prepareFullUrl)
   .filter(asset => !asset.includes('.map') && !asset.includes('service-worker.js'));
-

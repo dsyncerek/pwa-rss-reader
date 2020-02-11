@@ -2,8 +2,8 @@ import { applyMiddleware, createStore, Store } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import { createLogger } from 'redux-logger';
 import thunk from 'redux-thunk';
-import { initEntitiesFromIndexedDb } from '../actions/entityActions';
-import { rootReducer } from '../reducers';
+import { initEntitiesFromIndexedDb } from '../common/entity/entityActions';
+import { rootReducer } from './reducers';
 
 const logger = createLogger({ collapsed: true });
 

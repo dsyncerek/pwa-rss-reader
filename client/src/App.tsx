@@ -1,16 +1,15 @@
 import React, { FC, useEffect } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom';
-import { fetchAllBlogs } from './actions/blogActions';
-import { fetchAllCategories } from './actions/categoryActions';
-import ArticlePage from './containers/ArticlePage/ArticlePage';
-import AllArticlesPage from './containers/ArticlesPage/AllArticlesPage';
-import BlogArticlesPage from './containers/ArticlesPage/BlogArticlesPage';
-import CategoryArticlesPage from './containers/ArticlesPage/CategoryArticlesPage';
-import ManageContentPage from './containers/ManageContentPage/ManageContentPage';
-import { RootState } from './reducers';
+import { fetchAllBlogs } from './blog/redux/blogActions';
+import { fetchAllCategories } from './category/redux/categoryActions';
+import ArticlePage from './pages/ArticlePage/ArticlePage';
+import AllArticlesPage from './pages/ArticlesPage/AllArticlesPage';
+import BlogArticlesPage from './pages/ArticlesPage/BlogArticlesPage';
+import CategoryArticlesPage from './pages/ArticlesPage/CategoryArticlesPage';
+import ManageContentPage from './pages/ManageContentPage/ManageContentPage';
 
-const mapState = (state: RootState) => ({});
+const mapState = () => ({});
 
 const mapDispatch = {
   fetchAllBlogs,
