@@ -5,7 +5,7 @@ export interface Category {
   name: string;
 }
 
-export const categorySchema = new schema.Entity('categories', {}, { idAttribute: 'id' });
+export const categorySchema = new schema.Entity('categories');
 
 export interface SaveCategory {
   id?: string;

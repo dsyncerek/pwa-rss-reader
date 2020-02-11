@@ -1,11 +1,12 @@
+import { denormalize } from 'normalizr';
 import { createSelector } from 'reselect';
-import { Dictionary } from '../../common/models/Dictionary';
+import { EntityState } from '../../common/entity/entityReducer';
+import { entityStateSelector } from '../../common/entity/entitySelectors';
 import { RootState } from '../../store/reducers';
-import { Category } from '../models/Category';
+import { Category, categorySchema } from '../models/Category';
 
-export const categoriesSelector = createSelector<RootState, Dictionary<Category>, Category[]>(
-  state => state.entityState.categories,
-  categories => Object.values(categories),
+export const categoriesSelector = createSelector<RootState, EntityState, Category[]>(entityStateSelector, entities =>
+  denormalize(Object.keys(entities.categories), [categorySchema], entities),
 );
 
 export const allCategoriesLoadedSelector = createSelector<RootState, boolean, boolean>(

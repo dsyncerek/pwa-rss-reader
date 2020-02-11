@@ -1,20 +1,12 @@
+import { denormalize } from 'normalizr';
 import { createSelector } from 'reselect';
-import { Blog } from '../../blog/models/Blog';
-import { blogsSelector } from '../../blog/redux/blogSelectors';
-import { Dictionary } from '../../common/models/Dictionary';
+import { EntityState } from '../../common/entity/entityReducer';
+import { entityStateSelector } from '../../common/entity/entitySelectors';
 import { RootState } from '../../store/reducers';
-import { Article } from '../models/Article';
+import { Article, articleSchema } from '../models/Article';
 
-export const articlesSelector = createSelector<RootState, Dictionary<Article>, Blog[], Article[]>(
-  state => state.entityState.articles,
-  blogsSelector,
-  (articles, blogs) => {
-    return sortArticles(
-      Object.values(articles)
-        .map(article => prepareArticle(article, blogs)!)
-        .filter(Boolean),
-    );
-  },
+export const articlesSelector = createSelector<RootState, EntityState, Article[]>(entityStateSelector, entities =>
+  sortArticles(denormalize(Object.keys(entities.articles), [articleSchema], entities)),
 );
 
 export const blogArticlesSelector = createSelector<RootState, string, Article[], string, Article[]>(
@@ -29,22 +21,11 @@ export const categoryArticlesSelector = createSelector<RootState, string, Articl
   (articles, categoryId) => articles.filter(article => article.blog?.categoryId === categoryId),
 );
 
-export const articleSelector = createSelector<RootState, string, Article, Blog[], Article | undefined>(
-  (state, id) => state.entityState.articles[id],
-  blogsSelector,
-  (article, blogs) => (article ? prepareArticle(article, blogs) : undefined),
+export const articleSelector = createSelector<RootState, string, EntityState, string, Article | undefined>(
+  entityStateSelector,
+  (state, id) => id,
+  (entities, id) => denormalize(entities.articles[id], articleSchema, entities),
 );
-
-function prepareArticle(article: Article, blogs: Blog[]): Article | undefined {
-  const blog = blogs.find(blog => blog.id === article.blogId);
-
-  if (!blog) {
-    // if blog doesn't exist, skip article
-    return;
-  }
-
-  return { ...article, blog };
-}
 
 function sortArticles(articles: Article[]): Article[] {
   return articles.sort((a, b) => (a.date > b.date ? -1 : 1));

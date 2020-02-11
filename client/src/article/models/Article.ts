@@ -1,5 +1,5 @@
 import { schema } from 'normalizr';
-import { Blog } from '../../blog/models/Blog';
+import { Blog, blogSchema } from '../../blog/models/Blog';
 
 export interface Article {
   id: string;
@@ -15,4 +15,8 @@ export interface Article {
   blog?: Blog;
 }
 
-export const articleSchema = new schema.Entity('articles', {}, { idAttribute: 'id' });
+export const articleSchema = new schema.Entity(
+  'articles',
+  { blog: blogSchema },
+  { processStrategy: (value: Article) => ({ ...value, blog: value.blogId }) },
+);
