@@ -1,12 +1,14 @@
 import produce from 'immer';
-import { RootAction } from '../../store/rootTypes';
 import { HttpError } from '../../common/models/HttpError';
+import { RootAction } from '../../store/rootTypes';
+
+export interface AsyncStateSlice {
+  loading: boolean;
+  error?: HttpError;
+}
 
 export interface AsyncState {
-  [key: string]: {
-    loading: boolean;
-    error?: HttpError;
-  };
+  [key: string]: AsyncStateSlice;
 }
 
 const asyncActionErrorSuffix = '_ERROR';

@@ -1,4 +1,4 @@
-import { EntitiesType } from '../core/entity/types';
+import { Entities } from '../core/entity/models/Entities';
 import { HttpError } from '../common/models/HttpError';
 import { SaveCategory } from './models/Category';
 
@@ -26,7 +26,7 @@ export interface FetchAllCategoriesAction {
 
 export interface FetchAllCategoriesSuccessAction {
   type: CategoryActionTypes.FETCH_ALL_CATEGORIES_SUCCESS;
-  entities: EntitiesType;
+  entities: Entities;
 }
 
 export interface FetchAllCategoriesErrorAction {
@@ -41,7 +41,7 @@ export interface CreateCategoryAction {
 
 export interface CreateCategorySuccessAction {
   type: CategoryActionTypes.CREATE_CATEGORY_SUCCESS;
-  entities: EntitiesType;
+  entities: Entities;
 }
 
 export interface CreateCategoryErrorAction {
@@ -56,7 +56,7 @@ export interface UpdateCategoryAction {
 
 export interface UpdateCategorySuccessAction {
   type: CategoryActionTypes.UPDATE_CATEGORY_SUCCESS;
-  entities: EntitiesType;
+  entities: Entities;
 }
 
 export interface UpdateCategoryErrorAction {

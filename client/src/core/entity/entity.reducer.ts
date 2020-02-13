@@ -7,7 +7,7 @@ import { Category } from '../../category/models/Category';
 import { CategoryActionTypes } from '../../category/category.action-types';
 import { RootAction } from '../../store/rootTypes';
 import { Dictionary } from '../../common/models/Dictionary';
-import { EntitiesType } from './types';
+import { Entities } from './models/Entities';
 
 export interface EntityState {
   articles: Dictionary<Article>;
@@ -52,7 +52,7 @@ export function entityReducer(state: EntityState = initialState, action: RootAct
   }
 }
 
-function mergeEntities(state: EntityState, newEntities: EntitiesType): EntityState {
+function mergeEntities(state: EntityState, newEntities: Entities): EntityState {
   return {
     ...state,
     articles: { ...state.articles, ...newEntities.articles },

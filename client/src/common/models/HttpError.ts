@@ -6,5 +6,6 @@ export class HttpError extends Error {
   constructor(obj: Partial<HttpError> = {}) {
     super();
     Object.assign(this, obj);
+    console.log(JSON.stringify(obj));
   }
 }

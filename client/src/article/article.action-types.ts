@@ -1,4 +1,4 @@
-import { EntitiesType } from '../core/entity/types';
+import { Entities } from '../core/entity/models/Entities';
 import { HttpError } from '../common/models/HttpError';
 import { Pagination } from '../core/pagination/models/Pagination';
 import { Article } from './models/Article';
@@ -31,7 +31,7 @@ export interface FetchArticlesPageAction {
 
 export interface FetchArticlesPageSuccessAction {
   type: ArticleActionTypes.FETCH_ARTICLES_PAGE_SUCCESS;
-  entities: EntitiesType;
+  entities: Entities;
   pagination: Pagination<Article>;
 }
 
@@ -49,7 +49,7 @@ export interface FetchBlogArticlesPageAction {
 export interface FetchBlogArticlesPageSuccessAction {
   type: ArticleActionTypes.FETCH_BLOG_ARTICLES_PAGE_SUCCESS;
   blogId: string;
-  entities: EntitiesType;
+  entities: Entities;
   pagination: Pagination<Article>;
 }
 
@@ -67,7 +67,7 @@ export interface FetchCategoryArticlesPageAction {
 export interface FetchCategoryArticlesPageSuccessAction {
   type: ArticleActionTypes.FETCH_CATEGORY_ARTICLES_PAGE_SUCCESS;
   categoryId: string;
-  entities: EntitiesType;
+  entities: Entities;
   pagination: Pagination<Article>;
 }
 
@@ -83,7 +83,7 @@ export interface FetchArticleAction {
 
 export interface FetchArticleSuccessAction {
   type: ArticleActionTypes.FETCH_ARTICLE_SUCCESS;
-  entities: EntitiesType;
+  entities: Entities;
 }
 
 export interface FetchArticleErrorAction {

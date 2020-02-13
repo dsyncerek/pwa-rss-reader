@@ -1,7 +1,7 @@
 import { normalize, Schema } from 'normalizr';
 import { RootState } from '../../store/reducers';
 import { RootThunkAction, RootThunkDispatch } from '../../store/rootTypes';
-import { EntitiesType } from '../../core/entity/types';
+import { Entities } from '../../core/entity/models/Entities';
 import { HttpError } from '../models/HttpError';
 
 export interface ApiCallThunkActionParams<T = any> {
@@ -10,7 +10,7 @@ export interface ApiCallThunkActionParams<T = any> {
   schema?: Schema;
 
   onInit?: () => (dispatch: RootThunkDispatch) => void;
-  onSuccess?: (entities: EntitiesType, response: T) => (dispatch: RootThunkDispatch) => void;
+  onSuccess?: (entities: Entities, response: T) => (dispatch: RootThunkDispatch) => void;
   onError?: (error: HttpError) => (dispatch: RootThunkDispatch) => void;
 }
 

@@ -1,4 +1,4 @@
-import { EntitiesType } from '../core/entity/types';
+import { Entities } from '../core/entity/models/Entities';
 import { HttpError } from '../common/models/HttpError';
 import { Blog, SaveBlog } from './models/Blog';
 
@@ -26,7 +26,7 @@ export interface FetchAllBlogsAction {
 
 export interface FetchAllBlogsSuccessAction {
   type: BlogActionTypes.FETCH_ALL_BLOGS_SUCCESS;
-  entities: EntitiesType;
+  entities: Entities;
 }
 
 export interface FetchAllBlogsErrorAction {
@@ -42,7 +42,7 @@ export interface CreateBlogAction {
 export interface CreateBlogSuccessAction {
   type: BlogActionTypes.CREATE_BLOG_SUCCESS;
   blog: Blog;
-  entities: EntitiesType;
+  entities: Entities;
 }
 
 export interface CreateBlogErrorAction {
@@ -57,7 +57,7 @@ export interface UpdateBlogAction {
 
 export interface UpdateBlogSuccessAction {
   type: BlogActionTypes.UPDATE_BLOG_SUCCESS;
-  entities: EntitiesType;
+  entities: Entities;
 }
 
 export interface UpdateBlogErrorAction {

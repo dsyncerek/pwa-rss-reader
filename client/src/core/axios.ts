@@ -1,4 +1,4 @@
-import axios, { AxiosError, AxiosResponse } from 'src/core/axios';
+import axios, { AxiosError, AxiosResponse } from 'axios';
 import { HttpError } from '../common/models/HttpError';
 
 export const axiosInstance = axios.create({ baseURL: '/api/' });
