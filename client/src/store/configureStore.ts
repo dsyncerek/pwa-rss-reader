@@ -1,7 +1,7 @@
 import { applyMiddleware, createStore, Store } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import thunk from 'redux-thunk';
-import { initEntitiesFromIndexedDb } from '../common/entity/entityActions';
+import { initEntitiesFromIndexedDb } from '../core/entity/entity.actions';
 import { rootReducer } from './reducers';
 
 export async function configureStore(): Promise<Store> {

@@ -6,16 +6,16 @@ import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import { connect, ConnectedProps } from 'react-redux';
-import { BlogActionTypes } from '../blog/redux/blogActionTypes';
-import { blogsSelector } from '../blog/redux/blogSelectors';
-import { CategoryActionTypes } from '../category/redux/categoryActionTypes';
-import { categoriesSelector } from '../category/redux/categorySelectors';
-import { errorSelector, loadingSelector } from '../common/async/asyncSelectors';
+import { BlogActionTypes } from '../blog/blog.action-types';
+import { blogsSelector } from '../blog/blog.selectors';
+import { CategoryActionTypes } from '../category/category.action-types';
+import { categoriesSelector } from '../category/category.selectors';
+import { errorSelector, loadingSelector } from '../core/async/async.selectors';
 import ContentList from '../common/components/ContentList';
 import Loader from '../common/components/Loader';
-import { hideToast } from '../common/toast/toastActions';
-import Toasts from '../common/toast/Toasts';
-import { toastsSelector } from '../common/toast/toastSelectors';
+import { hideToast } from '../core/toast/toast.actions';
+import Toasts from '../core/toast/components/Toasts';
+import { toastsSelector } from '../core/toast/toast.selectors';
 import { RootState } from '../store/reducers';
 
 const mapState = (state: RootState) => ({

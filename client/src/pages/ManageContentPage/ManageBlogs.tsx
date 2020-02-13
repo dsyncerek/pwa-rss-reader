@@ -4,12 +4,12 @@ import { connect, ConnectedProps } from 'react-redux';
 import BlogTable from '../../blog/components/BlogTable';
 import SaveBlogModal from '../../blog/components/SaveBlogModal';
 import { Blog, SaveBlog } from '../../blog/models/Blog';
-import { createBlog, deleteBlog, updateBlog } from '../../blog/redux/blogActions';
-import { BlogActionTypes } from '../../blog/redux/blogActionTypes';
-import { blogsSelector } from '../../blog/redux/blogSelectors';
-import { CategoryActionTypes } from '../../category/redux/categoryActionTypes';
-import { categoriesSelector } from '../../category/redux/categorySelectors';
-import { errorSelector, loadingSelector } from '../../common/async/asyncSelectors';
+import { createBlog, deleteBlog, updateBlog } from '../../blog/blog.actions';
+import { BlogActionTypes } from '../../blog/blog.action-types';
+import { blogsSelector } from '../../blog/blog.selectors';
+import { CategoryActionTypes } from '../../category/category.action-types';
+import { categoriesSelector } from '../../category/category.selectors';
+import { errorSelector, loadingSelector } from '../../core/async/async.selectors';
 import { RootState } from '../../store/reducers';
 
 const mapState = (state: RootState) => ({

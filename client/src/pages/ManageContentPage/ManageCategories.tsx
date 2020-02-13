@@ -4,10 +4,10 @@ import { connect, ConnectedProps } from 'react-redux';
 import CategoryTable from '../../category/components/CategoryTable';
 import SaveCategoryModal from '../../category/components/SaveCategoryModal';
 import { Category, SaveCategory } from '../../category/models/Category';
-import { createCategory, deleteCategory, updateCategory } from '../../category/redux/categoryActions';
-import { CategoryActionTypes } from '../../category/redux/categoryActionTypes';
-import { categoriesSelector } from '../../category/redux/categorySelectors';
-import { errorSelector, loadingSelector } from '../../common/async/asyncSelectors';
+import { createCategory, deleteCategory, updateCategory } from '../../category/category.actions';
+import { CategoryActionTypes } from '../../category/category.action-types';
+import { categoriesSelector } from '../../category/category.selectors';
+import { errorSelector, loadingSelector } from '../../core/async/async.selectors';
 import { RootState } from '../../store/reducers';
 
 const mapState = (state: RootState) => ({

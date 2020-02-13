@@ -1,9 +1,9 @@
 import { ThunkAction, ThunkDispatch } from 'redux-thunk';
-import { ArticleAction, ArticleActionTypes } from '../article/redux/articleActionTypes';
-import { BlogAction, BlogActionTypes } from '../blog/redux/blogActionTypes';
-import { CategoryAction, CategoryActionTypes } from '../category/redux/categoryActionTypes';
-import { EntityAction, EntityActionTypes } from '../common/entity/entityActionTypes';
-import { ToastAction, ToastActionTypes } from '../common/toast/toastActionTypes';
+import { ArticleAction, ArticleActionTypes } from '../article/article.action-types';
+import { BlogAction, BlogActionTypes } from '../blog/blog.action-types';
+import { CategoryAction, CategoryActionTypes } from '../category/category.action-types';
+import { EntityAction, EntityActionTypes } from '../core/entity/entity.action-types';
+import { ToastAction, ToastActionTypes } from '../core/toast/toast.action-types';
 import { RootState } from './reducers';
 
 export type RootThunkDispatch<ReturnType = void> = ThunkDispatch<RootState, null, RootAction>;

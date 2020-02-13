@@ -1,11 +1,11 @@
 import { combineReducers } from 'redux';
-import { articleReducer } from '../article/redux/articleReducer';
-import { blogReducer } from '../blog/redux/blogReducer';
-import { categoryReducer } from '../category/redux/categoryReducer';
-import { asyncReducer } from '../common/async/asyncReducer';
-import { entityReducer } from '../common/entity/entityReducer';
-import { paginationReducer } from '../common/pagination/paginationReducer';
-import { toastReducer } from '../common/toast/toastReducer';
+import { articleReducer } from '../article/article.reducer';
+import { blogReducer } from '../blog/blog.reducer';
+import { categoryReducer } from '../category/category.reducer';
+import { asyncReducer } from '../core/async/async.reducer';
+import { entityReducer } from '../core/entity/entity.reducer';
+import { paginationReducer } from '../core/pagination/pagination.reducer';
+import { toastReducer } from '../core/toast/toast.reducer';
 
 export const rootReducer = combineReducers({
   articleState: articleReducer,

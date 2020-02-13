@@ -2,11 +2,11 @@ import React, { FC, useCallback } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { RouteComponentProps } from 'react-router-dom';
 import ArticleList from '../../article/components/ArticleList';
-import { fetchCategoryArticlesPage, markArticleAsReadOptimistic } from '../../article/redux/articleActions';
-import { ArticleActionTypes } from '../../article/redux/articleActionTypes';
-import { categoryArticlesSelector } from '../../article/redux/articleSelectors';
-import { loadingSelector } from '../../common/async/asyncSelectors';
-import { categoryArticlesPageCountSelector } from '../../common/pagination/paginationSelectors';
+import { fetchCategoryArticlesPage, markArticleAsReadOptimistic } from '../../article/article.actions';
+import { ArticleActionTypes } from '../../article/article.action-types';
+import { categoryArticlesSelector } from '../../article/article.selectors';
+import { loadingSelector } from '../../core/async/async.selectors';
+import { categoryArticlesPageCountSelector } from '../../core/pagination/pagination.selectors';
 import { RootState } from '../../store/reducers';
 import Layout from '../Layout';
 

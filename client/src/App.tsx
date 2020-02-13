@@ -1,8 +1,8 @@
 import React, { FC, useEffect } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom';
-import { fetchAllBlogs } from './blog/redux/blogActions';
-import { fetchAllCategories } from './category/redux/categoryActions';
+import { fetchAllBlogs } from './blog/blog.actions';
+import { fetchAllCategories } from './category/category.actions';
 import ArticlePage from './pages/ArticlePage/ArticlePage';
 import AllArticlesPage from './pages/ArticlesPage/AllArticlesPage';
 import BlogArticlesPage from './pages/ArticlesPage/BlogArticlesPage';
