@@ -2,5 +2,5 @@ import React from 'react';
 import App from './App';
 
 describe('App', () => {
-  it('should render without crashing', () => {});
+  it('renders without crashing', () => {});
 });
