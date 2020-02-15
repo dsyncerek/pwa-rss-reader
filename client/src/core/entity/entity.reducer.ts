@@ -1,10 +1,10 @@
 import produce from 'immer';
-import { Article } from '../../article/models/Article';
-import { ArticleActionTypes } from '../../article/article.action-types';
-import { Blog } from '../../blog/models/Blog';
-import { BlogActionTypes } from '../../blog/blog.action-types';
-import { Category } from '../../category/models/Category';
-import { CategoryActionTypes } from '../../category/category.action-types';
+import { Article } from '../../modules/article/models/Article';
+import { ArticleActionTypes } from '../../modules/article/article.action-types';
+import { Blog } from '../../modules/blog/models/Blog';
+import { BlogActionTypes } from '../../modules/blog/blog.action-types';
+import { Category } from '../../modules/category/models/Category';
+import { CategoryActionTypes } from '../../modules/category/category.action-types';
 import { RootAction } from '../../store/rootTypes';
 import { Dictionary } from '../../common/models/Dictionary';
 import { Entities } from './models/Entities';

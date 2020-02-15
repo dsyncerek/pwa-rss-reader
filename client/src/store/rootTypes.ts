@@ -1,7 +1,7 @@
 import { ThunkAction, ThunkDispatch } from 'redux-thunk';
-import { ArticleAction, ArticleActionTypes } from '../article/article.action-types';
-import { BlogAction, BlogActionTypes } from '../blog/blog.action-types';
-import { CategoryAction, CategoryActionTypes } from '../category/category.action-types';
+import { ArticleAction, ArticleActionTypes } from '../modules/article/article.action-types';
+import { BlogAction, BlogActionTypes } from '../modules/blog/blog.action-types';
+import { CategoryAction, CategoryActionTypes } from '../modules/category/category.action-types';
 import { EntityAction, EntityActionTypes } from '../core/entity/entity.action-types';
 import { ToastAction, ToastActionTypes } from '../core/toast/toast.action-types';
 import { RootState } from './reducers';

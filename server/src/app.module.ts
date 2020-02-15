@@ -4,9 +4,9 @@ import { ScheduleModule } from '@nestjs/schedule';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { join } from 'path';
-import { ArticleModule } from './article/article.module';
-import { BlogModule } from './blog/blog.module';
-import { CategoryModule } from './category/category.module';
+import { ArticleModule } from './modules/article/article.module';
+import { BlogModule } from './modules/blog/blog.module';
+import { CategoryModule } from './modules/category/category.module';
 import { AllExceptionsFilter } from './common/all-exceptions.filter';
 import { getTypeOrmConfig } from './config/typeorm.config';
 
