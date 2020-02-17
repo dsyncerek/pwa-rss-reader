@@ -54,6 +54,6 @@
     "prettier": "^1.19.1",
     "source-map-explorer": "^2.2.2",
     "typescript": "~3.7.5",
-    "webpack-cli": "^3.3.10"
+    "webpack-cli": "^3.3.11"
   }
 }
