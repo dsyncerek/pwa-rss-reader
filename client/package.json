@@ -21,7 +21,7 @@
     "bootstrap": "^4.4.1",
     "idb": "^5.0.1",
     "immer": "^5.3.6",
-    "normalizr": "^3.5.0",
+    "normalizr": "^3.6.0",
     "react": "^16.12.0",
     "react-bootstrap": "^1.0.0-beta.16",
     "react-dom": "^16.12.0",
