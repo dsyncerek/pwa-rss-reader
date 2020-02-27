@@ -1,12 +1,12 @@
 import React, { FC, FormEvent, useEffect, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import { connect, ConnectedProps } from 'react-redux';
-import CategoryTable from '../../modules/category/components/CategoryTable';
-import SaveCategoryModal from '../../modules/category/components/SaveCategoryModal';
-import { Category, SaveCategory } from '../../modules/category/models/Category';
-import { createCategory, deleteCategory, updateCategory } from '../../modules/category/category.actions';
-import { CategoryActionTypes } from '../../modules/category/category.action-types';
-import { categoriesSelector } from '../../modules/category/category.selectors';
+import CategoryTable from '../../features/category/components/CategoryTable';
+import SaveCategoryModal from '../../features/category/components/SaveCategoryModal';
+import { Category, SaveCategory } from '../../features/category/models/Category';
+import { createCategory, deleteCategory, updateCategory } from '../../features/category/category.actions';
+import { CategoryActionTypes } from '../../features/category/category.action-types';
+import { categoriesSelector } from '../../features/category/category.selectors';
 import { errorSelector, loadingSelector } from '../../core/async/async.selectors';
 import { RootState } from '../../store/reducers';
 

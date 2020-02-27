@@ -1,9 +1,9 @@
 import React, { FC } from 'react';
 import ListGroup from 'react-bootstrap/ListGroup';
 import { NavLink } from 'react-router-dom';
-import BlogName from '../../modules/blog/components/BlogName';
-import { Blog } from '../../modules/blog/models/Blog';
-import { Category } from '../../modules/category/models/Category';
+import BlogName from '../../features/blog/components/BlogName';
+import { Blog } from '../../features/blog/models/Blog';
+import { Category } from '../../features/category/models/Category';
 
 type ContentListProps = {
   blogs: Blog[];

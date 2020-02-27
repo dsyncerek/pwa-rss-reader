@@ -1,10 +1,10 @@
 import React, { FC, useCallback } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { RouteComponentProps } from 'react-router-dom';
-import ArticleList from '../../modules/article/components/ArticleList';
-import { fetchBlogArticlesPage, markArticleAsReadOptimistic } from '../../modules/article/article.actions';
-import { ArticleActionTypes } from '../../modules/article/article.action-types';
-import { blogArticlesSelector } from '../../modules/article/article.selectors';
+import ArticleList from '../../features/article/components/ArticleList';
+import { fetchBlogArticlesPage, markArticleAsReadOptimistic } from '../../features/article/article.actions';
+import { ArticleActionTypes } from '../../features/article/article.action-types';
+import { blogArticlesSelector } from '../../features/article/article.selectors';
 import { loadingSelector } from '../../core/async/async.selectors';
 import { blogArticlesPageCountSelector } from '../../core/pagination/pagination.selectors';
 import { RootState } from '../../store/reducers';

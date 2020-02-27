@@ -1,14 +1,14 @@
 import React, { FC, FormEvent, useEffect, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import { connect, ConnectedProps } from 'react-redux';
-import BlogTable from '../../modules/blog/components/BlogTable';
-import SaveBlogModal from '../../modules/blog/components/SaveBlogModal';
-import { Blog, SaveBlog } from '../../modules/blog/models/Blog';
-import { createBlog, deleteBlog, updateBlog } from '../../modules/blog/blog.actions';
-import { BlogActionTypes } from '../../modules/blog/blog.action-types';
-import { blogsSelector } from '../../modules/blog/blog.selectors';
-import { CategoryActionTypes } from '../../modules/category/category.action-types';
-import { categoriesSelector } from '../../modules/category/category.selectors';
+import BlogTable from '../../features/blog/components/BlogTable';
+import SaveBlogModal from '../../features/blog/components/SaveBlogModal';
+import { Blog, SaveBlog } from '../../features/blog/models/Blog';
+import { createBlog, deleteBlog, updateBlog } from '../../features/blog/blog.actions';
+import { BlogActionTypes } from '../../features/blog/blog.action-types';
+import { blogsSelector } from '../../features/blog/blog.selectors';
+import { CategoryActionTypes } from '../../features/category/category.action-types';
+import { categoriesSelector } from '../../features/category/category.selectors';
 import { errorSelector, loadingSelector } from '../../core/async/async.selectors';
 import { RootState } from '../../store/reducers';
 

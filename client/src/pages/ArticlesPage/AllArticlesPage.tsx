@@ -1,10 +1,10 @@
 import React, { FC } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { RouteComponentProps } from 'react-router-dom';
-import ArticleList from '../../modules/article/components/ArticleList';
-import { fetchArticlesPage, markArticleAsReadOptimistic } from '../../modules/article/article.actions';
-import { ArticleActionTypes } from '../../modules/article/article.action-types';
-import { articlesSelector } from '../../modules/article/article.selectors';
+import ArticleList from '../../features/article/components/ArticleList';
+import { fetchArticlesPage, markArticleAsReadOptimistic } from '../../features/article/article.actions';
+import { ArticleActionTypes } from '../../features/article/article.action-types';
+import { articlesSelector } from '../../features/article/article.selectors';
 import { loadingSelector } from '../../core/async/async.selectors';
 import { allArticlesPageCountSelector } from '../../core/pagination/pagination.selectors';
 import { RootState } from '../../store/reducers';

@@ -1,10 +1,10 @@
 import { normalize } from 'normalizr';
-import { fetchAllArticles } from '../../modules/article/article.idb';
-import { articleSchema } from '../../modules/article/models/Article';
-import { fetchAllBlogs } from '../../modules/blog/blog.idb';
-import { blogSchema } from '../../modules/blog/models/Blog';
-import { fetchAllCategories } from '../../modules/category/category.idb';
-import { categorySchema } from '../../modules/category/models/Category';
+import { fetchAllArticles } from '../../features/article/article.idb';
+import { articleSchema } from '../../features/article/models/Article';
+import { fetchAllBlogs } from '../../features/blog/blog.idb';
+import { blogSchema } from '../../features/blog/models/Blog';
+import { fetchAllCategories } from '../../features/category/category.idb';
+import { categorySchema } from '../../features/category/models/Category';
 import { RootThunkAction } from '../../store/rootTypes';
 import { EntityActionTypes } from './entity.action-types';
 

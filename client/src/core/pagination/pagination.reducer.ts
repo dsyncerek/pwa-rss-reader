@@ -1,7 +1,7 @@
 import produce from 'immer';
-import { ArticleActionTypes } from '../../modules/article/article.action-types';
-import { BlogActionTypes } from '../../modules/blog/blog.action-types';
-import { CategoryActionTypes } from '../../modules/category/category.action-types';
+import { ArticleActionTypes } from '../../features/article/article.action-types';
+import { BlogActionTypes } from '../../features/blog/blog.action-types';
+import { CategoryActionTypes } from '../../features/category/category.action-types';
 import { RootAction } from '../../store/rootTypes';
 import { Dictionary } from '../../common/models/Dictionary';
 import { Pagination } from './models/Pagination';

@@ -1,10 +1,10 @@
 import React, { FC, useEffect } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { RouteComponentProps } from 'react-router-dom';
-import ArticleDetails from '../../modules/article/components/ArticleDetails';
-import { fetchArticle, markArticleAsReadOptimistic } from '../../modules/article/article.actions';
-import { ArticleActionTypes } from '../../modules/article/article.action-types';
-import { articleSelector } from '../../modules/article/article.selectors';
+import ArticleDetails from '../../features/article/components/ArticleDetails';
+import { fetchArticle, markArticleAsReadOptimistic } from '../../features/article/article.actions';
+import { ArticleActionTypes } from '../../features/article/article.action-types';
+import { articleSelector } from '../../features/article/article.selectors';
 import { errorSelector, loadingSelector } from '../../core/async/async.selectors';
 import { RootState } from '../../store/reducers';
 import Layout from '../Layout';
