@@ -4,11 +4,11 @@ import { ScheduleModule } from '@nestjs/schedule';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { join } from 'path';
+import { AllExceptionsFilter } from './common/all-exceptions.filter';
+import { getTypeOrmConfig } from './config/typeorm.config';
 import { ArticleModule } from './modules/article/article.module';
 import { BlogModule } from './modules/blog/blog.module';
 import { CategoryModule } from './modules/category/category.module';
-import { AllExceptionsFilter } from './common/all-exceptions.filter';
-import { getTypeOrmConfig } from './config/typeorm.config';
 
 const clientBuildPath = join(__dirname, '../..', 'client/build');
 
