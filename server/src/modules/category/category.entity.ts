@@ -20,10 +20,7 @@ export class Category {
   @Index({ unique: true })
   name: string;
 
-  @OneToMany(
-    () => Blog,
-    blog => blog.category,
-  )
+  @OneToMany(() => Blog, blog => blog.category)
   @ApiHideProperty()
   blogs: Blog[];
 

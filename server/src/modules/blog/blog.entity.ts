@@ -34,21 +34,14 @@ export class Blog {
   @Column({ default: '' })
   icon: string;
 
-  @OneToMany(
-    () => Article,
-    article => article.blog,
-    { cascade: true },
-  )
+  @OneToMany(() => Article, article => article.blog, { cascade: true })
   @ApiHideProperty()
   articles: Article[];
 
   @Column()
   categoryId: string;
 
-  @ManyToOne(
-    () => Category,
-    category => category.blogs,
-  )
+  @ManyToOne(() => Category, category => category.blogs)
   @ApiHideProperty()
   category: Category;
 

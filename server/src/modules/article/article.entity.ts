@@ -38,11 +38,7 @@ export class Article {
   @Column()
   blogId: string;
 
-  @ManyToOne(
-    () => Blog,
-    blog => blog.articles,
-    { nullable: false, onDelete: 'CASCADE' },
-  )
+  @ManyToOne(() => Blog, blog => blog.articles, { nullable: false, onDelete: 'CASCADE' })
   @ApiHideProperty()
   blog: Blog;
 

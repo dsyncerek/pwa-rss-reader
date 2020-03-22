@@ -3,9 +3,7 @@ import { Toast } from './models/Toast';
 import { ToastActionTypes } from './toast.action-types';
 
 function generateRandomId(): string {
-  return Math.random()
-    .toString(16)
-    .substring(2);
+  return Math.random().toString(16).substring(2);
 }
 
 export function hideToast(id: string): RootAction {
