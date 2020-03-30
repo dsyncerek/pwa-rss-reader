@@ -40,7 +40,7 @@
     "@types/compression": "^1.7.0",
     "@types/jest": "^25.1.4",
     "@types/sanitize-html": "^1.22.0",
-    "@typescript-eslint/eslint-plugin": "^2.24.0",
+    "@typescript-eslint/eslint-plugin": "^2.25.0",
     "@typescript-eslint/parser": "^2.25.0",
     "eslint": "^6.8.0",
     "eslint-config-prettier": "^6.10.1",
