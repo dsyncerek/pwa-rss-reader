@@ -19,7 +19,7 @@
     "@fortawesome/fontawesome-free": "^5.13.0",
     "axios": "^0.19.2",
     "bootstrap": "^4.4.1",
-    "idb": "^5.0.1",
+    "idb": "^5.0.2",
     "immer": "^6.0.2",
     "normalizr": "^3.6.0",
     "react": "^16.13.1",
