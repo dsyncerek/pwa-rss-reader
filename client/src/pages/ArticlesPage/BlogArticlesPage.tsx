@@ -1,55 +1,29 @@
 import React, { FC, useCallback } from 'react';
-import { connect, ConnectedProps } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { RouteComponentProps } from 'react-router-dom';
-import ArticleList from '../../features/article/components/ArticleList';
+import { Layout } from '../../common/components/Layout';
+import { selectAsyncStatus } from '../../core/async/async.selectors';
 import { fetchBlogArticlesPage, markArticleAsReadOptimistic } from '../../features/article/article.actions';
-import { ArticleActionTypes } from '../../features/article/article.action-types';
-import { blogArticlesSelector } from '../../features/article/article.selectors';
-import { loadingSelector } from '../../core/async/async.selectors';
-import { blogArticlesPageCountSelector } from '../../core/pagination/pagination.selectors';
-import { RootState } from '../../store/reducers';
-import Layout from '../Layout';
+import { selectBlogArticles } from '../../features/article/article.selectors';
+import { ArticleList } from '../../features/article/components/ArticleList';
 
-const mapState = (state: RootState, props: PropsFromRouter) => ({
-  articles: blogArticlesSelector(state, props.match.params.id),
-  fetching: loadingSelector(state, [ArticleActionTypes.FETCH_BLOG_ARTICLES_PAGE]),
-  pageCount: blogArticlesPageCountSelector(state, props.match.params.id),
-});
-
-const mapDispatch = {
-  fetchBlogArticlesPage,
-  markArticleAsReadOptimistic,
-};
-
-const connector = connect(mapState, mapDispatch);
-
-type PropsFromRedux = ConnectedProps<typeof connector>;
-type PropsFromRouter = RouteComponentProps<{ id: string }>;
-type ArticlesPageProps = PropsFromRedux & PropsFromRouter;
-
-const BlogArticlesPage: FC<ArticlesPageProps> = ({
-  articles,
-  fetching,
-  pageCount,
-  fetchBlogArticlesPage,
-  markArticleAsReadOptimistic,
-  match,
-}) => {
-  const id = match.params.id;
-
-  const fetchPage = useCallback(page => fetchBlogArticlesPage(id, page), [fetchBlogArticlesPage, id]);
+export const BlogArticlesPage: FC<RouteComponentProps<{ id: string }>> = ({ match }) => {
+  const blogId = match.params.id;
+  const dispatch = useDispatch();
+  const articles = useSelector(state => selectBlogArticles(state, blogId));
+  const [fetching] = useSelector(state => selectAsyncStatus(state, [fetchBlogArticlesPage]));
+  const pageCount = useSelector(state => state.pagination.articles.byBlog[blogId]?.pageCount);
+  const fetchPageCb = useCallback(page => dispatch(fetchBlogArticlesPage({ blogId, page })), [dispatch, blogId]);
 
   return (
     <Layout>
       <ArticleList
         articles={articles}
         loading={fetching}
-        pageCount={pageCount}
-        fetchPage={fetchPage}
-        markAsRead={markArticleAsReadOptimistic}
+        pageCount={pageCount || 0}
+        fetchPage={fetchPageCb}
+        markAsRead={id => dispatch(markArticleAsReadOptimistic({ id }))}
       />
     </Layout>
   );
 };
-
-export default connector(BlogArticlesPage);

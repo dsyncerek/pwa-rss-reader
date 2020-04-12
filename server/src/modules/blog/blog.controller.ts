@@ -15,7 +15,7 @@ export class BlogController {
 
   @Get()
   public async getAllBlogs(): Promise<Blog[]> {
-    return this.blogService.getAllBlogs();
+    return await this.blogService.getAllBlogs();
   }
 
   @Get(':id/articles/page/:page')
@@ -23,32 +23,32 @@ export class BlogController {
     @Param('id') id: string,
     @Param('page') page: number = 1,
   ): Promise<PaginationDto<Article>> {
-    return this.articleService.getBlogArticlesPage(id, +page);
+    return await this.articleService.getBlogArticlesPage(id, +page);
   }
 
   @Get(':id')
   public async getBlog(@Param('id') id: string): Promise<Blog> {
-    return this.blogService.getBlog(id);
+    return await this.blogService.getBlog(id);
   }
 
   @Post()
   public async createBlog(@Body() body: CreateBlogDto): Promise<Blog> {
-    return this.blogService.createBlog(body);
+    return await this.blogService.createBlog(body);
   }
 
   @Post('refresh')
   public async refreshAllBlogs(): Promise<Blog[]> {
-    return this.blogService.refreshAllBlogs();
+    return await this.blogService.refreshAllBlogs();
   }
 
   @Post(':id/refresh')
   public async refreshBlog(@Param('id') id: string): Promise<Blog> {
-    return this.blogService.refreshBlog(id);
+    return await this.blogService.refreshBlog(id);
   }
 
   @Patch(':id')
   public async updateBlog(@Param('id') id: string, @Body() body: UpdateBlogDto): Promise<Blog> {
-    return this.blogService.updateBlog(id, body);
+    return await this.blogService.updateBlog(id, body);
   }
 
   @Delete(':id')

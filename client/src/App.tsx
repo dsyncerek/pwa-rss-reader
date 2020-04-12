@@ -1,29 +1,34 @@
-import React, { FC, useEffect } from 'react';
-import { connect, ConnectedProps } from 'react-redux';
+import React, { FC, useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom';
-import { fetchAllBlogs } from './features/blog/blog.actions';
-import { fetchAllCategories } from './features/category/category.actions';
-import ArticlePage from './pages/ArticlePage/ArticlePage';
-import AllArticlesPage from './pages/ArticlesPage/AllArticlesPage';
-import BlogArticlesPage from './pages/ArticlesPage/BlogArticlesPage';
-import CategoryArticlesPage from './pages/ArticlesPage/CategoryArticlesPage';
-import ManageContentPage from './pages/ManageContentPage/ManageContentPage';
+import { Loader } from './common/components/Loader';
+import { initArticlesFromIdb } from './features/article/article.actions';
+import { fetchAllBlogs, initBlogsFromIdb } from './features/blog/blog.actions';
+import { fetchAllCategories, initCategoriesFromIdb } from './features/category/category.actions';
+import { ArticlePage } from './pages/ArticlePage/ArticlePage';
+import { AllArticlesPage } from './pages/ArticlesPage/AllArticlesPage';
+import { BlogArticlesPage } from './pages/ArticlesPage/BlogArticlesPage';
+import { CategoryArticlesPage } from './pages/ArticlesPage/CategoryArticlesPage';
+import { ManageContentPage } from './pages/ManageContentPage/ManageContentPage';
 
-const mapState = () => ({});
+export const App: FC = () => {
+  const dispatch = useDispatch();
+  const [initialized, setInitialized] = useState(false);
 
-const mapDispatch = {
-  fetchAllBlogs,
-  fetchAllCategories,
-};
-
-const connector = connect(mapState, mapDispatch);
-type PropsFromRedux = ConnectedProps<typeof connector>;
-
-const App: FC<PropsFromRedux> = ({ fetchAllBlogs, fetchAllCategories }) => {
   useEffect(() => {
-    fetchAllBlogs();
-    fetchAllCategories();
-  }, [fetchAllBlogs, fetchAllCategories]);
+    dispatch(fetchAllBlogs());
+    dispatch(fetchAllCategories());
+
+    Promise.allSettled([
+      dispatch(initArticlesFromIdb()),
+      dispatch(initBlogsFromIdb()),
+      dispatch(initCategoriesFromIdb()),
+    ]).then(() => setInitialized(true));
+  }, [dispatch]);
+
+  if (!initialized) {
+    return <Loader />;
+  }
 
   return (
     <BrowserRouter>
@@ -38,5 +43,3 @@ const App: FC<PropsFromRedux> = ({ fetchAllBlogs, fetchAllCategories }) => {
     </BrowserRouter>
   );
 };
-
-export default connector(App);

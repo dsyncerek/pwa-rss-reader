@@ -11,21 +11,21 @@ export class ArticleController {
 
   @Get()
   public async getAllArticles(): Promise<Article[]> {
-    return this.articleService.getAllArticles();
+    return await this.articleService.getAllArticles();
   }
 
   @Get('page/:page')
   public async getArticlesPage(@Param('page') page: number = 1): Promise<PaginationDto<Article>> {
-    return this.articleService.getArticlesPage(+page);
+    return await this.articleService.getArticlesPage(+page);
   }
 
   @Get(':id')
   public async getArticle(@Param('id') id: string): Promise<Article> {
-    return this.articleService.getArticle(id);
+    return await this.articleService.getArticle(id);
   }
 
   @Patch(':id/read')
   public async markArticleAsRead(@Param('id') id: string): Promise<void> {
-    return this.articleService.markArticleAsRead(id);
+    return await this.articleService.markArticleAsRead(id);
   }
 }

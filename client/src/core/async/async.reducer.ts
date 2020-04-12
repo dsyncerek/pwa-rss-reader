@@ -1,39 +1,44 @@
+import { AnyAction } from '@reduxjs/toolkit';
 import produce from 'immer';
 import { HttpError } from '../../common/models/HttpError';
-import { RootAction } from '../../store/rootTypes';
+import { AsyncStatus } from './models/AsyncStatus';
 
-export interface AsyncStateSlice {
-  loading: boolean;
-  error?: HttpError;
-}
+export const asyncFeatureKey = 'async';
 
 export interface AsyncState {
-  [key: string]: AsyncStateSlice;
+  [key: string]: AsyncStatus;
 }
 
-const asyncActionErrorSuffix = '_ERROR';
-const asyncActionSuccessSuffix = '_SUCCESS';
+export const initialState: AsyncState = {};
 
-export function asyncReducer(state: AsyncState = {}, action: RootAction): AsyncState {
-  if (action.type.endsWith(asyncActionErrorSuffix)) {
+const asyncActionPendingSuffix = '/pending';
+const asyncActionFulfilledSuffix = '/fulfilled';
+const asyncActionRejectedSuffix = '/rejected';
+
+export function asyncReducer(state: AsyncState = initialState, action: AnyAction): AsyncState {
+  if (action.type.endsWith(asyncActionPendingSuffix)) {
     return produce(state, draft => {
-      draft[action.type.replace(asyncActionErrorSuffix, '')] = {
-        loading: false,
-        error: 'error' in action ? action.error : new HttpError(),
+      draft[action.type] = {
+        loading: true,
+        error: undefined,
       };
     });
   }
 
-  if (action.type.endsWith(asyncActionSuccessSuffix)) {
+  if (action.type.endsWith(asyncActionFulfilledSuffix)) {
     return produce(state, draft => {
-      delete draft[action.type.replace(asyncActionSuccessSuffix, '')];
+      delete draft[action.type.replace(asyncActionFulfilledSuffix, asyncActionPendingSuffix)];
     });
   }
 
-  return produce(state, draft => {
-    draft[action.type] = {
-      loading: true,
-      error: undefined,
-    };
-  });
+  if (action.type.endsWith(asyncActionRejectedSuffix)) {
+    return produce(state, draft => {
+      draft[action.type.replace(asyncActionRejectedSuffix, asyncActionPendingSuffix)] = {
+        loading: false,
+        error: action.payload || new HttpError(),
+      };
+    });
+  }
+
+  return state;
 }

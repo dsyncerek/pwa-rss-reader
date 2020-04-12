@@ -20,3 +20,5 @@ export const articleSchema = new schema.Entity(
   { blog: blogSchema },
   { processStrategy: (value: Article) => ({ ...value, blog: value.blogId }) },
 );
+
+export const articleSortComparer = (a: Article, b: Article) => (a.date > b.date ? -1 : 1);

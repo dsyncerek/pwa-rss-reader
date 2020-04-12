@@ -1,84 +1,50 @@
+import { createAsyncCallThunk } from '../../common/utils/createAsyncCallThunk';
 import { showErrorToast, showSuccessToast } from '../../core/toast/toast.actions';
-import { apiCallThunkAction } from '../../common/utils/apiCallThunkAction';
-import { RootThunkAction } from '../../store/rootTypes';
 import * as blogApi from './blog.api';
 import * as blogIdb from './blog.idb';
 import { Blog, blogSchema, SaveBlog } from './models/Blog';
-import { BlogActionTypes } from './blog.action-types';
-import { allBlogsLoadedSelector } from './blog.selectors';
 
-export function fetchAllBlogs(): RootThunkAction {
-  return apiCallThunkAction<Blog[]>({
-    callApi: async () => blogApi.fetchAllBlogs(),
-    shouldCallApi: state => !allBlogsLoadedSelector(state),
-    schema: [blogSchema],
+export const initBlogsFromIdb = createAsyncCallThunk<Blog[]>(`blog/initBlogsFromIdb`, () => ({
+  call: () => blogIdb.fetchAllBlogs(),
+  schema: [blogSchema],
+}));
 
-    onInit: () => dispatch => {
-      dispatch({ type: BlogActionTypes.FETCH_ALL_BLOGS });
-    },
-    onSuccess: (entities, blogs) => dispatch => {
-      dispatch({ type: BlogActionTypes.FETCH_ALL_BLOGS_SUCCESS, entities });
-      blogIdb.saveAllBlogs(blogs).catch();
-    },
-    onError: error => dispatch => {
-      dispatch({ type: BlogActionTypes.FETCH_ALL_BLOGS_ERROR, error });
-    },
-  });
-}
+export const fetchAllBlogs = createAsyncCallThunk<Blog[]>(`blog/fetchAllBlogs`, () => ({
+  call: () => blogApi.fetchAllBlogs(),
+  shouldCall: state => !state.blog.allLoaded,
+  schema: [blogSchema],
+  onSuccess: blogs => blogIdb.saveAllBlogs(blogs).catch(),
+}));
 
-export function createBlog(blog: SaveBlog): RootThunkAction {
-  return apiCallThunkAction<Blog>({
-    callApi: async () => blogApi.createBlog(blog),
+export const createBlog = createAsyncCallThunk<Blog, { blog: SaveBlog }>(
+  `blog/createBlog`,
+  ({ blog }, { dispatch }) => ({
+    call: () => blogApi.createBlog(blog),
     schema: blogSchema,
-
-    onInit: () => dispatch => {
-      dispatch({ type: BlogActionTypes.CREATE_BLOG, blog });
-    },
-    onSuccess: (entities, blog) => dispatch => {
+    onSuccess: blog => {
       dispatch(showSuccessToast('Blog has been created.'));
-      dispatch({ type: BlogActionTypes.CREATE_BLOG_SUCCESS, entities, blog });
       blogIdb.saveBlog(blog).catch();
     },
-    onError: error => dispatch => {
-      dispatch({ type: BlogActionTypes.CREATE_BLOG_ERROR, error });
-    },
-  });
-}
+  }),
+);
 
-export function updateBlog(blog: SaveBlog): RootThunkAction {
-  return apiCallThunkAction<Blog>({
-    callApi: async () => blogApi.updateBlog(blog),
+export const updateBlog = createAsyncCallThunk<Blog, { blog: SaveBlog }>(
+  `blog/updateBlog`,
+  ({ blog }, { dispatch }) => ({
+    call: () => blogApi.updateBlog(blog),
     schema: blogSchema,
-
-    onInit: () => dispatch => {
-      dispatch({ type: BlogActionTypes.UPDATE_BLOG, blog });
-    },
-    onSuccess: (entities, blog) => dispatch => {
+    onSuccess: blog => {
       dispatch(showSuccessToast('Blog has been updated.'));
-      dispatch({ type: BlogActionTypes.UPDATE_BLOG_SUCCESS, entities });
       blogIdb.saveBlog(blog).catch();
     },
-    onError: error => dispatch => {
-      dispatch({ type: BlogActionTypes.UPDATE_BLOG_ERROR, error });
-    },
-  });
-}
+  }),
+);
 
-export function deleteBlog(id: string): RootThunkAction {
-  return apiCallThunkAction<void>({
-    callApi: async () => blogApi.deleteBlog(id),
-
-    onInit: () => dispatch => {
-      dispatch({ type: BlogActionTypes.DELETE_BLOG, id });
-    },
-    onSuccess: () => dispatch => {
-      dispatch(showSuccessToast('Blog has been deleted.'));
-      dispatch({ type: BlogActionTypes.DELETE_BLOG_SUCCESS, id });
-      blogIdb.deleteBlog(id).catch();
-    },
-    onError: error => dispatch => {
-      dispatch(showErrorToast(error.message));
-      dispatch({ type: BlogActionTypes.DELETE_BLOG_ERROR, error });
-    },
-  });
-}
+export const deleteBlog = createAsyncCallThunk<void, { id: string }>(`blog/deleteBlog`, ({ id }, { dispatch }) => ({
+  call: () => blogApi.deleteBlog(id),
+  onError: error => dispatch(showErrorToast(error.message)),
+  onSuccess: () => {
+    dispatch(showSuccessToast('Blog has been deleted.'));
+    blogIdb.deleteBlog(id).catch();
+  },
+}));

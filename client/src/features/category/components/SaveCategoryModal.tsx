@@ -15,7 +15,7 @@ type SaveCategoryModalProps = {
   onSubmit: (event: FormEvent) => void;
 };
 
-const SaveCategoryModal: FC<SaveCategoryModalProps> = ({
+export const SaveCategoryModal: FC<SaveCategoryModalProps> = ({
   category,
   saving,
   error,
@@ -67,5 +67,3 @@ const SaveCategoryModal: FC<SaveCategoryModalProps> = ({
     </Modal>
   );
 };
-
-export default SaveCategoryModal;

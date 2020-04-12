@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 import Button from 'react-bootstrap/Button';
 import ButtonToolbar from 'react-bootstrap/ButtonToolbar';
 import Table from 'react-bootstrap/Table';
-import Loader from '../../../common/components/Loader';
+import { Loader } from '../../../common/components/Loader';
 import { Category } from '../models/Category';
 
 type CategoryTableProps = {
@@ -14,10 +14,15 @@ type CategoryTableProps = {
   onDelete: (category: Category) => void;
 };
 
-const CategoryTable: FC<CategoryTableProps> = ({ categories, loading, removing, selectedId, onUpdate, onDelete }) => {
-  const isRemovingCurrentRow = (id: string): boolean => {
-    return !!removing && selectedId === id;
-  };
+export const CategoryTable: FC<CategoryTableProps> = ({
+  categories,
+  loading,
+  removing,
+  selectedId,
+  onUpdate,
+  onDelete,
+}) => {
+  const isRemovingCurrentRow = (id: string): boolean => !!removing && selectedId === id;
 
   return (
     <Table responsive bordered>
@@ -68,5 +73,3 @@ const CategoryTable: FC<CategoryTableProps> = ({ categories, loading, removing, 
     </Table>
   );
 };
-
-export default CategoryTable;

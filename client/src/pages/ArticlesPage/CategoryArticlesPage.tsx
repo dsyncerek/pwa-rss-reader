@@ -1,55 +1,32 @@
 import React, { FC, useCallback } from 'react';
-import { connect, ConnectedProps } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { RouteComponentProps } from 'react-router-dom';
-import ArticleList from '../../features/article/components/ArticleList';
+import { Layout } from '../../common/components/Layout';
+import { selectAsyncStatus } from '../../core/async/async.selectors';
 import { fetchCategoryArticlesPage, markArticleAsReadOptimistic } from '../../features/article/article.actions';
-import { ArticleActionTypes } from '../../features/article/article.action-types';
-import { categoryArticlesSelector } from '../../features/article/article.selectors';
-import { loadingSelector } from '../../core/async/async.selectors';
-import { categoryArticlesPageCountSelector } from '../../core/pagination/pagination.selectors';
-import { RootState } from '../../store/reducers';
-import Layout from '../Layout';
+import { selectCategoryArticles } from '../../features/article/article.selectors';
+import { ArticleList } from '../../features/article/components/ArticleList';
 
-const mapState = (state: RootState, props: PropsFromRouter) => ({
-  articles: categoryArticlesSelector(state, props.match.params.id),
-  fetching: loadingSelector(state, [ArticleActionTypes.FETCH_CATEGORY_ARTICLES_PAGE]),
-  pageCount: categoryArticlesPageCountSelector(state, props.match.params.id),
-});
-
-const mapDispatch = {
-  fetchCategoryArticlesPage,
-  markArticleAsReadOptimistic,
-};
-
-const connector = connect(mapState, mapDispatch);
-
-type PropsFromRedux = ConnectedProps<typeof connector>;
-type PropsFromRouter = RouteComponentProps<{ id: string }>;
-type ArticlesPageProps = PropsFromRedux & PropsFromRouter;
-
-const CategoryArticlesPage: FC<ArticlesPageProps> = ({
-  articles,
-  fetching,
-  pageCount,
-  fetchCategoryArticlesPage,
-  markArticleAsReadOptimistic,
-  match,
-}) => {
-  const id = match.params.id;
-
-  const fetchPage = useCallback(page => fetchCategoryArticlesPage(id, page), [fetchCategoryArticlesPage, id]);
+export const CategoryArticlesPage: FC<RouteComponentProps<{ id: string }>> = ({ match }) => {
+  const categoryId = match.params.id;
+  const dispatch = useDispatch();
+  const articles = useSelector(state => selectCategoryArticles(state, categoryId));
+  const [fetching] = useSelector(state => selectAsyncStatus(state, [fetchCategoryArticlesPage]));
+  const pageCount = useSelector(state => state.pagination.articles.byCategory[categoryId]?.pageCount);
+  const fetchPageCb = useCallback(page => dispatch(fetchCategoryArticlesPage({ categoryId, page })), [
+    categoryId,
+    dispatch,
+  ]);
 
   return (
     <Layout>
       <ArticleList
         articles={articles}
         loading={fetching}
-        pageCount={pageCount}
-        fetchPage={fetchPage}
-        markAsRead={markArticleAsReadOptimistic}
+        pageCount={pageCount || 0}
+        fetchPage={fetchPageCb}
+        markAsRead={id => dispatch(markArticleAsReadOptimistic({ id }))}
       />
     </Layout>
   );
 };
-
-export default connector(CategoryArticlesPage);

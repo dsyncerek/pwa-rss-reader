@@ -7,6 +7,8 @@ export interface Category {
 
 export const categorySchema = new schema.Entity('categories');
 
+export const categorySortComparer = (a: Category, b: Category) => a.name.localeCompare(b.name);
+
 export interface SaveCategory {
   id?: string;
   name: string;

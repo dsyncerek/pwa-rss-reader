@@ -1,5 +1,8 @@
+import { createReducer } from '@reduxjs/toolkit';
 import { Toast } from './models/Toast';
-import { ToastAction, ToastActionTypes } from './toast.action-types';
+import { hideToast, showToast } from './toast.actions';
+
+export const toastFeatureKey = 'toast';
 
 export interface ToastState {
   toasts: Toast[];
@@ -9,15 +12,11 @@ export const initialState: ToastState = {
   toasts: [],
 };
 
-export function toastReducer(state: ToastState = initialState, action: ToastAction): ToastState {
-  switch (action.type) {
-    case ToastActionTypes.SHOW_TOAST:
-      return { ...state, toasts: [...state.toasts, action.toast] };
-
-    case ToastActionTypes.HIDE_TOAST:
-      return { ...state, toasts: state.toasts.filter(toast => toast.id !== action.id) };
-
-    default:
-      return state;
-  }
-}
+export const toastReducer = createReducer(initialState, builder => {
+  builder.addCase(showToast, (state, { payload }) => {
+    state.toasts.push(payload.toast);
+  });
+  builder.addCase(hideToast, (state, { payload }) => {
+    state.toasts = state.toasts.filter(toast => toast.id !== payload.id);
+  });
+});

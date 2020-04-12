@@ -1,22 +1,20 @@
-import produce from 'immer';
-import { ArticleActionTypes } from '../../features/article/article.action-types';
-import { BlogActionTypes } from '../../features/blog/blog.action-types';
-import { CategoryActionTypes } from '../../features/category/category.action-types';
-import { RootAction } from '../../store/rootTypes';
-import { Dictionary } from '../../common/models/Dictionary';
-import { Pagination } from './models/Pagination';
+import { createReducer, Dictionary } from '@reduxjs/toolkit';
+import {
+  fetchArticlesPage,
+  fetchBlogArticlesPage,
+  fetchCategoryArticlesPage,
+} from '../../features/article/article.actions';
+import { createBlog, deleteBlog } from '../../features/blog/blog.actions';
+import { deleteCategory } from '../../features/category/category.actions';
+import { merge, PaginationStatus } from './models/PaginationStatus';
 
-export interface PaginationStateSlice {
-  totalItems: number;
-  pageCount: number;
-  loadedPages: number[];
-}
+export const paginationFeatureKey = 'pagination';
 
 export interface PaginationState {
   articles: {
-    all?: PaginationStateSlice;
-    byBlog: Dictionary<PaginationStateSlice>;
-    byCategory: Dictionary<PaginationStateSlice>;
+    all?: PaginationStatus;
+    byBlog: Dictionary<PaginationStatus>;
+    byCategory: Dictionary<PaginationStatus>;
   };
 }
 
@@ -27,56 +25,26 @@ export const initialState: PaginationState = {
   },
 };
 
-export function paginationReducer(state: PaginationState = initialState, action: RootAction): PaginationState {
-  switch (action.type) {
-    case ArticleActionTypes.FETCH_ARTICLES_PAGE_SUCCESS:
-      return produce(state, draft => {
-        draft.articles.all = updatePagination(action.pagination, draft.articles.all);
-      });
-
-    case ArticleActionTypes.FETCH_BLOG_ARTICLES_PAGE_SUCCESS:
-      return produce(state, draft => {
-        draft.articles.byBlog[action.blogId] = updatePagination(
-          action.pagination,
-          draft.articles.byBlog[action.blogId],
-        );
-      });
-
-    case ArticleActionTypes.FETCH_CATEGORY_ARTICLES_PAGE_SUCCESS:
-      return produce(state, draft => {
-        draft.articles.byCategory[action.categoryId] = updatePagination(
-          action.pagination,
-          draft.articles.byCategory[action.categoryId],
-        );
-      });
-
-    case BlogActionTypes.CREATE_BLOG_SUCCESS:
-      return produce(state, draft => {
-        delete draft.articles.all;
-        delete draft.articles.byCategory[action.blog.categoryId];
-      });
-
-    case BlogActionTypes.DELETE_BLOG_SUCCESS:
-      return produce(state, draft => {
-        delete draft.articles.all;
-        delete draft.articles.byBlog[action.id];
-      });
-
-    case CategoryActionTypes.DELETE_CATEGORY_SUCCESS:
-      return produce(state, draft => {
-        delete draft.articles.all;
-        delete draft.articles.byCategory[action.id];
-      });
-
-    default:
-      return state;
-  }
-}
-
-function updatePagination(pagination: Pagination, state?: PaginationStateSlice): PaginationStateSlice {
-  return {
-    totalItems: pagination.totalItems,
-    pageCount: pagination.pageCount,
-    loadedPages: state?.loadedPages ? [...state.loadedPages, pagination.currentPage] : [pagination.currentPage],
-  };
-}
+export const paginationReducer = createReducer(initialState, builder => {
+  builder.addCase(fetchArticlesPage.fulfilled, (state, { payload }) => {
+    state.articles.all = merge(state.articles.all, payload.response);
+  });
+  builder.addCase(fetchBlogArticlesPage.fulfilled, (state, { payload, meta: { arg } }) => {
+    state.articles.byBlog[arg.blogId] = merge(state.articles.byBlog[arg.blogId], payload.response);
+  });
+  builder.addCase(fetchCategoryArticlesPage.fulfilled, (state, { payload, meta: { arg } }) => {
+    state.articles.byCategory[arg.categoryId] = merge(state.articles.byCategory[arg.categoryId], payload.response);
+  });
+  builder.addCase(createBlog.fulfilled, (state, { meta: { arg } }) => {
+    delete state.articles.all;
+    delete state.articles.byCategory[arg.blog.categoryId];
+  });
+  builder.addCase(deleteBlog.fulfilled, (state, { meta: { arg } }) => {
+    delete state.articles.all;
+    delete state.articles.byBlog[arg.id];
+  });
+  builder.addCase(deleteCategory.fulfilled, (state, { meta: { arg } }) => {
+    delete state.articles.all;
+    delete state.articles.byCategory[arg.id];
+  });
+});

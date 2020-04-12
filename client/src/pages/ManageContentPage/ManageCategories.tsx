@@ -1,46 +1,25 @@
 import React, { FC, FormEvent, useEffect, useState } from 'react';
 import Button from 'react-bootstrap/Button';
-import { connect, ConnectedProps } from 'react-redux';
-import CategoryTable from '../../features/category/components/CategoryTable';
-import SaveCategoryModal from '../../features/category/components/SaveCategoryModal';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectAsyncStatus } from '../../core/async/async.selectors';
+import {
+  createCategory,
+  deleteCategory,
+  fetchAllCategories,
+  updateCategory,
+} from '../../features/category/category.actions';
+import { selectAllCategories } from '../../features/category/category.selectors';
+import { CategoryTable } from '../../features/category/components/CategoryTable';
+import { SaveCategoryModal } from '../../features/category/components/SaveCategoryModal';
 import { Category, SaveCategory } from '../../features/category/models/Category';
-import { createCategory, deleteCategory, updateCategory } from '../../features/category/category.actions';
-import { CategoryActionTypes } from '../../features/category/category.action-types';
-import { categoriesSelector } from '../../features/category/category.selectors';
-import { errorSelector, loadingSelector } from '../../core/async/async.selectors';
-import { RootState } from '../../store/reducers';
 
-const mapState = (state: RootState) => ({
-  categories: categoriesSelector(state),
-  fetching: loadingSelector(state, [CategoryActionTypes.FETCH_ALL_CATEGORIES]),
-  saving: loadingSelector(state, [CategoryActionTypes.CREATE_CATEGORY, CategoryActionTypes.UPDATE_CATEGORY]),
-  removing: loadingSelector(state, [CategoryActionTypes.DELETE_CATEGORY]),
-  saveError: errorSelector(state, [CategoryActionTypes.CREATE_CATEGORY, CategoryActionTypes.UPDATE_CATEGORY]),
-});
-
-const mapDispatch = {
-  createCategory,
-  updateCategory,
-  deleteCategory,
-};
-
-const connector = connect(mapState, mapDispatch);
-
-type PropsFromRedux = ConnectedProps<typeof connector>;
-type ManageCategoriesProps = PropsFromRedux;
-
-const ManageCategories: FC<ManageCategoriesProps> = ({
-  categories,
-  fetching,
-  saving,
-  removing,
-  saveError,
-  createCategory,
-  updateCategory,
-  deleteCategory,
-}) => {
+export const ManageCategories: FC = () => {
+  const dispatch = useDispatch();
+  const categories = useSelector(selectAllCategories);
   const defaultCategory: SaveCategory = { name: '' };
-
+  const [fetching] = useSelector(state => selectAsyncStatus(state, [fetchAllCategories]));
+  const [saving, saveError] = useSelector(state => selectAsyncStatus(state, [createCategory, updateCategory]));
+  const [removing] = useSelector(state => selectAsyncStatus(state, [deleteCategory]));
   const [modalVisible, setModalVisible] = useState(false);
   const [selected, setSelected] = useState<SaveCategory>(defaultCategory);
 
@@ -59,15 +38,15 @@ const ManageCategories: FC<ManageCategoriesProps> = ({
     event.preventDefault();
 
     if (selected.id) {
-      updateCategory(selected);
+      dispatch(updateCategory({ category: selected }));
     } else {
-      createCategory(selected);
+      dispatch(createCategory({ category: selected }));
     }
   };
 
   const performDelete = (category: Category) => {
     setSelected(category);
-    deleteCategory(category.id);
+    dispatch(deleteCategory({ id: category.id }));
   };
 
   const closeModal = () => {
@@ -88,7 +67,6 @@ const ManageCategories: FC<ManageCategoriesProps> = ({
     <div className="mb-n3">
       <div className="d-flex justify-content-between align-items-center mb-2">
         <h2 className="mb-0">Categories</h2>
-
         <Button onClick={openCreateModal}>
           <span className="fas fa-plus" aria-label="Add" />
         </Button>
@@ -115,5 +93,3 @@ const ManageCategories: FC<ManageCategoriesProps> = ({
     </div>
   );
 };
-
-export default connector(ManageCategories);

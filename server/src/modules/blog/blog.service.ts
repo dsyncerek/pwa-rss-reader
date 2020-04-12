@@ -20,11 +20,11 @@ export class BlogService {
   }
 
   public async getAllBlogs(): Promise<Blog[]> {
-    return this.blogRepository.find({ order: { name: 'ASC' } });
+    return await this.blogRepository.find({ order: { name: 'ASC' } });
   }
 
   public async getBlog(id: string): Promise<Blog> {
-    return this.blogRepository.findOneOrFail(id);
+    return await this.blogRepository.findOneOrFail(id);
   }
 
   public async deleteBlog(id: string): Promise<void> {
@@ -33,7 +33,7 @@ export class BlogService {
 
   public async updateBlog(id: string, data: UpdateBlogDto): Promise<Blog> {
     await this.blogRepository.update(id, data);
-    return this.getBlog(id);
+    return await this.getBlog(id);
   }
 
   public async refreshAllBlogs(): Promise<Blog[]> {
@@ -47,7 +47,7 @@ export class BlogService {
       }
     }
 
-    return this.getAllBlogs();
+    return await this.getAllBlogs();
   }
 
   public async createBlog({ rss, categoryId }: CreateBlogDto): Promise<Blog> {
@@ -56,7 +56,7 @@ export class BlogService {
     const blogToInsert = { ...blogFromRssFeed, rss, categoryId };
 
     await this.blogRepository.save(blogToInsert);
-    return this.getBlog(blogToInsert.id);
+    return await this.getBlog(blogToInsert.id);
   }
 
   public async refreshBlog(id: string): Promise<Blog> {
@@ -67,7 +67,7 @@ export class BlogService {
     const blogToSave = { ...oldBlog, ...blogFromRssFeed, articles: [...oldBlog.articles, ...newArticles] };
 
     await this.blogRepository.save(blogToSave);
-    return this.getBlog(oldBlog.id);
+    return await this.getBlog(oldBlog.id);
   }
 
   private getBlogFromRssFeedOutput(output: Output): Blog {

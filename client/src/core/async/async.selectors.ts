@@ -1,15 +1,11 @@
 import { createSelector } from 'reselect';
 import { HttpError } from '../../common/models/HttpError';
-import { RootState } from '../../store/reducers';
-import { RootActionTypes } from '../../store/rootTypes';
-import { AsyncStateSlice } from './async.reducer';
+import { AppState } from '../store';
 
-export const loadingSelector = createSelector<RootState, RootActionTypes[], AsyncStateSlice[], boolean>(
-  (state, types) => types.map(type => state.asyncState[type]).filter(Boolean),
-  actions => actions.some(action => action.loading),
-);
-
-export const errorSelector = createSelector<RootState, RootActionTypes[], AsyncStateSlice[], HttpError | undefined>(
-  (state, types) => types.map(type => state.asyncState[type]).filter(Boolean),
-  actions => actions.map(action => action.error).find(Boolean),
+export const selectAsyncStatus = createSelector(
+  (state: AppState, types: any[]) => types.map(type => state.async[type?.pending?.type || type]).filter(Boolean),
+  (statuses): [boolean, HttpError | undefined] => [
+    statuses.some(status => status.loading),
+    statuses.map(status => status.error).find(Boolean),
+  ],
 );

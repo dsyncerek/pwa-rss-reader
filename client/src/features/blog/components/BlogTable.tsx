@@ -2,9 +2,9 @@ import React, { FC } from 'react';
 import Button from 'react-bootstrap/Button';
 import ButtonToolbar from 'react-bootstrap/ButtonToolbar';
 import Table from 'react-bootstrap/Table';
-import Loader from '../../../common/components/Loader';
+import { Loader } from '../../../common/components/Loader';
 import { Blog } from '../models/Blog';
-import BlogName from './BlogName';
+import { BlogName } from './BlogName';
 
 type BlogTableProps = {
   blogs: Blog[];
@@ -15,10 +15,8 @@ type BlogTableProps = {
   onDelete: (blog: Blog) => void;
 };
 
-const BlogTable: FC<BlogTableProps> = ({ blogs, loading, removing, selectedId, onUpdate, onDelete }) => {
-  const isRemovingCurrentRow = (id: string): boolean => {
-    return !!removing && selectedId === id;
-  };
+export const BlogTable: FC<BlogTableProps> = ({ blogs, loading, removing, selectedId, onUpdate, onDelete }) => {
+  const isRemovingCurrentRow = (id: string): boolean => !!removing && selectedId === id;
 
   return (
     <Table responsive bordered>
@@ -75,5 +73,3 @@ const BlogTable: FC<BlogTableProps> = ({ blogs, loading, removing, selectedId, o
     </Table>
   );
 };
-
-export default BlogTable;

@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import ListGroup from 'react-bootstrap/ListGroup';
 import { NavLink } from 'react-router-dom';
-import BlogName from '../../features/blog/components/BlogName';
+import { BlogName } from '../../features/blog/components/BlogName';
 import { Blog } from '../../features/blog/models/Blog';
 import { Category } from '../../features/category/models/Category';
 
@@ -10,7 +10,7 @@ type ContentListProps = {
   categories: Category[];
 };
 
-const ContentList: FC<ContentListProps> = ({ blogs, categories }) => {
+export const ContentList: FC<ContentListProps> = ({ blogs, categories }) => {
   const getCategoryBlogs = (categoryId: string): Blog[] => blogs.filter(blog => blog.categoryId === categoryId);
 
   return (
@@ -42,5 +42,3 @@ const ContentList: FC<ContentListProps> = ({ blogs, categories }) => {
     </div>
   );
 };
-
-export default ContentList;

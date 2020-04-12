@@ -1,48 +1,22 @@
 import React, { FC, FormEvent, useEffect, useState } from 'react';
 import Button from 'react-bootstrap/Button';
-import { connect, ConnectedProps } from 'react-redux';
-import BlogTable from '../../features/blog/components/BlogTable';
-import SaveBlogModal from '../../features/blog/components/SaveBlogModal';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectAsyncStatus } from '../../core/async/async.selectors';
+import { createBlog, deleteBlog, fetchAllBlogs, updateBlog } from '../../features/blog/blog.actions';
+import { selectAllBlogs } from '../../features/blog/blog.selectors';
+import { BlogTable } from '../../features/blog/components/BlogTable';
+import { SaveBlogModal } from '../../features/blog/components/SaveBlogModal';
 import { Blog, SaveBlog } from '../../features/blog/models/Blog';
-import { createBlog, deleteBlog, updateBlog } from '../../features/blog/blog.actions';
-import { BlogActionTypes } from '../../features/blog/blog.action-types';
-import { blogsSelector } from '../../features/blog/blog.selectors';
-import { CategoryActionTypes } from '../../features/category/category.action-types';
-import { categoriesSelector } from '../../features/category/category.selectors';
-import { errorSelector, loadingSelector } from '../../core/async/async.selectors';
-import { RootState } from '../../store/reducers';
+import { fetchAllCategories } from '../../features/category/category.actions';
+import { selectAllCategories } from '../../features/category/category.selectors';
 
-const mapState = (state: RootState) => ({
-  blogs: blogsSelector(state),
-  categories: categoriesSelector(state),
-  fetching: loadingSelector(state, [BlogActionTypes.FETCH_ALL_BLOGS, CategoryActionTypes.FETCH_ALL_CATEGORIES]),
-  saving: loadingSelector(state, [BlogActionTypes.CREATE_BLOG, BlogActionTypes.UPDATE_BLOG]),
-  removing: loadingSelector(state, [BlogActionTypes.DELETE_BLOG]),
-  saveError: errorSelector(state, [BlogActionTypes.CREATE_BLOG, BlogActionTypes.UPDATE_BLOG]),
-});
-
-const mapDispatch = {
-  createBlog,
-  updateBlog,
-  deleteBlog,
-};
-
-const connector = connect(mapState, mapDispatch);
-
-type PropsFromRedux = ConnectedProps<typeof connector>;
-type ManageBlogsProps = PropsFromRedux;
-
-const ManageBlogs: FC<ManageBlogsProps> = ({
-  blogs,
-  categories,
-  fetching,
-  saving,
-  removing,
-  saveError,
-  createBlog,
-  updateBlog,
-  deleteBlog,
-}) => {
+export const ManageBlogs: FC = () => {
+  const dispatch = useDispatch();
+  const blogs = useSelector(selectAllBlogs);
+  const categories = useSelector(selectAllCategories);
+  const [fetching] = useSelector(state => selectAsyncStatus(state, [fetchAllBlogs, fetchAllCategories]));
+  const [saving, saveError] = useSelector(state => selectAsyncStatus(state, [createBlog, updateBlog]));
+  const [removing] = useSelector(state => selectAsyncStatus(state, [deleteBlog]));
   const defaultBlog: SaveBlog = { rss: '', categoryId: '' };
 
   const [modalVisible, setModalVisible] = useState(false);
@@ -63,15 +37,15 @@ const ManageBlogs: FC<ManageBlogsProps> = ({
     event.preventDefault();
 
     if (selected.id) {
-      updateBlog(selected);
+      dispatch(updateBlog({ blog: selected }));
     } else {
-      createBlog(selected);
+      dispatch(createBlog({ blog: selected }));
     }
   };
 
   const performDelete = (blog: Blog) => {
     setSelected(blog);
-    deleteBlog(blog.id);
+    dispatch(deleteBlog({ id: blog.id }));
   };
 
   const closeModal = () => {
@@ -92,7 +66,6 @@ const ManageBlogs: FC<ManageBlogsProps> = ({
     <div className="mb-n3">
       <div className="d-flex justify-content-between align-items-center mb-2">
         <h2 className="mb-0">Blogs</h2>
-
         <Button onClick={openCreateModal}>
           <span className="fas fa-plus" aria-label="Add" />
         </Button>
@@ -120,5 +93,3 @@ const ManageBlogs: FC<ManageBlogsProps> = ({
     </div>
   );
 };
-
-export default connector(ManageBlogs);

@@ -17,7 +17,7 @@ type SaveBlogModalProps = {
   onSubmit: (event: FormEvent) => void;
 };
 
-const SaveBlogModal: FC<SaveBlogModalProps> = ({
+export const SaveBlogModal: FC<SaveBlogModalProps> = ({
   blog,
   categories,
   saving,
@@ -83,5 +83,3 @@ const SaveBlogModal: FC<SaveBlogModalProps> = ({
     </Modal>
   );
 };
-
-export default SaveBlogModal;

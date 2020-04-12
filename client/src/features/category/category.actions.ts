@@ -1,84 +1,53 @@
+import { createAsyncCallThunk } from '../../common/utils/createAsyncCallThunk';
 import { showErrorToast, showSuccessToast } from '../../core/toast/toast.actions';
-import { apiCallThunkAction } from '../../common/utils/apiCallThunkAction';
-import { RootThunkAction } from '../../store/rootTypes';
 import * as categoryApi from './category.api';
 import * as categoryIdb from './category.idb';
 import { Category, categorySchema, SaveCategory } from './models/Category';
-import { CategoryActionTypes } from './category.action-types';
-import { allCategoriesLoadedSelector } from './category.selectors';
 
-export function fetchAllCategories(): RootThunkAction {
-  return apiCallThunkAction<Category[]>({
-    callApi: async () => categoryApi.fetchAllCategories(),
-    shouldCallApi: state => !allCategoriesLoadedSelector(state),
-    schema: [categorySchema],
+export const initCategoriesFromIdb = createAsyncCallThunk(`category/initCategoriesFromIdb`, () => ({
+  call: () => categoryIdb.fetchAllCategories(),
+  schema: [categorySchema],
+}));
 
-    onInit: () => dispatch => {
-      dispatch({ type: CategoryActionTypes.FETCH_ALL_CATEGORIES });
-    },
-    onSuccess: (entities, categories) => async dispatch => {
-      dispatch({ type: CategoryActionTypes.FETCH_ALL_CATEGORIES_SUCCESS, entities });
-      categoryIdb.saveAllCategories(categories).catch();
-    },
-    onError: error => dispatch => {
-      dispatch({ type: CategoryActionTypes.FETCH_ALL_CATEGORIES_ERROR, error });
-    },
-  });
-}
+export const fetchAllCategories = createAsyncCallThunk<Category[]>(`category/fetchAllCategories`, () => ({
+  call: () => categoryApi.fetchAllCategories(),
+  shouldCall: state => !state.category.allLoaded,
+  schema: [categorySchema],
+  onSuccess: categories => categoryIdb.saveAllCategories(categories).catch(),
+}));
 
-export function createCategory(category: SaveCategory): RootThunkAction {
-  return apiCallThunkAction<Category>({
-    callApi: async () => categoryApi.createCategory(category),
+export const createCategory = createAsyncCallThunk<Category, { category: SaveCategory }>(
+  `category/createCategory`,
+  ({ category }, { dispatch }) => ({
+    call: () => categoryApi.createCategory(category),
     schema: categorySchema,
-
-    onInit: () => dispatch => {
-      dispatch({ type: CategoryActionTypes.CREATE_CATEGORY, category });
-    },
-    onSuccess: (entities, category) => dispatch => {
+    onSuccess: category => {
       dispatch(showSuccessToast('Category has been created.'));
-      dispatch({ type: CategoryActionTypes.CREATE_CATEGORY_SUCCESS, entities });
       categoryIdb.saveCategory(category).catch();
     },
-    onError: error => dispatch => {
-      dispatch({ type: CategoryActionTypes.CREATE_CATEGORY_ERROR, error });
-    },
-  });
-}
+  }),
+);
 
-export function updateCategory(category: SaveCategory): RootThunkAction {
-  return apiCallThunkAction<Category>({
-    callApi: async () => categoryApi.updateCategory(category),
+export const updateCategory = createAsyncCallThunk<Category, { category: SaveCategory }>(
+  `category/updateCategory`,
+  ({ category }, { dispatch }) => ({
+    call: () => categoryApi.updateCategory(category),
     schema: categorySchema,
-
-    onInit: () => dispatch => {
-      dispatch({ type: CategoryActionTypes.UPDATE_CATEGORY, category });
-    },
-    onSuccess: (entities, category) => dispatch => {
+    onSuccess: category => {
       dispatch(showSuccessToast('Category has been updated.'));
-      dispatch({ type: CategoryActionTypes.UPDATE_CATEGORY_SUCCESS, entities });
       categoryIdb.saveCategory(category).catch();
     },
-    onError: error => dispatch => {
-      dispatch({ type: CategoryActionTypes.UPDATE_CATEGORY_ERROR, error });
-    },
-  });
-}
+  }),
+);
 
-export function deleteCategory(id: string): RootThunkAction {
-  return apiCallThunkAction<void>({
-    callApi: async () => categoryApi.deleteCategory(id),
-
-    onInit: () => dispatch => {
-      dispatch({ type: CategoryActionTypes.DELETE_CATEGORY, id });
-    },
-    onSuccess: () => dispatch => {
+export const deleteCategory = createAsyncCallThunk<void, { id: string }>(
+  `category/deleteCategory`,
+  ({ id }, { dispatch }) => ({
+    call: () => categoryApi.deleteCategory(id),
+    onError: error => dispatch(showErrorToast(error.message)),
+    onSuccess: () => {
       dispatch(showSuccessToast('Category has been deleted.'));
-      dispatch({ type: CategoryActionTypes.DELETE_CATEGORY_SUCCESS, id });
       categoryIdb.deleteCategory(id).catch();
     },
-    onError: error => dispatch => {
-      dispatch(showErrorToast(error.message));
-      dispatch({ type: CategoryActionTypes.DELETE_CATEGORY_ERROR, error });
-    },
-  });
-}
+  }),
+);

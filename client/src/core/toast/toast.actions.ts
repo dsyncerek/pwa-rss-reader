@@ -1,33 +1,24 @@
-import { RootAction, RootThunkAction } from '../../store/rootTypes';
+import { createAction } from '@reduxjs/toolkit';
+import { generateRandomId } from '../../common/utils/generateRandomId';
+import { AppThunk } from '../store';
 import { Toast } from './models/Toast';
-import { ToastActionTypes } from './toast.action-types';
 
-function generateRandomId(): string {
-  return Math.random().toString(16).substring(2);
-}
+export const showToast = createAction<{ toast: Toast }>(`toast/showToast`);
+export const hideToast = createAction<{ id: string }>(`toast/hideToast`);
 
-export function hideToast(id: string): RootAction {
-  return { type: ToastActionTypes.HIDE_TOAST, id };
-}
-
-export function showSuccessToast(content: string): RootThunkAction {
-  return showToast({ title: 'Success', autoHide: true, content });
-}
-
-export function showErrorToast(content: string): RootThunkAction {
-  return showToast({ title: 'Error', content });
-}
-
-export function showToast(toast: Omit<Toast, 'id'>): RootThunkAction<Promise<boolean>> {
+export const showAppToast = (toast: Omit<Toast, 'id'>): AppThunk => dispatch => {
   const toastWithId = { ...toast, id: generateRandomId() };
+  dispatch(showToast({ toast: toastWithId }));
 
-  return dispatch => {
-    dispatch({ type: ToastActionTypes.SHOW_TOAST, toast: toastWithId });
+  if (toastWithId.autoHide) {
+    setTimeout(() => dispatch(hideToast({ id: toastWithId.id })), 5000);
+  }
+};
 
-    if (toastWithId.autoHide) {
-      setTimeout(() => dispatch(hideToast(toastWithId.id)), 5000);
-    }
+export function showSuccessToast(content: string): AppThunk {
+  return showAppToast({ title: 'Success', autoHide: true, content });
+}
 
-    return new Promise(resolve => resolve(false));
-  };
+export function showErrorToast(content: string): AppThunk {
+  return showAppToast({ title: 'Error', content });
 }

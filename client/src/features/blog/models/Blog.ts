@@ -20,6 +20,8 @@ export const blogSchema = new schema.Entity(
   { processStrategy: (value: Blog) => ({ ...value, category: value.categoryId }) },
 );
 
+export const blogSortComparer = (a: Blog, b: Blog) => a.name.localeCompare(b.name);
+
 export interface SaveBlog {
   id?: string;
   rss: string;

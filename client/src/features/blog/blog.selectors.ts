@@ -1,15 +1,19 @@
+import { createSelector } from '@reduxjs/toolkit';
 import { denormalize } from 'normalizr';
-import { createSelector } from 'reselect';
-import { EntityState } from '../../core/entity/entity.reducer';
-import { entityStateSelector } from '../../core/entity/entity.selectors';
-import { RootState } from '../../store/reducers';
+import { AppState } from '../../core/store';
+import { selectCategoryEntities } from '../category/category.selectors';
+import { blogAdapter } from './blog.reducer';
 import { Blog, blogSchema } from './models/Blog';
 
-export const blogsSelector = createSelector<RootState, EntityState, Blog[]>(entityStateSelector, entities =>
-  denormalize(Object.keys(entities.blogs), [blogSchema], entities),
+export const { selectIds: selectBlogIds, selectEntities: selectBlogEntities } = blogAdapter.getSelectors<AppState>(
+  state => state.blog,
 );
 
-export const allBlogsLoadedSelector = createSelector<RootState, boolean, boolean>(
-  state => state.blogState.allLoaded,
-  allLoaded => allLoaded,
+export const selectAllBlogs = createSelector(
+  selectBlogIds,
+  selectBlogEntities,
+  selectCategoryEntities,
+  (ids, blogs, categories): Blog[] => {
+    return denormalize(ids, [blogSchema], { blogs, categories });
+  },
 );

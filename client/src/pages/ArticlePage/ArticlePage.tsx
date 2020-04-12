@@ -1,55 +1,28 @@
-import React, { FC, useEffect } from 'react';
-import { connect, ConnectedProps } from 'react-redux';
+import React, { FC, useCallback, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { RouteComponentProps } from 'react-router-dom';
-import ArticleDetails from '../../features/article/components/ArticleDetails';
+import { Layout } from '../../common/components/Layout';
+import { selectAsyncStatus } from '../../core/async/async.selectors';
+import { AsyncInfo } from '../../core/async/components/AsyncInfo';
 import { fetchArticle, markArticleAsReadOptimistic } from '../../features/article/article.actions';
-import { ArticleActionTypes } from '../../features/article/article.action-types';
-import { articleSelector } from '../../features/article/article.selectors';
-import { errorSelector, loadingSelector } from '../../core/async/async.selectors';
-import { RootState } from '../../store/reducers';
-import Layout from '../Layout';
+import { selectArticle } from '../../features/article/article.selectors';
+import ArticleDetails from '../../features/article/components/ArticleDetails';
 
-const mapState = (state: RootState, props: PropsFromRouter) => ({
-  article: articleSelector(state, props.match.params.id),
-  fetching: loadingSelector(state, [ArticleActionTypes.FETCH_ARTICLE]),
-  fetchError: errorSelector(state, [ArticleActionTypes.FETCH_ARTICLE]),
-});
-
-const mapDispatch = {
-  fetchArticle,
-  markArticleAsReadOptimistic,
-};
-
-const connector = connect(mapState, mapDispatch);
-
-type PropsFromRedux = ConnectedProps<typeof connector>;
-type PropsFromRouter = RouteComponentProps<{ id: string }>;
-type ArticlePageProps = PropsFromRedux & PropsFromRouter;
-
-const ArticlePage: FC<ArticlePageProps> = ({
-  article,
-  fetching,
-  fetchError,
-  fetchArticle,
-  markArticleAsReadOptimistic,
-  match,
-}) => {
+export const ArticlePage: FC<RouteComponentProps<{ id: string }>> = ({ match }) => {
   const id = match.params.id;
+  const dispatch = useDispatch();
+  const article = useSelector(state => selectArticle(state, id));
+  const [fetching, fetchError] = useSelector(state => selectAsyncStatus(state, [fetchArticle]));
+  const markAsRead = useCallback(id => dispatch(markArticleAsReadOptimistic({ id })), [dispatch]);
 
   useEffect(() => {
-    fetchArticle(id);
-  }, [fetchArticle, id]);
+    dispatch(fetchArticle({ id }));
+  }, [dispatch, id]);
 
   return (
     <Layout>
-      <ArticleDetails
-        article={article}
-        loading={fetching}
-        error={fetchError?.message}
-        markAsRead={markArticleAsReadOptimistic}
-      />
+      <AsyncInfo loading={fetching} error={fetchError} />
+      {article && <ArticleDetails article={article} markAsRead={markAsRead} />}
     </Layout>
   );
 };
-
-export default connector(ArticlePage);

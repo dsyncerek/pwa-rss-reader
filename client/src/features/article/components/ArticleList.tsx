@@ -1,9 +1,9 @@
 import React, { FC, useEffect } from 'react';
 import Alert from 'react-bootstrap/Alert';
 import { Waypoint } from 'react-waypoint';
-import Loader from '../../../common/components/Loader';
+import { Loader } from '../../../common/components/Loader';
 import { Article } from '../models/Article';
-import ArticleTile from './ArticleTile';
+import { ArticleTile } from './ArticleTile';
 
 type ArticleListProps = {
   articles: Article[];
@@ -13,7 +13,7 @@ type ArticleListProps = {
   markAsRead: (id: string) => void;
 };
 
-const ArticleList: FC<ArticleListProps> = ({ articles, loading, pageCount, fetchPage, markAsRead }) => {
+export const ArticleList: FC<ArticleListProps> = ({ articles, loading, pageCount, fetchPage, markAsRead }) => {
   useEffect(() => {
     fetchPage(1);
   }, [fetchPage]);
@@ -61,5 +61,3 @@ const ArticleList: FC<ArticleListProps> = ({ articles, loading, pageCount, fetch
     </>
   );
 };
-
-export default ArticleList;

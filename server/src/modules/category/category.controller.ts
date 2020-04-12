@@ -18,31 +18,31 @@ export class CategoryController {
     @Param('id') id: string,
     @Param('page') page: number = 1,
   ): Promise<PaginationDto<Article>> {
-    return this.articleService.getCategoryArticlesPage(id, +page);
+    return await this.articleService.getCategoryArticlesPage(id, +page);
   }
 
   @Get()
   public async getAllCategories(): Promise<Category[]> {
-    return this.categoryService.getAllCategories();
+    return await this.categoryService.getAllCategories();
   }
 
   @Get(':id')
   public async getCategory(@Param('id') id: string): Promise<Category> {
-    return this.categoryService.getCategory(id);
+    return await this.categoryService.getCategory(id);
   }
 
   @Post()
   public async createCategory(@Body() body: CreateCategoryDto): Promise<Category> {
-    return this.categoryService.createCategory(body);
+    return await this.categoryService.createCategory(body);
   }
 
   @Patch(':id')
   public async updateCategory(@Param('id') id: string, @Body() body: UpdateCategoryDto): Promise<Category> {
-    return this.categoryService.updateCategory(id, body);
+    return await this.categoryService.updateCategory(id, body);
   }
 
   @Delete(':id')
   public async deleteCategory(@Param('id') id: string): Promise<void> {
-    return this.categoryService.deleteCategory(id);
+    return await this.categoryService.deleteCategory(id);
   }
 }

@@ -5,11 +5,9 @@ type BlogNameProps = {
   blog: Blog;
 };
 
-const BlogName: FC<BlogNameProps> = ({ blog: { name, icon } }) => (
+export const BlogName: FC<BlogNameProps> = ({ blog: { name, icon } }) => (
   <span className="d-inline-flex">
     {icon && <img className="mr-1 mt-1" style={{ width: '1em', height: '1em' }} src={icon} alt="" />}
     {name}
   </span>
 );
-
-export default BlogName;

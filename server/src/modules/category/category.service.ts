@@ -10,11 +10,11 @@ export class CategoryService {
   constructor(@InjectRepository(Category) private readonly categoryRepository: Repository<Category>) {}
 
   public async getAllCategories(): Promise<Category[]> {
-    return this.categoryRepository.find();
+    return await this.categoryRepository.find();
   }
 
   public async getCategory(id: string): Promise<Category> {
-    return this.categoryRepository.findOneOrFail(id);
+    return await this.categoryRepository.findOneOrFail(id);
   }
 
   public async deleteCategory(id: string): Promise<void> {
@@ -23,11 +23,11 @@ export class CategoryService {
 
   public async createCategory(data: CreateCategoryDto): Promise<Category> {
     const result = await this.categoryRepository.insert(data);
-    return this.getCategory(result.raw[0].id);
+    return await this.getCategory(result.raw[0].id);
   }
 
   public async updateCategory(id: string, data: UpdateCategoryDto): Promise<Category> {
     await this.categoryRepository.update(id, data);
-    return this.getCategory(id);
+    return await this.getCategory(id);
   }
 }

@@ -1,32 +1,44 @@
+import { createSelector } from '@reduxjs/toolkit';
 import { denormalize } from 'normalizr';
-import { createSelector } from 'reselect';
-import { EntityState } from '../../core/entity/entity.reducer';
-import { entityStateSelector } from '../../core/entity/entity.selectors';
-import { RootState } from '../../store/reducers';
+import { AppState } from '../../core/store';
+import { selectBlogEntities } from '../blog/blog.selectors';
+import { selectCategoryEntities } from '../category/category.selectors';
+import { articleAdapter } from './article.reducer';
 import { Article, articleSchema } from './models/Article';
 
-export const articlesSelector = createSelector<RootState, EntityState, Article[]>(entityStateSelector, entities =>
-  sortArticles(denormalize(Object.keys(entities.articles), [articleSchema], entities)),
+export const {
+  selectById: selectArticleById,
+  selectEntities: selectArticleEntities,
+  selectIds: selectArticleIds,
+} = articleAdapter.getSelectors<AppState>(state => state.article);
+
+export const selectAllArticles = createSelector(
+  selectArticleIds,
+  selectArticleEntities,
+  selectBlogEntities,
+  selectCategoryEntities,
+  (ids, articles, blogs, categories): Article[] => {
+    return denormalize(ids, [articleSchema], { articles, blogs, categories });
+  },
 );
 
-export const blogArticlesSelector = createSelector<RootState, string, Article[], string, Article[]>(
-  articlesSelector,
-  (state, blogId) => blogId,
-  (articles, blogId) => articles.filter(article => article.blogId === blogId),
+export const selectBlogArticles = createSelector(
+  selectAllArticles,
+  (state: AppState, blogId: string) => blogId,
+  (articles, blogId): Article[] => articles.filter(article => article.blogId === blogId),
 );
 
-export const categoryArticlesSelector = createSelector<RootState, string, Article[], string, Article[]>(
-  articlesSelector,
-  (state, categoryId) => categoryId,
-  (articles, categoryId) => articles.filter(article => article.blog?.categoryId === categoryId),
+export const selectCategoryArticles = createSelector(
+  selectAllArticles,
+  (state: AppState, categoryId: string) => categoryId,
+  (articles, categoryId): Article[] => articles.filter(article => article.blog?.categoryId === categoryId),
 );
 
-export const articleSelector = createSelector<RootState, string, EntityState, string, Article | undefined>(
-  entityStateSelector,
-  (state, id) => id,
-  (entities, id) => denormalize(entities.articles[id], articleSchema, entities),
+export const selectArticle = createSelector(
+  selectArticleById,
+  selectBlogEntities,
+  selectCategoryEntities,
+  (article, blogs, categories): Article | undefined => {
+    return denormalize(article, articleSchema, { blogs, categories });
+  },
 );
-
-function sortArticles(articles: Article[]): Article[] {
-  return articles.sort((a, b) => (a.date > b.date ? -1 : 1));
-}
