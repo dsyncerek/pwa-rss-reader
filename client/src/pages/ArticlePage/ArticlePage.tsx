@@ -13,7 +13,7 @@ export const ArticlePage: FC<RouteComponentProps<{ id: string }>> = ({ match }) 
   const dispatch = useDispatch();
   const article = useSelector(state => selectArticle(state, id));
   const [fetching, fetchError] = useSelector(state => selectAsyncStatus(state, [fetchArticle]));
-  const markAsRead = useCallback(id => dispatch(markArticleAsReadOptimistic({ id })), [dispatch]);
+  const markAsReadCb = useCallback(id => dispatch(markArticleAsReadOptimistic({ id })), [dispatch]);
 
   useEffect(() => {
     dispatch(fetchArticle({ id }));
@@ -22,7 +22,7 @@ export const ArticlePage: FC<RouteComponentProps<{ id: string }>> = ({ match }) 
   return (
     <Layout>
       <AsyncInfo loading={fetching} error={fetchError} />
-      {article && <ArticleDetails article={article} markAsRead={markAsRead} />}
+      {article && <ArticleDetails article={article} markAsRead={markAsReadCb} />}
     </Layout>
   );
 };
