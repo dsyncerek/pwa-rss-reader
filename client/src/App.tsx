@@ -2,17 +2,16 @@ import React, { FC, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom';
 import { Loader } from './common/components/Loader';
+import { AppDispatch } from './core/store';
 import { initArticlesFromIdb } from './features/article/article.actions';
 import { fetchAllBlogs, initBlogsFromIdb } from './features/blog/blog.actions';
 import { fetchAllCategories, initCategoriesFromIdb } from './features/category/category.actions';
 import { ArticlePage } from './pages/ArticlePage/ArticlePage';
-import { AllArticlesPage } from './pages/ArticlesPage/AllArticlesPage';
-import { BlogArticlesPage } from './pages/ArticlesPage/BlogArticlesPage';
-import { CategoryArticlesPage } from './pages/ArticlesPage/CategoryArticlesPage';
+import { ArticlesPage } from './pages/ArticlesPage/ArticlesPage';
 import { ManageContentPage } from './pages/ManageContentPage/ManageContentPage';
 
 export const App: FC = () => {
-  const dispatch = useDispatch();
+  const dispatch: AppDispatch = useDispatch();
   const [initialized, setInitialized] = useState(false);
 
   useEffect(() => {
@@ -33,10 +32,10 @@ export const App: FC = () => {
   return (
     <BrowserRouter>
       <Switch>
-        <Route exact path="/" component={AllArticlesPage} />
+        <Route exact path="/" component={ArticlesPage} />
         <Route path="/article/:id" component={ArticlePage} />
-        <Route path="/category/:id" component={CategoryArticlesPage} />
-        <Route path="/blog/:id" component={BlogArticlesPage} />
+        <Route path="/category/:id" render={props => <ArticlesPage {...props} type="category" />} />
+        <Route path="/blog/:id" render={props => <ArticlesPage {...props} type="blog" />} />
         <Route path="/manage-content" component={ManageContentPage} />
         <Redirect to="/" />
       </Switch>
