@@ -30,8 +30,10 @@ export const fetchBlogArticlesPage = createAsyncCallThunk<Pagination<Article>, {
   }),
 );
 
-export const fetchCategoryArticlesPage = createAsyncCallThunk<Pagination<Article>,
-  { categoryId: string; page: number }>(`article/fetchCategoryArticlesPage`, ({ categoryId, page }) => ({
+export const fetchCategoryArticlesPage = createAsyncCallThunk<
+  Pagination<Article>,
+  { categoryId: string; page: number }
+>(`article/fetchCategoryArticlesPage`, ({ categoryId, page }) => ({
   call: () => articleApi.fetchCategoryArticlesPage(categoryId, page),
   shouldCall: state => !state.pagination.articles.byCategory[categoryId]?.loadedPages.includes(page),
   schema: { items: [articleSchema] },
@@ -49,6 +51,7 @@ export const markArticleAsReadOptimistic = createAsyncCallThunk<void, { id: stri
   `article/markArticleAsReadOptimistic`,
   ({ id }, { dispatch }) => ({
     call: () => articleApi.markArticleAsRead(id),
+    shouldCall: state => !state.article.entities[id]?.read,
     onInit: () => articleIdb.updateArticle(id, { read: true }).catch(),
     onError: error => {
       dispatch(showErrorToast(error.message));

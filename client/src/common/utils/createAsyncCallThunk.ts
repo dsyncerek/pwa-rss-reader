@@ -15,7 +15,7 @@ export interface AsyncThunkCallOptions<T = any> {
 
 export interface AsyncThunkCallResponse<T = void> {
   entities?: Entities;
-  response?: T;
+  response: T;
 }
 
 type AsyncThunkCallCreator<Params, Returned> = (
@@ -30,11 +30,7 @@ export function createAsyncCallThunk<Returned, Params = void>(
   return createAsyncThunk<AsyncThunkCallResponse<Returned>, Params, AppAsyncThunkConfig>(
     type,
     async (params, thunkAPI) => {
-      const { shouldCall, call, schema, onInit, onSuccess, onError } = optionsCreator(params, thunkAPI);
-
-      if (shouldCall && !shouldCall(thunkAPI.getState())) {
-        return {};
-      }
+      const { call, schema, onInit, onSuccess, onError } = optionsCreator(params, thunkAPI);
 
       onInit && onInit();
 
@@ -53,6 +49,12 @@ export function createAsyncCallThunk<Returned, Params = void>(
         onError && onError(error);
         return thunkAPI.rejectWithValue({ ...error });
       }
+    },
+    {
+      condition(params: Params, { getState }): boolean {
+        const { shouldCall } = optionsCreator(params, { getState, dispatch: null! });
+        return !(shouldCall && !shouldCall(getState()));
+      },
     },
   );
 }
