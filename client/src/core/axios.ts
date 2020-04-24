@@ -1,5 +1,6 @@
 import axios, { AxiosError, AxiosResponse } from 'axios';
 import { HttpError } from '../common/models/HttpError';
+import { HttpOfflineError } from '../common/models/HttpOfflineError';
 
 export const axiosInstance = axios.create({ baseURL: '/api/' });
 
@@ -12,7 +13,7 @@ function handleResponse<T>(response: AxiosResponse<T>): T {
 function handleError(error: AxiosError): never {
   if (error.response) {
     throw new HttpError(error.response.data);
+  } else {
+    throw new HttpOfflineError();
   }
-
-  throw new HttpError({ error: 'Offline', message: 'Looks, you are offline.', statusCode: 503 });
 }

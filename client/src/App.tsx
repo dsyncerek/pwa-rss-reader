@@ -1,6 +1,7 @@
 import React, { FC, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom';
+import { useNetwork } from 'react-use';
 import { Loader } from './common/components/Loader';
 import { AppDispatch } from './core/store';
 import { initArticlesFromIdb } from './features/article/article.actions';
@@ -13,11 +14,16 @@ import { ManageContentPage } from './pages/ManageContentPage/ManageContentPage';
 export const App: FC = () => {
   const dispatch: AppDispatch = useDispatch();
   const [initialized, setInitialized] = useState(false);
+  const { online } = useNetwork();
 
   useEffect(() => {
-    dispatch(fetchAllBlogs());
-    dispatch(fetchAllCategories());
+    if (online) {
+      dispatch(fetchAllBlogs());
+      dispatch(fetchAllCategories());
+    }
+  }, [online, dispatch]);
 
+  useEffect(() => {
     Promise.allSettled([
       dispatch(initArticlesFromIdb()),
       dispatch(initBlogsFromIdb()),
