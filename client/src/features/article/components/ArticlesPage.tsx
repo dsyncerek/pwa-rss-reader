@@ -1,21 +1,16 @@
 import React, { FC, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RouteComponentProps } from 'react-router-dom';
-import { Layout } from '../../common/components/Layout';
-import { selectAsyncStatus } from '../../core/async/async.selectors';
-import { AppState } from '../../core/store';
+import { selectAsyncStatus } from '../../../core/async/async.selectors';
+import { AppState } from '../../../core/store';
 import {
   fetchArticlesPage,
   fetchBlogArticlesPage,
   fetchCategoryArticlesPage,
   markArticleAsReadOptimistic,
-} from '../../features/article/article.actions';
-import {
-  selectAllArticles,
-  selectBlogArticles,
-  selectCategoryArticles,
-} from '../../features/article/article.selectors';
-import { ArticleList } from '../../features/article/components/ArticleList';
+} from '../article.actions';
+import { selectAllArticles, selectBlogArticles, selectCategoryArticles } from '../article.selectors';
+import { ArticleList } from './ArticleList';
 
 type ArticlesPageProps = RouteComponentProps<{ id?: string }> & { type?: 'blog' | 'category' };
 
@@ -57,14 +52,12 @@ export const ArticlesPage: FC<ArticlesPageProps> = ({ match, type }) => {
   const markAsReadCb = useCallback(id => dispatch(markArticleAsReadOptimistic({ id })), [dispatch]);
 
   return (
-    <Layout>
-      <ArticleList
-        articles={articles}
-        loading={fetching}
-        pageCount={pageCount}
-        fetchPage={fetchPageCb}
-        markAsRead={markAsReadCb}
-      />
-    </Layout>
+    <ArticleList
+      articles={articles}
+      loading={fetching}
+      pageCount={pageCount}
+      fetchPage={fetchPageCb}
+      markAsRead={markAsReadCb}
+    />
   );
 };

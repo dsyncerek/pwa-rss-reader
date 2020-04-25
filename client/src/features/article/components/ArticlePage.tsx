@@ -1,12 +1,11 @@
 import React, { FC, useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RouteComponentProps } from 'react-router-dom';
-import { Layout } from '../../common/components/Layout';
-import { selectAsyncStatus } from '../../core/async/async.selectors';
-import { AsyncInfo } from '../../core/async/components/AsyncInfo';
-import { fetchArticle, markArticleAsReadOptimistic } from '../../features/article/article.actions';
-import { selectArticle } from '../../features/article/article.selectors';
-import ArticleDetails from '../../features/article/components/ArticleDetails';
+import { selectAsyncStatus } from '../../../core/async/async.selectors';
+import { AsyncInfo } from '../../../core/async/components/AsyncInfo';
+import { fetchArticle, markArticleAsReadOptimistic } from '../article.actions';
+import { selectArticle } from '../article.selectors';
+import ArticleDetails from './ArticleDetails';
 
 export const ArticlePage: FC<RouteComponentProps<{ id: string }>> = ({ match }) => {
   const id = match.params.id;
@@ -20,9 +19,9 @@ export const ArticlePage: FC<RouteComponentProps<{ id: string }>> = ({ match }) 
   }, [dispatch, id]);
 
   return (
-    <Layout>
+    <>
       <AsyncInfo loading={fetching} error={fetchError} />
       {article && <ArticleDetails article={article} markAsRead={markAsReadCb} />}
-    </Layout>
+    </>
   );
 };

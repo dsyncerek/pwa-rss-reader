@@ -1,14 +1,14 @@
 import React, { FC, FormEvent, useEffect, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectAsyncStatus } from '../../core/async/async.selectors';
-import { createBlog, deleteBlog, fetchAllBlogs, updateBlog } from '../../features/blog/blog.actions';
-import { selectAllBlogs } from '../../features/blog/blog.selectors';
-import { BlogTable } from '../../features/blog/components/BlogTable';
-import { SaveBlogModal } from '../../features/blog/components/SaveBlogModal';
-import { Blog, SaveBlog } from '../../features/blog/models/Blog';
-import { fetchAllCategories } from '../../features/category/category.actions';
-import { selectAllCategories } from '../../features/category/category.selectors';
+import { selectAsyncStatus } from '../../../core/async/async.selectors';
+import { createBlog, deleteBlog, fetchAllBlogs, updateBlog } from '../blog.actions';
+import { selectAllBlogs } from '../blog.selectors';
+import { BlogTable } from './BlogTable';
+import { SaveBlogModal } from './SaveBlogModal';
+import { Blog, SaveBlog } from '../models/Blog';
+import { fetchAllCategories } from '../../category/category.actions';
+import { selectAllCategories } from '../../category/category.selectors';
 
 export const ManageBlogs: FC = () => {
   const dispatch = useDispatch();

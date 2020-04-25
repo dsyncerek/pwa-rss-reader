@@ -1,17 +1,12 @@
 import React, { FC, FormEvent, useEffect, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectAsyncStatus } from '../../core/async/async.selectors';
-import {
-  createCategory,
-  deleteCategory,
-  fetchAllCategories,
-  updateCategory,
-} from '../../features/category/category.actions';
-import { selectAllCategories } from '../../features/category/category.selectors';
-import { CategoryTable } from '../../features/category/components/CategoryTable';
-import { SaveCategoryModal } from '../../features/category/components/SaveCategoryModal';
-import { Category, SaveCategory } from '../../features/category/models/Category';
+import { selectAsyncStatus } from '../../../core/async/async.selectors';
+import { createCategory, deleteCategory, fetchAllCategories, updateCategory } from '../category.actions';
+import { selectAllCategories } from '../category.selectors';
+import { CategoryTable } from './CategoryTable';
+import { SaveCategoryModal } from './SaveCategoryModal';
+import { Category, SaveCategory } from '../models/Category';
 
 export const ManageCategories: FC = () => {
   const dispatch = useDispatch();
