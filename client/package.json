@@ -28,7 +28,7 @@
     "react-redux": "^7.2.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "^3.4.1",
-    "react-use": "^15.2.5",
+    "react-use": "^15.3.0",
     "react-waypoint": "^9.0.3",
     "register-service-worker": "^1.7.1"
   },
