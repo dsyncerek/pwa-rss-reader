@@ -7,7 +7,7 @@
     "build": "npm run build:app && npm run build:sw",
     "build:app": "react-scripts build",
     "build:sw": "webpack src/sw/index.js --output build/service-worker.js --mode=production --optimize-max-chunks 1 --module-bind js=babel-loader --devtool source-map",
-    "analyze": "source-map-explorer 'build/static/js/*.js'",
+    "analyze": "npm run build && npx source-map-explorer 'build/**/*.js'",
     "test": "react-scripts test --watchAll=false",
     "test:watch": "react-scripts test",
     "test:cov": "react-scripts test --watchAll=false --coverage",
@@ -48,7 +48,6 @@
     "lint-staged": "^10.2.11",
     "node-sass": "^4.14.1",
     "prettier": "^2.0.5",
-    "source-map-explorer": "^2.4.2",
     "typescript": "~3.9.6",
     "webpack-cli": "^3.3.12"
   }

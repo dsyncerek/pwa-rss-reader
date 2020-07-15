@@ -8,7 +8,7 @@
     "test": "npm --prefix server run test && npm --prefix client run test",
     "format": "npm --prefix server run format && npm --prefix client run format",
     "lint": "npm --prefix server run lint && npm --prefix client run lint",
-    "postinstall": "npm --prefix server install && npm --prefix client install",
+    "postinstall": "npm --prefix server ci && npm --prefix client ci",
     "precommit": "npm --prefix server run precommit && npm --prefix client run precommit"
   },
   "devDependencies": {
