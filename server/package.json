@@ -27,7 +27,7 @@
     "pg": "^8.3.0",
     "reflect-metadata": "^0.1.13",
     "rss-parser": "^3.9.0",
-    "rxjs": "^6.6.0",
+    "rxjs": "^6.6.2",
     "sanitize-html": "^1.27.2",
     "slugify": "^1.4.5",
     "swagger-ui-express": "^4.1.4",
