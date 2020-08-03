@@ -36,7 +36,7 @@
   "devDependencies": {
     "@nestjs/cli": "^7.4.1",
     "@nestjs/schematics": "^7.0.1",
-    "@nestjs/testing": "^7.3.2",
+    "@nestjs/testing": "^7.4.2",
     "@types/compression": "^1.7.0",
     "@types/jest": "^26.0.8",
     "@types/sanitize-html": "^1.23.3",
