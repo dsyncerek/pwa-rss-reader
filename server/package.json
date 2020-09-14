@@ -39,7 +39,7 @@
     "@nestjs/testing": "^7.4.4",
     "@types/compression": "^1.7.0",
     "@types/jest": "^26.0.13",
-    "@types/sanitize-html": "^1.23.3",
+    "@types/sanitize-html": "^1.27.0",
     "@typescript-eslint/eslint-plugin": "^3.10.1",
     "@typescript-eslint/parser": "^3.10.1",
     "eslint": "^7.8.1",
