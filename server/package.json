@@ -29,7 +29,7 @@
     "rss-parser": "^3.9.0",
     "rxjs": "^6.6.3",
     "sanitize-html": "^2.1.1",
-    "slugify": "^1.4.5",
+    "slugify": "^1.4.6",
     "swagger-ui-express": "^4.1.4",
     "typeorm": "^0.2.28"
   },
