@@ -12,18 +12,11 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noImplicitAny": true,
+    "noFallthroughCasesInSwitch": true,
     "noEmit": true,
     "jsx": "react",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ]
+    "lib": ["dom", "dom.iterable", "esnext"]
   },
-  "include": [
-    "src"
-  ],
-  "exclude": [
-    "src/sw"
-  ]
+  "include": ["src"],
+  "exclude": ["src/sw"]
 }
