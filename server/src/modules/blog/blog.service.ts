@@ -70,7 +70,7 @@ export class BlogService {
     return await this.getBlog(oldBlog.id);
   }
 
-  private getBlogFromRssFeedOutput(output: Output): Blog {
+  private getBlogFromRssFeedOutput(output: Output<{}>): Blog {
     const articles: Article[] = output.items.map(item => {
       return new Article({
         title: item.title,

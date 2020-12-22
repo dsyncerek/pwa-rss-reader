@@ -7,7 +7,7 @@ import { sanitizeHtmlConfig } from '../../config/sanitize-html.config';
 export class RssService {
   private readonly parser = new Parser();
 
-  public async parseBlogRssUrl(url: string): Promise<Parser.Output> {
+  public async parseBlogRssUrl(url: string): Promise<Parser.Output<{}>> {
     const parsed = await this.parser.parseURL(url);
 
     parsed.items = parsed.items.map(item => {
