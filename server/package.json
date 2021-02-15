@@ -31,7 +31,7 @@
     "sanitize-html": "^2.3.2",
     "slugify": "^1.4.6",
     "swagger-ui-express": "^4.1.6",
-    "typeorm": "^0.2.29"
+    "typeorm": "^0.2.31"
   },
   "devDependencies": {
     "@nestjs/cli": "^7.5.4",
