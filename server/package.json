@@ -53,6 +53,6 @@
     "lint-staged": "^10.5.4",
     "prettier": "^2.2.1",
     "ts-jest": "^26.5.2",
-    "typescript": "~4.1.5"
+    "typescript": "~4.2.2"
   }
 }
