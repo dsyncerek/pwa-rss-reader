@@ -28,7 +28,7 @@
     "reflect-metadata": "^0.1.13",
     "rss-parser": "^3.11.0",
     "rxjs": "^6.6.6",
-    "sanitize-html": "^2.3.2",
+    "sanitize-html": "^2.3.3",
     "slugify": "^1.4.7",
     "swagger-ui-express": "^4.1.6",
     "typeorm": "^0.2.31"
