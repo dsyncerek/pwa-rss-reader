@@ -1,7 +1,7 @@
 import React, { FC, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom';
-import { useNetwork } from 'react-use';
+import { useNetworkState } from 'react-use';
 import { Layout } from './common/components/Layout';
 import { Loader } from './common/components/Loader';
 import { AppDispatch } from './core/store';
@@ -15,7 +15,7 @@ import { ManageContentPage } from './common/components/ManageContentPage';
 export const App: FC = () => {
   const dispatch: AppDispatch = useDispatch();
   const [initialized, setInitialized] = useState(false);
-  const { online } = useNetwork();
+  const { online } = useNetworkState();
 
   useEffect(() => {
     if (online) {

@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 import Button from 'react-bootstrap/Button';
 import Navbar from 'react-bootstrap/Navbar';
 import { useSelector } from 'react-redux';
-import { useNetwork } from 'react-use';
+import { useNetworkState } from 'react-use';
 import { selectAsyncStatus } from '../../core/async/async.selectors';
 import { AsyncInfo } from '../../core/async/components/AsyncInfo';
 import { fetchAllBlogs } from '../../features/blog/blog.actions';
@@ -16,7 +16,7 @@ export const Sidebar: FC = () => {
   const blogs = useSelector(selectAllBlogs);
   const categories = useSelector(selectAllCategories);
   const [fetching] = useSelector(state => selectAsyncStatus(state, [fetchAllBlogs, fetchAllCategories]));
-  const { online } = useNetwork();
+  const { online } = useNetworkState();
   const error = online ? undefined : new HttpOfflineError();
 
   return (
