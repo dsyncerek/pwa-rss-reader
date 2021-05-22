@@ -14,7 +14,7 @@
     "noImplicitAny": true,
     "noFallthroughCasesInSwitch": true,
     "noEmit": true,
-    "jsx": "react",
+    "jsx": "react-jsx",
     "lib": ["dom", "dom.iterable", "esnext"]
   },
   "include": ["src"],
