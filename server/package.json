@@ -37,7 +37,7 @@
     "@nestjs/cli": "^7.6.0",
     "@nestjs/schematics": "^7.3.1",
     "@nestjs/testing": "^7.6.18",
-    "@types/compression": "^1.7.1",
+    "@types/compression": "^1.7.2",
     "@types/jest": "^26.0.24",
     "@types/sanitize-html": "^2.3.2",
     "@typescript-eslint/eslint-plugin": "^4.28.5",
