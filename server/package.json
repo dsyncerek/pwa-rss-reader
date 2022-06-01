@@ -30,7 +30,7 @@
     "rxjs": "^6.6.7",
     "sanitize-html": "^2.4.0",
     "slugify": "^1.5.3",
-    "swagger-ui-express": "^4.1.6",
+    "swagger-ui-express": "^4.4.0",
     "typeorm": "^0.2.32"
   },
   "devDependencies": {
